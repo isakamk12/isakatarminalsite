@@ -7,14 +7,23 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- 🔽 オープニング動画 -->
+    <div id="opening">
+        <video autoplay muted playsinline width="960" height="540">
+            <source src="" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- 🔽 ターミナル本体 -->
     <div id="terminal">
-<div id="background-container"></div>
+        <div id="background-container"></div>
         <div id="output"></div>
         <div class="input-line">
             <span class="prompt">&gt;</span>
             <input type="text" id="input" autofocus>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
