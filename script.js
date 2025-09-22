@@ -96,21 +96,25 @@
       println("- contact: how to reach me");
       println("- clear: clear the screen");
     },
-    about() {
-      typeLines([
-        "こんにちは。ここは私のポートフォリオ。",
-        "AI × クリエイティブ × 物語制作を中心に活動しています。",
-        "設計、文章、画像生成、軽いツール開発まで、理屈と手触りを両立させるのが得意です。"
-      ]);
-    },
-    projects() {
-      typeLines([
-        "最近の制作：",
-        "・TRPG/小説 IP『Isaka-Akasi』の章構成とビジュアル検証",
-        "・LoRA/タグ運用の自動化スクリプト原型",
-        "・縦長9:16の一貫出力テンプレート（画像/表紙）"
-      ]);
-    },
+      about() {
+    printLines([
+      "AI × クリエイティブ × 物語制作"
+    ]);
+  },
+  projects() {
+    printLines([
+      "最近の活動：",
+      "・AI 開発",
+      "・小説執筆",
+      "",
+      "詳細は以下のページから：",
+      "- GitHub: https://github.com/your-username",
+      "- note: https://note.com/your-username",
+      "- pixiv: https://www.pixiv.net/users/your-userid",
+      "- Website: https://your-portfolio-site.example"
+    ]);
+  },
+
     contact() {
       println("Contact:");
       println("- X/Twitter: @your_account");
