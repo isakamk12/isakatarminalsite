@@ -107,40 +107,37 @@ function fadeOutBackground() {
 
   // ---- Commands ----
   const commands = {
-    help() {
-      println("Available commands:");
-      println("- help: show this help");
-      println("- about: about me");
-      println("- projects: recent works");
-      println("- contact: how to reach me");
-      println("- clear: clear the screen");
-    },
-    about() {
-      printLines(["AI × クリエイティブ × 物語制作"]);
-    },
-    projects() {
-      printLines([
-        "最近の活動：",
-        "・AI 開発",
-        "・小説執筆",
-        "",
-        "詳細は以下のページから：",
-        "- GitHub: https://github.com/isakamk12/isakatarminalsite",
-        "- note: https://note.com/your-username",
-        "- pixiv: https://www.pixiv.net/users/your-userid",
-        "- Website: https://your-portfolio-site.example"
-      ]);
-    },
-    contact() {
-      println("Contact:");
-      println("- X/Twitter: @your_account");
-      println("- Email: your.name@example.com");
-    },
-    clear() {
-      output.innerHTML = "";
-    }
-  };
-
+  help() {
+    println("Available commands:");
+    println("- help: show this help");
+    println("- about: about me");
+    println("- projects: recent works");
+    println("- contact: how to reach me");
+    println("- pdf: open the portfolio PDF");
+    println("- clear: clear the screen");
+  },
+  about() {
+    println("AI × クリエイティブ × 物語制作");
+  },
+  projects() {
+    println("最近の活動：");
+    println("・AI 開発");
+    println("・小説執筆");
+    println("詳細は以下のページから： https://github.com/isakamk12/isakatarminalsite");
+  },
+  contact() {
+    println("Contact:");
+    println("- X/Twitter: @your_account");
+    println("- Email: your.name@example.com");
+  },
+  pdf() {
+    println("Opening PDF... (新しいタブで開きます)");
+    window.open("image/page.pdf", "_blank");
+  },
+  clear() {
+    output.innerHTML = "";
+  }
+};
   function runCommand(cmd) {
     const clean = (cmd || "").trim();
     if (!clean) return;
