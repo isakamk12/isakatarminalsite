@@ -134,16 +134,16 @@
     const source = video.querySelector("source");
 
     const videos = [
-  "image/header_page_1.mp4",
-  "image/header_page_2.mp4",
-  "image/header_page_3.mp4",
-  "image/header_page_4.mp4",
-  "image/header_page_5.mp4",
-  "image/header_page_6.mp4",
-  "image/header_page_7.mp4",
-  "image/header_page_8.mp4",
-  "image/header_page_9.mp4",
-  "image/header_page_10.mp4"
+  "image/header_page-1.mp4",
+  "image/header_page-2.mp4",
+  "image/header_page-3.mp4",
+  "image/header_page-4.mp4",
+  "image/header_page-5.mp4",
+  "image/header_page-6.mp4",
+  "image/header_page-7.mp4",
+  "image/header_page-8.mp4",
+  "image/header_page-9.mp4",
+  "image/header_page-10.mp4"
 ];
 
 
