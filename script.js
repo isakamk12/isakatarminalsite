@@ -174,3 +174,53 @@
   document.addEventListener('click', () => input.focus());
   boot();
 })();
+
+// === ランダム背景 ===
+function setRandomBackgroundGrid() {
+  const bgImages = [];
+  for (let i = 1; i <= 34; i++) {
+    bgImages.push(`image/background-${i}.png`);
+  }
+
+  const chosen = [];
+  while (chosen.length < 4) {
+    const pick = bgImages[Math.floor(Math.random() * bgImages.length)];
+    if (!chosen.includes(pick)) chosen.push(pick);
+  }
+
+  const grid = document.getElementById("background-grid");
+  grid.innerHTML = "";
+  chosen.forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    grid.appendChild(img);
+  });
+}
+
+// === ランダムロゴ ===
+function setRandomLogo() {
+  const logos = [
+    "image/logo-1.png",
+    "image/logo-2.png",
+    "image/logo-3.png",
+    "image/logo-4.png",
+    "image/logo-5.png",
+    "image/logo-6.png"
+  ];
+  const chosen = logos[Math.floor(Math.random() * logos.length)];
+  document.getElementById("logo").src = chosen;
+}
+
+// === boot() 内で呼ぶ ===
+function boot() {
+  showOpening(() => {
+    setRandomBackgroundGrid();  // 背景をランダムに
+    setRandomLogo();            // ロゴをランダムに
+    initMatrixRain();
+    printLines([
+      "Portfolio Terminal 起動完了",
+      "Type 'help' でコマンド一覧を表示します"
+    ]);
+    input.focus();
+  });
+}
