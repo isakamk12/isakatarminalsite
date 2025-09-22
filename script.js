@@ -199,7 +199,6 @@ function fadeOutBackground(opacity = 0.2, delayMs = 5000) {
     grid.style.opacity = String(opacity);
   }, delayMs);
 }
-
 // ---- Boot ----
 function boot() {
   showOpening(() => {
@@ -214,17 +213,14 @@ function boot() {
     // 背景フェードアウトを開始（5秒後に0.2まで薄くなる）
     fadeOutBackground(0.2, 5000);
 
-    // 自動で pdf コマンドを実行
+    // 自動で pdf コマンドを実行（入力も出力も再現）
     setTimeout(() => {
-      if (commands.pdf) {
-        commands.pdf();
-      }
+      runCommand("pdf");   // ← runCommandを使うことで > pdf と表示される
     }, 1500);
 
     input.focus();
   });
 }
-
 document.addEventListener('click', () => input.focus());
 boot();
 })();
