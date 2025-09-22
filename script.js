@@ -192,7 +192,15 @@ function fadeOutBackground() {
       done();
     });
   }
-  // ---- Boot ----
+  // === 背景を時間差で薄くして可読性UP ===
+function fadeOutBackground(opacity = 0.2, delayMs = 5000) {
+  const grid = document.getElementById('background-grid');
+  setTimeout(() => {
+    grid.style.opacity = String(opacity);
+  }, delayMs);
+}
+
+// ---- Boot ----
 function boot() {
   showOpening(() => {
     setRandomBackgroundGrid();
@@ -203,13 +211,16 @@ function boot() {
       "自動的に PDF を開きます..."
     ]);
 
+    // 背景フェードアウトを開始（5秒後に0.2まで薄くなる）
+    fadeOutBackground(0.2, 5000);
+
     // 自動で pdf コマンドを実行
     setTimeout(() => {
       if (commands.pdf) {
         commands.pdf();
       }
-    }, 1500); // 1.5秒後に実行（表示が見えるように少し待つ）
-    
+    }, 1500);
+
     input.focus();
   });
 }
