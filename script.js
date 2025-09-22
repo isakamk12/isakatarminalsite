@@ -192,22 +192,28 @@ function fadeOutBackground() {
       done();
     });
   }
-
   // ---- Boot ----
-  function boot() {
-    showOpening(() => {
-      setRandomBackgroundGrid();
-      setRandomLogo();
-      initMatrixRain();
-      fadeOutBackground(); // ← ここで背景フェードアウト開始
-      printLines([
-        "Portfolio Terminal 起動完了",
-        "Type 'help' でコマンド一覧を表示します"
-      ]);
-      input.focus();
-    });
-  }
+function boot() {
+  showOpening(() => {
+    setRandomBackgroundGrid();
+    setRandomLogo();
+    initMatrixRain();
+    printLines([
+      "Portfolio Terminal 起動完了",
+      "自動的に PDF を開きます..."
+    ]);
 
-  document.addEventListener('click', () => input.focus());
-  boot();
+    // 自動で pdf コマンドを実行
+    setTimeout(() => {
+      if (commands.pdf) {
+        commands.pdf();
+      }
+    }, 1500); // 1.5秒後に実行（表示が見えるように少し待つ）
+    
+    input.focus();
+  });
+}
+
+document.addEventListener('click', () => input.focus());
+boot();
 })();
