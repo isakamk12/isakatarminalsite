@@ -12,6 +12,8 @@ body {
     height: calc(100vh - 30px); /* 画面の高さからパディング分を引く */
     overflow-y: scroll; /* 内容が増えたらスクロールできるようにする */
     scroll-behavior: smooth;
+    position: relative;
+    z-index: 1; /* 背景動画より前面に */
 }
 
 /* 出力エリアのスタイル */
@@ -37,22 +39,43 @@ body {
     font-family: 'Courier New', Courier, monospace;
     width: 100%;
     outline: none; /* クリックしたときの青い枠線をなくす */
-
 }
 
-.video-container {
+/* オープニング動画のコンテナ */
+#opening {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* 画面いっぱい */
+    z-index: 9999; /* ターミナルより前面に */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+}
+
+/* オープニング動画 */
+#opening video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 画面全体を埋める（端は切れる場合あり） */
+}
+
+/* 背景に動画を流してターミナルを重ねる場合はこちら */
+.video-background {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -2;
+    z-index: -1; /* ターミナルより後ろに */
     overflow: hidden;
 }
 
-#header-video {
+.video-background video {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(0.5); /* ターミナルの文字を見やすくするために動画を少し暗くします */
+    filter: brightness(0.5); /* 少し暗くして文字を見やすく */
 }
