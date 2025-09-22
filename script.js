@@ -14,31 +14,10 @@
     terminal.scrollTop = terminal.scrollHeight;
   }
 
-  function typeLines(lines, delay = 18, done) {
-    let i = 0, j = 0, buf = "";
-    const lineEl = document.createElement('div');
-    output.appendChild(lineEl);
-
-    function tick() {
-      if (i >= lines.length) {
-        if (done) done();
-        return;
-      }
-      const line = lines[i];
-      if (j < line.length) {
-        buf += line[j];
-        lineEl.textContent = buf;
-        j++;
-      } else {
-        i++;
-        j = 0;
-        buf = "";
-        output.appendChild(document.createElement('br'));
-      }
-      terminal.scrollTop = terminal.scrollHeight;
-      setTimeout(tick, delay);
-    }
-    tick();
+  // 複数行をまとめて即時出力
+  function printLines(lines, done) {
+    lines.forEach(text => println(text));
+    if (done) done();
   }
 
   // ---- Background animation (simple matrix rain) ----
@@ -96,25 +75,24 @@
       println("- contact: how to reach me");
       println("- clear: clear the screen");
     },
-      about() {
-    printLines([
-      "AI × クリエイティブ × 物語制作"
-    ]);
-  },
-  projects() {
-    printLines([
-      "最近の活動：",
-      "・AI 開発",
-      "・小説執筆",
-      "",
-      "詳細は以下のページから：",
-      "- GitHub: https://github.com/your-username",
-      "- note: https://note.com/your-username",
-      "- pixiv: https://www.pixiv.net/users/your-userid",
-      "- Website: https://your-portfolio-site.example"
-    ]);
-  },
-
+    about() {
+      printLines([
+        "AI × クリエイティブ × 物語制作"
+      ]);
+    },
+    projects() {
+      printLines([
+        "最近の活動：",
+        "・AI 開発",
+        "・小説執筆",
+        "",
+        "詳細は以下のページから：",
+        "- GitHub: https://github.com/isakamk12/isakatarminalsite",
+        "- note: https://note.com/your-username",
+        "- pixiv: https://www.pixiv.net/users/your-userid",
+        "- Website: https://your-portfolio-site.example"
+      ]);
+    },
     contact() {
       println("Contact:");
       println("- X/Twitter: @your_account");
@@ -174,7 +152,6 @@
 
     opening.style.display = "flex";
 
-    // 動画が終わったらオープニングを消す
     video.addEventListener("ended", () => {
       opening.style.display = "none";
       done();
@@ -185,10 +162,10 @@
   function boot() {
     showOpening(() => {
       initMatrixRain();
-      typeLines([
-        "Booting portfolio terminal...",
-        "Type 'help' to begin."
-      ], 14);
+      printLines([
+        "Portfolio Terminal 起動完了",
+        "Type 'help' でコマンド一覧を表示します"
+      ]);
       input.focus();
     });
   }
