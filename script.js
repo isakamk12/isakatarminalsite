@@ -85,7 +85,12 @@
       grid.appendChild(img);
     });
   }
-
+function fadeOutBackground() {
+  const grid = document.getElementById("background-grid");
+  setTimeout(() => {
+    grid.style.opacity = "0.2"; // ← 数字を変えれば残り方調整できる
+  }, 5000); // ← 5秒後に実行
+}
   // ---- ランダムロゴ（1枚） ----
   function setRandomLogo() {
     const logos = [
@@ -197,6 +202,7 @@
       setRandomBackgroundGrid();
       setRandomLogo();
       initMatrixRain();
+      fadeOutBackground(); // ← ここで背景フェードアウト開始
       printLines([
         "Portfolio Terminal 起動完了",
         "Type 'help' でコマンド一覧を表示します"
