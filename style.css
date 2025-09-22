@@ -38,19 +38,22 @@ body {
     height: 100%;
     object-fit: cover;
 }
-
 /* ロゴ中央 */
 #logo-container {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 20;
-}
-#logo {
-    max-width: 300px;
-    height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  text-align: center;
 }
 
+#logo {
+  width: 60vw;      /* 画面幅の60% */
+  max-width: 900px; /* PCで大きく表示しても900pxまで */
+  min-width: 300px; /* スマホで小さくなりすぎないように */
+  height: auto;
+}
 /* ターミナル */
 #terminal {
     position: relative;
@@ -70,3 +73,4 @@ body {
     width: 100%;
     outline: none;
 }
+
