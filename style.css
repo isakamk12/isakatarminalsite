@@ -1,81 +1,72 @@
-/* 全体のスタイル */
+/* 全体 */
 body {
-    background-color: #000;
-    color: #0F0; /* 明るい緑色 */
-    font-family: 'Courier New', Courier, monospace; /* ターミナルらしいフォント */
     margin: 0;
-    padding: 15px;
-}
-
-/* ターミナル全体のコンテナ */
-#terminal {
-    height: calc(100vh - 30px); /* 画面の高さからパディング分を引く */
-    overflow-y: scroll; /* 内容が増えたらスクロールできるようにする */
-    scroll-behavior: smooth;
-    position: relative;
-    z-index: 1; /* 背景動画より前面に */
-}
-
-/* 出力エリアのスタイル */
-#output {
-    white-space: pre-wrap; /* 改行やスペースをそのまま表示 */
-}
-
-/* 入力行のスタイル */
-.input-line {
-    display: flex;
-}
-
-/* プロンプト（>）のスタイル */
-.prompt {
-    margin-right: 8px;
-}
-
-/* 入力欄のスタイル */
-#input {
-    background-color: transparent; /* 背景を透明に */
-    border: none; /* 枠線をなくす */
-    color: #0F0; /* 文字色を緑に */
-    font-family: 'Courier New', Courier, monospace;
-    width: 100%;
-    outline: none; /* クリックしたときの青い枠線をなくす */
-}
-
-/* オープニング動画のコンテナ */
-#opening {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh; /* 画面いっぱい */
-    z-index: 9999; /* ターミナルより前面に */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: black;
+    background: #000;
+    color: #0F0;
+    font-family: 'Courier New', monospace;
 }
 
 /* オープニング動画 */
+#opening {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
 #opening video {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 画面全体を埋める（端は切れる場合あり） */
+    object-fit: cover;
 }
 
-/* 背景に動画を流してターミナルを重ねる場合はこちら */
-.video-background {
+/* ランダム背景4枚 */
+#background-grid {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* ターミナルより後ろに */
-    overflow: hidden;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    z-index: -2;
 }
-
-.video-background video {
+#background-grid img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(0.5); /* 少し暗くして文字を見やすく */
+}
+
+/* ロゴ中央 */
+#logo-container {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+}
+#logo {
+    max-width: 300px;
+    height: auto;
+}
+
+/* ターミナル */
+#terminal {
+    position: relative;
+    z-index: 30;
+    padding: 15px;
+    height: calc(100vh - 30px);
+    overflow-y: auto;
+}
+#output { white-space: pre-wrap; }
+.input-line { display: flex; }
+.prompt { margin-right: 8px; }
+#input {
+    background: transparent;
+    border: none;
+    color: #0F0;
+    font-family: inherit;
+    width: 100%;
+    outline: none;
 }
