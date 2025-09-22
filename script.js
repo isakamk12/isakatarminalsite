@@ -1,5 +1,4 @@
 // ===== Terminal Portfolio Script =====
-
 (function () {
   const output = document.getElementById('output');
   const input = document.getElementById('input');
@@ -20,7 +19,7 @@
     if (done) done();
   }
 
-  // ---- Background animation (simple matrix rain) ----
+  // ---- Matrix Rain ----
   function initMatrixRain() {
     const canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
@@ -65,7 +64,43 @@
     draw();
   }
 
-  // ---- Command handlers ----
+  // ---- ランダム背景（4枚） ----
+  function setRandomBackgroundGrid() {
+    const bgImages = [];
+    for (let i = 1; i <= 34; i++) {
+      bgImages.push(`image/background-${i}.png`);
+    }
+
+    const chosen = [];
+    while (chosen.length < 4) {
+      const pick = bgImages[Math.floor(Math.random() * bgImages.length)];
+      if (!chosen.includes(pick)) chosen.push(pick);
+    }
+
+    const grid = document.getElementById("background-grid");
+    grid.innerHTML = "";
+    chosen.forEach(src => {
+      const img = document.createElement("img");
+      img.src = src;
+      grid.appendChild(img);
+    });
+  }
+
+  // ---- ランダムロゴ（1枚） ----
+  function setRandomLogo() {
+    const logos = [
+      "image/logo-1.png",
+      "image/logo-2.png",
+      "image/logo-3.png",
+      "image/logo-4.png",
+      "image/logo-5.png",
+      "image/logo-6.png"
+    ];
+    const chosen = logos[Math.floor(Math.random() * logos.length)];
+    document.getElementById("logo").src = chosen;
+  }
+
+  // ---- Commands ----
   const commands = {
     help() {
       println("Available commands:");
@@ -76,9 +111,7 @@
       println("- clear: clear the screen");
     },
     about() {
-      printLines([
-        "AI × クリエイティブ × 物語制作"
-      ]);
+      printLines(["AI × クリエイティブ × 物語制作"]);
     },
     projects() {
       printLines([
@@ -116,7 +149,7 @@
     }
   }
 
-  // ---- Input handling ----
+  // ---- Input ----
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       runCommand(input.value);
@@ -127,25 +160,24 @@
     }
   });
 
-  // ---- Opening video (random one) ----
+  // ---- Opening Video ----
   function showOpening(done) {
     const opening = document.getElementById("opening");
     const video = opening.querySelector("video");
     const source = video.querySelector("source");
 
     const videos = [
-  "image/header_page-1.mp4",
-  "image/header_page-2.mp4",
-  "image/header_page-3.mp4",
-  "image/header_page-4.mp4",
-  "image/header_page-5.mp4",
-  "image/header_page-6.mp4",
-  "image/header_page-7.mp4",
-  "image/header_page-8.mp4",
-  "image/header_page-9.mp4",
-  "image/header_page-10.mp4"
-];
-
+      "image/header_page-1.mp4",
+      "image/header_page-2.mp4",
+      "image/header_page-3.mp4",
+      "image/header_page-4.mp4",
+      "image/header_page-5.mp4",
+      "image/header_page-6.mp4",
+      "image/header_page-7.mp4",
+      "image/header_page-8.mp4",
+      "image/header_page-9.mp4",
+      "image/header_page-10.mp4"
+    ];
 
     source.src = videos[Math.floor(Math.random() * videos.length)];
     video.load();
@@ -162,6 +194,8 @@
   // ---- Boot ----
   function boot() {
     showOpening(() => {
+      setRandomBackgroundGrid();
+      setRandomLogo();
       initMatrixRain();
       printLines([
         "Portfolio Terminal 起動完了",
@@ -174,53 +208,3 @@
   document.addEventListener('click', () => input.focus());
   boot();
 })();
-
-// === ランダム背景 ===
-function setRandomBackgroundGrid() {
-  const bgImages = [];
-  for (let i = 1; i <= 34; i++) {
-    bgImages.push(`image/background-${i}.png`);
-  }
-
-  const chosen = [];
-  while (chosen.length < 4) {
-    const pick = bgImages[Math.floor(Math.random() * bgImages.length)];
-    if (!chosen.includes(pick)) chosen.push(pick);
-  }
-
-  const grid = document.getElementById("background-grid");
-  grid.innerHTML = "";
-  chosen.forEach(src => {
-    const img = document.createElement("img");
-    img.src = src;
-    grid.appendChild(img);
-  });
-}
-
-// === ランダムロゴ ===
-function setRandomLogo() {
-  const logos = [
-    "image/logo-1.png",
-    "image/logo-2.png",
-    "image/logo-3.png",
-    "image/logo-4.png",
-    "image/logo-5.png",
-    "image/logo-6.png"
-  ];
-  const chosen = logos[Math.floor(Math.random() * logos.length)];
-  document.getElementById("logo").src = chosen;
-}
-
-// === boot() 内で呼ぶ ===
-function boot() {
-  showOpening(() => {
-    setRandomBackgroundGrid();  // 背景をランダムに
-    setRandomLogo();            // ロゴをランダムに
-    initMatrixRain();
-    printLines([
-      "Portfolio Terminal 起動完了",
-      "Type 'help' でコマンド一覧を表示します"
-    ]);
-    input.focus();
-  });
-}
