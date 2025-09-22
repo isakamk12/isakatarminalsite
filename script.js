@@ -1,4 +1,3 @@
-
 // ===== Terminal Portfolio Script =====
 
 (function () {
@@ -16,7 +15,6 @@
   }
 
   function typeLines(lines, delay = 18, done) {
-    // Type lines one by one with a tiny delay
     let i = 0, j = 0, buf = "";
     const lineEl = document.createElement('div');
     output.appendChild(lineEl);
@@ -142,20 +140,53 @@
       runCommand(input.value);
       input.value = '';
     } else if (e.key === 'l' && (e.ctrlKey || e.metaKey)) {
-      // Ctrl+L to clear
       e.preventDefault();
       commands.clear();
     }
   });
 
+  // ---- Opening video (random one) ----
+  function showOpening(done) {
+    const opening = document.getElementById("opening");
+    const video = opening.querySelector("video");
+    const source = video.querySelector("source");
+
+    const videos = [
+      "image/header_page-1.mp4",
+      "image/header_page-2.mp4",
+      "image/header_page-3.mp4",
+      "image/header_page-4.mp4",
+      "image/header_page-5.mp4",
+      "image/header_page-6.mp4",
+      "image/header_page-7.mp4",
+      "image/header_page-8.mp4",
+      "image/header_page-9.mp4",
+      "image/header_page-10.mp4"
+    ];
+
+    source.src = videos[Math.floor(Math.random() * videos.length)];
+    video.load();
+    video.play();
+
+    opening.style.display = "flex";
+
+    // 動画が終わったらオープニングを消す
+    video.addEventListener("ended", () => {
+      opening.style.display = "none";
+      done();
+    });
+  }
+
   // ---- Boot ----
   function boot() {
-    initMatrixRain();
-    typeLines([
-      "Booting portfolio terminal...",
-      "Type 'help' to begin."
-    ], 14);
-    input.focus();
+    showOpening(() => {
+      initMatrixRain();
+      typeLines([
+        "Booting portfolio terminal...",
+        "Type 'help' to begin."
+      ], 14);
+      input.focus();
+    });
   }
 
   document.addEventListener('click', () => input.focus());
