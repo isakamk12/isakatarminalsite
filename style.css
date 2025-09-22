@@ -1,0 +1,40 @@
+/* 全体のスタイル */
+body {
+    background-color: #000;
+    color: #0F0; /* 明るい緑色 */
+    font-family: 'Courier New', Courier, monospace; /* ターミナルらしいフォント */
+    margin: 0;
+    padding: 15px;
+}
+
+/* ターミナル全体のコンテナ */
+#terminal {
+    height: calc(100vh - 30px); /* 画面の高さからパディング分を引く */
+    overflow-y: scroll; /* 内容が増えたらスクロールできるようにする */
+    scroll-behavior: smooth;
+}
+
+/* 出力エリアのスタイル */
+#output {
+    white-space: pre-wrap; /* 改行やスペースをそのまま表示 */
+}
+
+/* 入力行のスタイル */
+.input-line {
+    display: flex;
+}
+
+/* プロンプト（>）のスタイル */
+.prompt {
+    margin-right: 8px;
+}
+
+/* 入力欄のスタイル */
+#input {
+    background-color: transparent; /* 背景を透明に */
+    border: none; /* 枠線をなくす */
+    color: #0F0; /* 文字色を緑に */
+    font-family: 'Courier New', Courier, monospace;
+    width: 100%;
+    outline: none; /* クリックしたときの青い枠線をなくす */
+}
