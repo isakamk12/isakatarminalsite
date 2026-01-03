@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stadio Vault - Final Fix</title>
+    <style>
+        :root {
+            --primary: #58a6ff;
+            --bg-dark: #0d1117;
+            --card-bg: #161b22;
+            --border: #30363d;
+            --text: #c9d1d9;
+            --tag-color: #f0883e;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 { font-size: 2.5rem; margin: 0; color: #fff; }
+
+        .section-title {
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+            margin: 50px 0 30px;
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* --- 上部：外部リンク (修正済み) --- */
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .p-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .p-tag { font-size: 0.75rem; color: var(--tag-color); font-weight: bold; margin-bottom: 5px; display: block; }
+        .p-name { font-size: 1.2rem; font-weight: bold; margin-bottom: 5px; color: #fff; }
+        .p-note { font-size: 0.8rem; color: #8b949e; margin-bottom: 15px; }
+        .p-link { 
+            text-align: center; padding: 10px; background: #21262d; 
+            border-radius: 6px; text-decoration: none; color: #fff; font-size: 0.9rem;
+            transition: background 0.2s;
+            margin-top: auto; /* ボタンを下揃え */
+        }
+        .p-link:hover { background: var(--primary); color: #000; }
+
+        /* --- 下部：作品リスト (完全分離版) --- */
+        /* カテゴリごとの見出しスタイル */
+        .category-name { 
+            font-size: 1.2rem; 
+            font-weight: bold;
+            margin-top: 60px; /* ここでしっかり隙間を空ける */
+            margin-bottom: 15px; 
+            padding-left: 15px; 
+            border-left: 5px solid var(--primary); 
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+            color: #fff;
+            display: block;
+        }
+        
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
+        }
+
+        .w-item {
+            background: var(--card-bg);
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .w-en { display: block; font-size: 0.7rem; color: #8b949e; margin-top: 4px; }
+
+        /* スマホ対応 */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .platform-grid { grid-template-columns: 1fr; } 
+            .works-grid { grid-template-columns: 1fr 1fr; } 
+            .w-item { font-size: 0.8rem; padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Stadio Vault</h1>
+        <p>Archive & Portal Index</p>
+    </header>
+
+    <h2 class="section-title">External Links</h2>
+    <div class="platform-grid">
+        <div class="p-card"><span class="p-tag">新作最速投稿!</span><div class="p-name">小説家になろう</div><a href="#" class="p-link">Click Here</a></div>
+        <div class="p-card"><span class="p-tag">厳選済み小説!</span><div class="p-name">カクヨム</div><a href="#" class="p-link">Click Here</a></div>
+        <div class="p-card"><span class="p-tag">補足多め小説!</span><div class="p-name">アルファポリス</div><a href="#" class="p-link">Click Here</a></div>
+        <div class="p-card"><span class="p-tag">祝千フォロー!</span><div class="p-name">Pixiv</div><a href="#" class="p-link">Click Here</a></div>
+        <div class="p-card"><span class="p-tag">AI開発メイン</span><div class="p-name">GitHub</div><a href="#" class="p-link">Click Here</a></div>
+        <div class="p-card"><span class="p-tag">ほぼ報告しかねぇ。</span><div class="p-name">X (旧 Twitter)</div><a href="#" class="p-link">Click Here</a></div>
+        <div class="p-card"><span class="p-tag">AIはよく使います。</span><div class="p-name">Instagram</div><a href="#" class="p-link">Click Here</a></div>
+        <div class="p-card"><span class="p-tag">正直詳しくない</span><div class="p-name">Facebook</div><a href="#" class="p-link">Click Here</a></div>
+        <div class="p-card"><span class="p-tag">取り敢えず入れた</span><div class="p-name">Threads</div><a href="#" class="p-link">Click Here</a></div>
+        <div class="p-card"><span class="p-tag">先行公開多め</span><div class="p-name">note</div><a href="#" class="p-link">Click Here</a></div>
+        <div class="p-card">
+            <span class="p-tag">思考全部持ってかれる</span><div class="p-name">Twitch</div>
+            <div class="p-note">ゲーム配信やってみたいけど</div><a href="#" class="p-link">Click Here</a>
+        </div>
+        <div class="p-card">
+            <span class="p-tag">再生数真逆になった</span><div class="p-name">TikTok</div>
+            <div class="p-note">Youtubeと同じ投稿したら</div><a href="#" class="p-link">Click Here</a>
+        </div>
+        <div class="p-card">
+            <span class="p-tag">南アジア狙いフォーム</span><div class="p-name">Dailymotion</div>
+            <div class="p-note">インド人多めなので</div><a href="#" class="p-link">Click Here</a>
+        </div>
+        <div class="p-card"><span class="p-tag">容量上限が厳しい</span><div class="p-name">Vimeo</div><a href="#" class="p-link">Click Here</a></div>
+        <div class="p-card"><span class="p-tag">TRPG 動画予定</span><div class="p-name">YouTube</div><a href="#" class="p-link">Click Here</a></div>
+    </div>
+
+    <h2 class="section-title">Works Archive</h2>
+
+    <div class="category-name">実話シリーズ(閲覧注意)</div>
+    <div class="works-grid">
+        <div class="w-item">死屍涙々</div><div class="w-item">外れた車輪</div>
+        <div class="w-item">テセウスの船</div><div class="w-item">平坦球体或いは三角関数</div>
+        <div class="w-item">ダイタイジツワ</div>
+    </div>
+
+    <div class="category-name">12月投稿短編シリーズ</div>
+    <div class="works-grid">
+        <div class="w-item">私なら伝えられる <span class="w-en">Relation Translation</span></div>
+        <div class="w-item">読書感想文と君 <span class="w-en">Bad Blank Beyond</span></div>
+        <div class="w-item">猫の花泥棒 <span class="w-en">Faded Floral Felon</span></div>
+        <div class="w-item">陸上部vs美術部 <span class="w-en">Tracks and Strucks</span></div>
+        <div class="w-item">注文の多いラブコメディ <span class="w-en">Tall order tales</span></div>
+        <div class="w-item">命を捧ぐ愛 <span class="w-en">Trendy Treading Tragedy</span></div>
+        <div class="w-item">十年前マッチングアプリ <span class="w-en">Proof of Photographs</span></div>
+        <div class="w-item">エスカレーション･ハート <span class="w-en">Escalation Hearts</span></div>
+        <div class="w-item">ヘブンズ･コールセンター <span class="w-en">Heavens Callcenter</span></div>
+        <div class="w-item">怪奇作家の恋愛事情 <span class="w-en">Scary Sweet Story</span></div>
+        <div class="w-item">言葉は少し不器用なので <span class="w-en">Miss Leaks & Mosreads</span></div>
+        <div class="w-item">半端にスイッチング <span class="w-en">Voiswitching</span></div>
+        <div class="w-item">ヘイト･ラブ･コンバージョン <span class="w-en">Reverse Logic</span></div>
+        <div class="w-item">調香 <span class="w-en">Musk of Mistake</span></div>
+        <div class="w-item">元ヤン悪役令嬢 <span class="w-en">Gangster Grace Grade</span></div>
+        <div class="w-item">レンタル彼氏vs彼女 <span class="w-en">Overcharged Romance</span></div>
+        <div class="w-item">恋の天気予報士 <span class="w-en">When stormy whether</span></div>
+        <div class="w-item">逆タイムカプセル <span class="w-en">Papers purity</span></div>
+        <div class="w-item">傷だらけの熱田さん <span class="w-en">Hateful rough Story</span></div>
+    </div>
+
+    <div class="category-name">連載メイン / ゲームシナリオ</div>
+    <div class="works-grid">
+        <div class="w-item">RUBORISTA</div><div class="w-item">DOOMSDAY SYNDROMES</div>
+        <div class="w-item">花、咲き揃うまで</div><div class="w-item">VOLTAGE BANDIT</div>
+        <div class="w-item">BROKEN FANTASIA</div><div class="w-item">Exaxion（XX）</div>
+        <div class="w-item">FAULT LINE</div><div class="w-item">SYNTOX</div>
+        <div class="w-item">TwisteD Children</div><div class="w-item">FEARLESS TELLERS</div>
+        <div class="w-item">GACHA=DEUS</div><div class="w-item">無法聖典</div>
+        <div class="w-item">#Unlabel Love</div><div class="w-item">SIGNIA</div>
+        <div class="w-item">なりきれない僕らは</div><div class="w-item">UNDYING DUTY</div>
+        <div class="w-item">JUSTIFY PARAGON</div><div class="w-item">Re:cycle Re:cital</div>
+        <div class="w-item">MILK PROTOCOL</div><div class="w-item">ラブコメディの後始末</div>
+        <div class="w-item">都会旅団</div><div class="w-item">泡立つ脳</div>
+        <div class="w-item">Lovely Buddy</div><div class="w-item">Fit Match</div>
+    </div>
+
+    <div class="category-name">継承物語群</div>
+    <div class="works-grid">
+        <div class="w-item">平和戦記</div><div class="w-item">KINGS SWORD</div>
+        <div class="w-item">Exalt or Fall</div><div class="w-item">継承物語</div>
+    </div>
+
+    <div class="category-name">拝金主義四部作</div>
+    <div class="works-grid">
+        <div class="w-item">拝金主義</div><div class="w-item">廃金主義</div>
+        <div class="w-item">廃吟主義</div><div class="w-item">配金主義</div>
+    </div>
+
+    <div class="category-name">ネガティブ･フェイス三部作</div>
+    <div class="works-grid">
+        <div class="w-item">Looks of me</div><div class="w-item">UP DOWN SWAP</div>
+        <div class="w-item">失恋専門医</div>
+    </div>
+
+    <div class="category-name">Truth Cascades三部作</div>
+    <div class="works-grid">
+        <div class="w-item">Holmes Return</div><div class="w-item">KELVIN MARKET</div>
+        <div class="w-item">LEGAL WEAPON</div>
+    </div>
+
+    <div class="category-name">シンギュラー･シグナルス三部作</div>
+    <div class="works-grid">
+        <div class="w-item">列聖</div><div class="w-item">殉教</div><div class="w-item">LONGINUS</div>
+    </div>
+
+    <div class="category-name">Ordeals of Sky三部作 / TRPG</div>
+    <div class="works-grid">
+        <div class="w-item">狂気の機関車ショー</div><div class="w-item">全て、白日の元に</div>
+        <div class="w-item">閉鎖海岸/平坂異岸</div><div class="w-item">悪夢の氾濫/認知的不協和</div>
+        <div class="w-item">届かねばならぬ場所/心不在</div>
+    </div>
+
+    <div class="category-name">諸国民の神五部作</div>
+    <div class="works-grid">
+        <div class="w-item">天与歴程/種の棄権</div><div class="w-item">大きな森の小さな人間</div>
+        <div class="w-item">諸国民の神</div><div class="w-item">護教正義/急約聖書</div>
+        <div class="w-item">功労夢/欠落園</div>
+    </div>
+
+    <div class="category-name">その他</div>
+    <div class="works-grid">
+        <div class="w-item">クトゥルフ飯</div>
+    </div>
+
+</div>
+
+<footer style="text-align: center; padding: 60px 0; color: #8b949e; font-size: 0.8rem;">
+    &copy; Stadio Vault - Terminal Index
+</footer>
+
+</body>
+</html>
