@@ -192,3 +192,72 @@ body {
   border-color: #ff3333;
   color: #ff3333;
 }
+
+.pdf-btn {
+    background: #58a6ff; /* タイトルと同じ青色 */
+    color: #0d1117 !important; /* 文字色は背景の暗い色に固定 */
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem; /* タイトルより少し小さく */
+    font-weight: bold;
+    text-shadow: none !important; /* タイトルの巨大な影をボタンには適用させない */
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+}
+
+/* タイトルとボタンを横並びにするコンテナ */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 100px 0 40px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 15px;
+}
+
+/* タイトルのマージンをリセット */
+.section-header .section-title {
+    margin: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+/* PROJECT PDFボタンのスタイル */
+.pdf-btn {
+    background: var(--primary);
+    color: #0d1117;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    transition: opacity 0.2s;
+}
+.pdf-btn:hover {
+    opacity: 0.8;
+}
+
+.pdf-btn:hover {
+    filter: brightness(1.2);
+}
+
+.pdf-btn {
+    display: inline-flex;
+    align-items: center;
+    background: #58a6ff; /* タイトルと同じ青色 */
+    color: #0d1117 !important; /* 文字色は背景の暗い色に固定 */
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 1rem; /* ボタンとして読みやすいサイズ */
+    font-weight: bold;
+    text-shadow: none !important; /* タイトルの影をボタンには適用しない */
+    letter-spacing: normal;
+    transition: opacity 0.2s;
+}
+
+.pdf-btn:hover {
+    opacity: 0.8;
+}
