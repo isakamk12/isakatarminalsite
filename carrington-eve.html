@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品詳細 - Stadio Vault</title>
+    <style>
+        /* === 1. 基本スタイル === */
+        :root {
+            --primary: #58a6ff;
+            --overlay-bg: rgba(217, 217, 217, 0.85);
+            --btn-red: #ff3333;
+            --text-black: #000;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: "Courier New", "MS Gothic", monospace;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        /* === 2. 背景画像 === */
+        .work-background {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* 画像名：carrington-eve.png */
+            background: url('image/carrington-eve.png') no-repeat center center;
+            background-size: cover;
+            z-index: 1;
+            filter: brightness(0.8);
+        }
+
+        /* === 3. コンテンツ外枠 === */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 650px;
+            height: 90vh;
+            margin: 5vh auto;
+            background: var(--overlay-bg);
+            border: 4px solid #000;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            box-sizing: border-box;
+            color: var(--text-black);
+        }
+
+        /* === 4. テキスト要素 === */
+        .catch-copy {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .work-title {
+            font-size: 3.2rem;
+            font-weight: 900;
+            margin: 10px 0;
+            line-height: 1.1;
+        }
+
+        .meta-info {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* あらすじエリア */
+        .synopsis-box {
+            flex-grow: 1;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            font-weight: bold;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 10px;
+            white-space: pre-wrap;
+        }
+
+        /* === 5. ボタン群 === */
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .action-btn {
+            background: var(--btn-red);
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-radius: 25px;
+            border: 3px solid #fff;
+            box-shadow: 3px 3px 0px #000;
+            transition: transform 0.1s;
+        }
+        .action-btn:hover { transform: scale(1.03); }
+        .action-btn::after { content: " ▶"; font-size: 0.7rem; }
+
+        .back-nav {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #000;
+            color: var(--primary);
+            padding: 8px 15px;
+            text-decoration: none;
+            border: 1px solid var(--primary);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="work-background"></div>
+
+    <div class="main-container">
+        <p class="catch-copy">魔術も科学も残っていない世界で、放射性廃棄物を片付ける死の仕事に挑む。</p>
+
+        <h1 class="work-title">キャリントン・イブ</h1>
+
+        <p class="meta-info">NOVEL / 連載中</p>
+
+        <div class="synopsis-box">異世界は嘗て文明が残した放射性廃棄物に気付くことなく苦しみ、発展させる程の寿命を残せないままでいた。
+
+しかし、ある時転生者で結成された地の底に廃棄物を破棄する集団「ユスティティア」として、魔術どころかガイガーカウンターのような探知をする道具すらない。常に身を壊し任務を達成する、そんなプロフェッショナル集団が壊滅しかけの頃に入ったのは、プルトニウムを盗み撃ち殺された少年であった。</div>
+
+        <div class="button-grid">
+            <a href="https://www.alphapolis.co.jp/novel/568634872/531029922/episode/10783870" class="action-btn" target="_blank">アルファポリス</a>
+            <a href="https://kakuyomu.jp/my/works/822139844517953542/episodes/822139844517999057" class="action-btn" target="_blank">カクヨム</a>
+            <a href="https://ncode.syosetu.com/n9269ls/" class="action-btn" target="_blank">小説家になろう</a>
+            <a href="https://note.com/isakaakasi/n/n802dab4b08ab" class="action-btn" target="_blank">note</a>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-nav">RETURN TO TERMINAL</a>
+
+</body>
+</html>

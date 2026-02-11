@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品詳細 - Stadio Vault</title>
+    <style>
+        /* === 1. 基本スタイル === */
+        :root {
+            --primary: #58a6ff;
+            --overlay-bg: rgba(217, 217, 217, 0.85); /* 画像再現：半透明のグレー */
+            --btn-red: #ff3333;
+            --text-black: #000;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: "Courier New", "MS Gothic", monospace;
+            background-color: #000;
+            overflow: hidden; /* 1枚絵として表示 */
+        }
+
+        /* === 2. 背景画像：作品タイトルに合わせて変更 === */
+        .work-background {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* ↓ ここを作品ごとに書き換える（例: shishi-ruirui-bg.png） */
+            background: url('image/anywayreals.png') no-repeat center center;
+            background-size: cover;
+            z-index: 1;
+            filter: brightness(0.8);
+        }
+
+        /* === 3. コンテンツ外枠 === */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 650px;
+            height: 90vh;
+            margin: 5vh auto;
+            background: var(--overlay-bg);
+            border: 4px solid #000;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            box-sizing: border-box;
+            color: var(--text-black);
+        }
+
+        /* === 4. テキスト要素 === */
+        .catch-copy {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .work-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin: 10px 0;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .meta-info {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* あらすじエリア：ここに入力 */
+        .synopsis-box {
+            flex-grow: 1;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            font-weight: bold;
+            overflow-y: auto; /* 長文の場合スクロール可能 */
+            margin-bottom: 20px;
+            padding-right: 10px;
+        }
+
+        /* === 5. ボタン群：2x2グリッド === */
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            background: var(--btn-red);
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            font-weight: bold;
+            border-radius: 25px;
+            border: 3px solid #fff;
+            box-shadow: 3px 3px 0px #000;
+            transition: transform 0.1s;
+        }
+        .action-btn:hover { transform: scale(1.03); }
+        .action-btn::after { content: " ▶"; font-size: 0.8rem; }
+
+        /* === 6. フッター情報 === */
+        .footer-notes {
+            font-size: 0.95rem;
+            font-weight: bold;
+            border-top: 2px solid #000;
+            padding-top: 15px;
+            line-height: 1.4;
+        }
+
+        /* 戻るボタン */
+        .back-nav {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #000;
+            color: var(--primary);
+            padding: 8px 15px;
+            text-decoration: none;
+            border: 1px solid var(--primary);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="work-background"></div>
+
+    <div class="main-container">
+        <p class="catch-copy">その恋は、熱と言うには熱く…</p>
+
+        <h1 class="work-title">ダイタイジツワ</h1>
+
+        <p class="meta-info">BL/恋愛</p>
+
+        <div class="synopsis-box">
+ロックダウンが少し緩和されたものの学校は未だ閉鎖、二人の少年は高校生の青春を楽しめないでいた。
+少し前に大喧嘩をした二人は、人間関係の乏しさから接触を初めて･･･やがてお互いに手を取ってしまう･･･。
+一人目は女装の似合う、彼のために我慢しながら彼女のフリをする遥香(ルカ)。
+もう一人はサッカー部の色黒の少年だが、男の子と付き合うのはまだ恥ずかしい桜汰(おーくん)。
+そんな二人のデートとHのお話。<br>
+        </div>
+
+        <div class="button-grid">
+            <a href="https://www.alphapolis.co.jp/novel/568634872/745978749/episode/9913225" class="action-btn">アルファポリス版</a>
+            <a href="https://novel18.syosetu.com/n3240lb/1" class="action-btn">ムーンライトノベルズ版</a>
+        </div>
+
+    <a href="index.html" class="back-nav">RETURN TO TERMINAL</a>
+
+</body>
+</html>
