@@ -1,143 +1,194 @@
-/* ターミナル内アーカイブ */
-.terminal-archive { margin: 20px 0; font-family: sans-serif; }
-.archive-title { color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 5px; margin: 30px 0 15px; }
-
-/* 外部リンクグリッド  */
-.archive-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 15px;
-}
-.a-card {
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 8px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-}
-.a-tag { color: #f0883e; font-size: 12px; font-weight: bold; margin-bottom: 5px; }
-.a-name { color: #fff; font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; }
-.a-note { font-size: 11px; color: #8b949e; margin-bottom: 10px; }
-.a-btn {
-    background: #21262d;
-    color: #c9d1d9;
-    text-align: center;
-    padding: 8px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 14px;
-    transition: 0.2s;
-}
-.a-btn:hover { background: #30363d; border-color: #8b949e; }
-
-/* 作品リスト  */
-.w-cat { color: #fff; font-size: 1rem; margin: 20px 0 10px; border-left: 4px solid #58a6ff; padding-left: 10px; }
-.w-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
-}
-.w-item {
-    background: #0d1117;
-    border: 1px solid #30363d;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 13px;
-    color: #c9d1d9;
+/* === 1. 基本設定と変数 === */
+:root {
+    --primary: #58a6ff;
+    --bg-dark: #0d1117;
+    --card-bg: #161b22;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --tag-color: #f0883e;
 }
 
-/* スマホ対応 */
-@media (max-width: 600px) {
-    .archive-grid { grid-template-columns: 1fr; }
-    .w-grid { grid-template-columns: 1fr 1fr; }
+body {
+    font-family: "Courier New", monospace;
+    background-color: var(--bg-dark);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    overflow-x: hidden;
 }
 
-/* --- ここから追加・上書き --- */
-
-/* ターミナル内アーカイブ全体 */
-.terminal-archive {
-    margin: 20px 0;
-    font-family: sans-serif;
-    padding-bottom: 50px;
-}
-
-/* 外部リンクセクション */
-.archive-title {
-    color: #58a6ff;
-    border-bottom: 2px solid #30363d;
-    padding-bottom: 10px;
-    margin: 40px 0 20px;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.archive-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 15px;
-}
-
-/* プラットフォームカード */
-.a-card {
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 8px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-}
-.a-tag { color: #f0883e; font-size: 12px; font-weight: bold; margin-bottom: 5px; }
-.a-name { color: #fff; font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; }
-.a-note { font-size: 11px; color: #8b949e; margin-bottom: 10px; }
-.a-btn {
-    background: #21262d;
-    color: #c9d1d9;
-    text-align: center;
-    padding: 8px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 14px;
-    transition: 0.2s;
-    margin-top: auto; /* ボタンを常に下揃え */
-}
-.a-btn:hover { background: #30363d; border-color: #8b949e; }
-
-/* 作品カテゴリ見出し（ここを修正しました） */
-.w-cat { 
-    color: #58a6ff; 
-    font-size: 1.2rem; 
-    font-weight: bold;
-    margin-top: 60px; /* 上の隙間を大きく */
-    margin-bottom: 15px; 
-    border-bottom: 1px solid #30363d; 
-    border-left: 5px solid #58a6ff; 
-    padding-left: 15px; 
-    padding-bottom: 5px;
-    display: block; 
+/* === 2. ヘッダー：表紙に巨大な署名を重ねる === */
+#masthead {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 120px; /* 目標の高さ */
+    z-index: 10000;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%) !important;
+    display: flex;
+    align-items: center;
+    border: none !important;
 }
 
-.w-cat:first-of-type { margin-top: 30px; }
+.header-inner {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+}
 
-/* 作品グリッド */
-.w-grid {
+/* 左：巨大な署名ロゴ */
+.custom-logo {
+    height: 85px;
+    width: auto;
+    display: block;
+    /* 常に少し強めの黒い影を置いておくことで、背景が白くても浮き上がる */
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.8));
+    /* フェード効果をここにも適用 */
+    transition: filter 0.3s ease, height 0.3s ease;
+}
+/* スクロールしてヘッダーが暗くなった後は影を少し弱めて馴染ませる */
+#masthead.scrolled .custom-logo {
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+}
+
+/* 右：巨大なナビゲーション */
+.primary-nav a {
+    color: #fff !important;
+    font-size: 1.8rem !important; /* 巨大文字 */
+    font-weight: 900 !important;
+    text-decoration: none;
+    text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+    margin-left: 30px;
+}
+
+/* === 3. 表紙（Cover）：中央配置の崩れを修正 === */
+#cover {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* 確実に真ん中へ */
+    background: #000;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#cover-bg-grid {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    opacity: 0.6;
+    z-index: 1;
 }
-.w-item {
-    background: #0d1117;
-    border: 1px solid #30363d;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 13px;
-    color: #c9d1d9;
-}
-.w-en { display: block; font-size: 11px; color: #8b949e; margin-top: 3px; }
 
-/* スマホ対応 */
-@media (max-width: 600px) {
-    .archive-grid { grid-template-columns: 1fr; }
-    .w-grid { grid-template-columns: 1fr 1fr; }
+#cover-center {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* ロゴとボタンの距離 */
+    width: 90%;
+}
+
+/* 中央ロゴ：ボタンを押し出さないように制限 */
+#cover-logo {
+    width: 100%;
+    max-width: 700px;
+    max-height: 45vh; /* これでボタンが画面内に収まる */
+    height: auto;
+    object-fit: contain;
+}
+
+/* PROJECT PDF ボタン */
+.cover-btn {
+    display: inline-block;
+    padding: 6px 20px;
+    background: rgba(0, 0, 0, 0.8) !important;
+    color: var(--primary) !important;
+    border: 1px solid var(--primary) !important;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+}
+
+/* === 4. コンテンツ：画像あり横カード === */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.section-title {
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
+    margin: 80px 0 30px;
+    font-size: 1.8rem;
+    color: var(--primary);
+    text-transform: uppercase;
+}
+
+.platform-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 15px;
+}
+
+/* カード：左にテキスト、右にキャラ画像 */
+.p-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    height: 150px;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.p-content {
+    flex: 1;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.p-tag { font-size: 0.7rem; color: var(--tag-color); font-weight: bold; }
+.p-name { font-size: 1.1rem; font-weight: bold; color: #fff; }
+.p-link-ui { background: #ff3333; color: #fff; text-align: center; padding: 4px; font-size: 0.8rem; font-weight: bold; border-radius: 4px; }
+
+.p-img-box {
+    width: 110px;
+    background: #21262d;
+    display: flex;
+    align-items: flex-end;
+}
+
+.p-img-box img { width: 100%; height: auto; object-fit: cover; }
+
+/* === 5. 作品アーカイブ === */
+.category-name { font-size: 1.3rem; font-weight: bold; margin-top: 60px; padding-left: 15px; border-left: 5px solid var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 5px; color: #fff; }
+.works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-top: 15px; }
+.w-item { background: var(--card-bg); padding: 12px; border-radius: 6px; border: 1px solid var(--border); color: var(--text); }
+.w-en { display: block; font-size: 0.7rem; color: #8b949e; margin-top: 4px; }
+
+.w-item[href="#"] {
+    border-color: #ff3333;
+    color: #ff3333;
+}
+
+.w-item.unbuilt {
+  border-color: #ff3333;
+  color: #ff3333;
 }
