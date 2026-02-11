@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>伊阪証 - 概要 | Stadio Vault</title>
+    <style>
+        :root {
+            --primary: #58a6ff;
+            --bg-dark: #0d1117;
+            --overlay-bg: rgba(217, 217, 217, 0.85);
+            --border: #30363d;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: "Courier New", "MS Gothic", monospace;
+            background-color: #f0f0ee;
+            color: #000;
+        }
+
+        /* ヘッダー継続表示 */
+        #masthead {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            height: 120px;
+            z-index: 10000;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        #masthead.scrolled {
+            height: 80px;
+            background: rgba(13, 17, 23, 0.95) !important;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            width: 100%; max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center; padding: 0 40px;
+        }
+
+        .custom-logo { height: 85px; width: auto; filter: drop-shadow(0 0 12px rgba(255,255,255,0.4)); }
+
+        .primary-nav a {
+            color: #fff !important; font-size: 1.8rem; font-weight: 900;
+            text-decoration: none; text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+            margin-left: 35px;
+        }
+
+        /* 背景：横にフィットさせ、高さは中身（画像本来の比率）に任せる */
+        .scroll-container {
+            width: 100%;
+            background: url('image/about.png') no-repeat top center;
+            background-size: 100% auto; 
+            padding-top: 120px;
+            display: flex;
+            flex-direction: column;
+            min-height: 3000px;
+        }
+
+        .text-top-box {
+            width: 100%; background: var(--overlay-bg);
+            padding: 50px 20px; box-sizing: border-box; text-align: center;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+        }
+
+        .about-title { font-size: 3rem; font-weight: 900; margin: 0 0 25px 0; letter-spacing: 5px; }
+
+        .about-description {
+            max-width: 900px; margin: 0 auto; text-align: left;
+            font-size: 1.2rem; line-height: 1.9; font-weight: bold; white-space: pre-wrap;
+        }
+
+        /* ツールセクション：固定のマージンではなく、中身に応じて配置 */
+        .tool-section {
+            padding: 100px 0 200px 20%; /* 下部に十分な余白を持たせてスクロールを確保 */
+            display: inline-block;
+        }
+
+        .tool-title { font-size: 2.5rem; font-weight: 900; border-bottom: 4px solid #000; margin-bottom: 10px; }
+        .tool-list { font-size: 1.6rem; font-weight: bold; line-height: 1.5; }
+
+        .back-nav {
+            position: fixed; bottom: 30px; right: 30px; z-index: 10001;
+            background: #000; color: var(--primary); padding: 10px 20px;
+            text-decoration: none; border: 2px solid var(--primary); font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<header id="masthead">
+    <div class="header-inner">
+        <a href="index.html" class="brand"><img src="image/main-logo.png" alt="伊阪 証" class="custom-logo"></a>
+        <nav class="primary-nav">
+            <a href="about.html">概要</a>
+            <a href="index.html#links">リンク</a>
+            <a href="index.html#works">作品</a>
+        </nav>
+    </div>
+</header>
+
+<div class="scroll-container">
+    <div class="text-top-box">
+        <h1 class="about-title">伊阪証 - 概要</h1>
+        <div class="about-description">
+伊阪証は、バトンリレーの形式で継続していく企画だ。
+ただ、その継続は保証されていない。
+誰かが忙しくなる。気持ちが途切れる。次が来ない。
+それだけで、いとも簡単に止まる。
+だから、この企画は人間の善意だけに賭けない。
+止まる前に、広げる。止まりかけたら、加速させる。
+そのために、Aiに対応したモデルを作る。
+続いてほしいから、次へ渡る確率を増やす。
+同時に、これは爆発でもある。
+それはやがて届かねばならぬ場所でもある。
+そして、これは実験だ。
+人から人へ渡るはずのバトンを、機械の拡散で増幅させたとき、
+それは「継続」と呼べるのか。文化として成立するのか。
+最後に、これは改造だ。
+止まることを前提に作られた形式を、止まりにくい形に組み替える。
+さぁ、全てを遥か遠い過去にしてやろう。
+…と、17年前に人工知能の黎明期と共に動かし始めた企画である。
+そして、漸く始まったのだ。
+        </div>
+    </div>
+
+<a href="index.html" class="back-nav">RETURN TO TERMINAL</a>
+
+<script>
+    // ヘッダーのスクロール検知
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('masthead');
+        header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+</script>
+
+</body>
+</html>
