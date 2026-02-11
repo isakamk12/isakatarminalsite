@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品詳細 - Stadio Vault</title>
+    <style>
+        /* === 1. 基本スタイル === */
+        :root {
+            --primary: #58a6ff;
+            --overlay-bg: rgba(217, 217, 217, 0.85);
+            --btn-red: #ff3333;
+            --text-black: #000;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: "Courier New", "MS Gothic", monospace;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        /* === 2. 背景画像 === */
+        .work-background {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* 画像名：overcharged-romance.png */
+            background: url('image/overcharged-romance.png') no-repeat center center;
+            background-size: cover;
+            z-index: 1;
+            filter: brightness(0.8);
+        }
+
+        /* === 3. コンテンツ外枠 === */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 650px;
+            height: 90vh;
+            margin: 5vh auto;
+            background: var(--overlay-bg);
+            border: 4px solid #000;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            box-sizing: border-box;
+            color: var(--text-black);
+        }
+
+        /* === 4. テキスト要素 === */
+        .catch-copy {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .work-title {
+            font-size: 3.2rem;
+            font-weight: 900;
+            margin: 10px 0;
+            line-height: 1.1;
+        }
+
+        .meta-info {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* あらすじエリア */
+        .synopsis-box {
+            flex-grow: 1;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            font-weight: bold;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 10px;
+            white-space: pre-wrap;
+        }
+
+        /* === 5. ボタン群 === */
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .action-btn {
+            background: var(--btn-red);
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-radius: 25px;
+            border: 3px solid #fff;
+            box-shadow: 3px 3px 0px #000;
+            transition: transform 0.1s;
+        }
+        .action-btn:hover { transform: scale(1.03); }
+        .action-btn::after { content: " ▶"; font-size: 0.7rem; }
+
+        .back-nav {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #000;
+            color: var(--primary);
+            padding: 8px 15px;
+            text-decoration: none;
+            border: 1px solid var(--primary);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="work-background"></div>
+
+    <div class="main-container">
+        <p class="catch-copy">レンタル彼女とレンタル彼氏を実際にぶつけるのはやめようね。</p>
+
+        <h1 class="work-title">レンタル彼氏vsレンタル彼女</h1>
+
+        <p class="meta-info">NOVEL / Coming Soon</p>
+
+        <div class="synopsis-box">レンタル彼氏。レンタル彼女。
+どちらも「プロとして恋人役をする」だけのはずだった。
+
+──なのに、客が急にキャンセルして逃げたせいで、“レンタル同士”が二人きりでデートを続ける羽目になる。
+
+本音は隠す。プロ意識は崩さない。相手が気を抜いたら負け。
+そんな意地の張り合いが、いつの間にか “誰より素の自分を見せられる時間” に変わっていく。
+
+一番笑えない形でバレる瞬間から始まる、意地と恋心のデッドヒート・ラブコメ。</div>
+
+        <div class="button-grid">
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-nav">RETURN TO TERMINAL</a>
+
+</body>
+</html>
