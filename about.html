@@ -50,16 +50,18 @@
             margin-left: 35px;
         }
 
-        /* 背景：横にフィットさせ、高さは中身（画像本来の比率）に任せる */
-        .scroll-container {
-            width: 100%;
-            background: url('image/about.png') no-repeat top center;
-            background-size: 100% auto; 
-            padding-top: 120px;
-            display: flex;
-            flex-direction: column;
-            min-height: 3000px;
-        }
+        /* 背景：横幅に合わせて、9:16 の比率で高さを自動決定する */
+.scroll-container {
+    width: 100%;
+    background: url('image/about.png') no-repeat top center;
+    background-size: 100% auto; 
+    padding-top: 120px;
+    display: flex;
+    flex-direction: column;
+
+    /* 正確な比率（9:16）を適用 */
+    aspect-ratio: 3375 / 6000; 
+}
 
         .text-top-box {
             width: 100%; background: var(--overlay-bg);
@@ -139,4 +141,5 @@
 </script>
 
 </body>
+
 </html>
