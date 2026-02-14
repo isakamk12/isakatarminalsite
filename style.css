@@ -261,3 +261,103 @@ body {
 .pdf-btn:hover {
     opacity: 0.8;
 }
+
+/* スマホでもPCでも、画面からはみ出さない設定 */
+.works-grid {
+    display: grid;
+    /* スマホ（幅が狭い時）は1列、少し広くなったら2列、PCは3列以上に自動調整 */
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    width: 100%;
+}
+
+@media (max-width: 600px) {
+    .primary-nav {
+        gap: 10px; /* メニューの間隔を狭く */
+    }
+    .primary-nav a {
+        font-size: 1rem !important; /* スマホで文字が重ならないサイズ */
+    }
+    .custom-logo {
+        height: 50px; /* ロゴを小さく */
+    }
+}
+
+/* === スマホ・レスポンシブ対応強化 === */
+@media (max-width: 768px) {
+    #masthead {
+        height: 70px; /* ヘッダーを少し低く */
+    }
+    .custom-logo {
+        height: 40px; /* ロゴをスマホサイズに */
+    }
+    .primary-nav {
+        gap: 10px; /* メニューの間隔を詰める */
+    }
+    .primary-nav a {
+        font-size: 0.9rem !important; /* 文字を小さくして重なり防止 */
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000;
+    }
+    .section-title {
+        font-size: 1.5rem; /* 見出しを小さく */
+        margin: 60px 0 20px;
+    }
+    /* 作品リストをスマホでは2列にする */
+    .works-grid {
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 8px;
+    }
+    .w-item {
+        padding: 10px;
+        font-size: 0.8rem;
+    }
+}
+
+/* === アニメーション用の初期状態 === */
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease-out;
+}
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* === 緊急修正：スマホ表示の競合解決 === */
+@media (max-width: 768px) {
+    #masthead {
+        height: auto !important; /* 高さを固定せず中身に合わせる */
+        padding: 10px 0;
+        background: rgba(13, 17, 23, 0.98) !important; /* 背後を透かさない */
+        backdrop-filter: blur(10px);
+    }
+
+    .header-inner {
+        flex-direction: column; /* ロゴとメニューを縦に並べる */
+        gap: 10px;
+        padding: 0 15px;
+    }
+
+    .custom-logo {
+        height: 35px !important; /* ロゴを大幅に縮小 */
+        filter: none; /* スマホでは影を消してスッキリさせる */
+    }
+
+    .primary-nav {
+        gap: 8px;
+        flex-wrap: wrap; /* 画面幅が足りない時に自動で改行 */
+        justify-content: center;
+    }
+
+    .primary-nav a {
+        font-size: 0.85rem !important; /* 巨大文字を解除 */
+        font-weight: 700 !important;
+        text-shadow: none !important; /* 重い影を消して可読性優先 */
+        letter-spacing: 1px;
+        padding: 5px 8px;
+        border: 1px solid var(--border); /* ボタンっぽくして押しやすく */
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.05);
+    }
+}
