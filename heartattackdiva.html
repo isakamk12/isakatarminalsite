@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品詳細 - Stadio Vault</title>
+    <style>
+        /* === 1. 基本スタイル === */
+        :root {
+            --primary: #58a6ff;
+            --overlay-bg: rgba(217, 217, 217, 0.85);
+            --btn-red: #ff3333;
+            --text-black: #000;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: "Courier New", "MS Gothic", monospace;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        /* === 2. 背景（音の波紋、心拍の輝き、ステージの静寂をイメージ） === */
+        .work-background {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a001a 0%, #000 100%);
+            z-index: 1;
+        }
+        .work-background::after {
+            content: "";
+            position: absolute;
+            top: 50%; left: 0; width: 100%; height: 2px;
+            background: var(--btn-red);
+            box-shadow: 0 0 20px var(--btn-red);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* === 3. コンテンツ外枠 === */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 650px;
+            height: 90vh;
+            margin: 5vh auto;
+            background: var(--overlay-bg);
+            border: 4px solid #000;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            box-sizing: border-box;
+            color: var(--text-black);
+        }
+
+        /* === 4. テキスト要素 === */
+        .work-title {
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 10px 0 20px 0;
+            line-height: 1.1;
+            letter-spacing: 0.1rem;
+        }
+
+        .meta-info {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* あらすじエリア */
+        .synopsis-box {
+            flex-grow: 1;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            font-weight: bold;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 10px;
+            white-space: pre-wrap;
+        }
+
+        /* === 5. ボタン群 === */
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .action-btn {
+            background: var(--btn-red);
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-radius: 25px;
+            border: 3px solid #fff;
+            box-shadow: 3px 3px 0px #000;
+            transition: transform 0.1s;
+        }
+        .action-btn:hover { transform: scale(1.03); }
+
+        .back-nav {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #000;
+            color: var(--primary);
+            padding: 8px 15px;
+            text-decoration: none;
+            border: 1px solid var(--primary);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="work-background"></div>
+
+    <div class="main-container">
+        <h1 class="work-title">ハートアタック・ディーヴァ</h1>
+
+        <p class="meta-info">NOVEL / Sound & Cinema Revolution</p>
+
+        <div class="synopsis-box">歓声ではなく、沈黙で観客を支配する歌姫。
+その声は祝福であり呪い。聴く者の心臓を正確に撃ち抜く。
+
+完璧な環境を要求する絶対主義者の彼女が縋るのは、失われた伝説の立体音響技術「ホロフォニクス」。
+だが、世界から「歌」が消え始める異様な事態の中、彼女は日本へ降り立つ。
+
+街の騒音、嫉妬、喪失。最悪の環境でこそ、彼女の歌は真価を発揮する。
+それは“女王としての支配”ではなく、“共鳴する存在”としての再定義。
+
+芸術は支配か、それとも救いか。
+音によって世界を書き換える、剥き出しの革命が始まる。</div>
+
+        <div class="button-grid">
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-nav">RETURN TO TERMINAL</a>
+
+</body>
+</html>

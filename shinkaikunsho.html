@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品詳細 - Stadio Vault</title>
+    <style>
+        /* === 1. 基本スタイル === */
+        :root {
+            --primary: #58a6ff;
+            --overlay-bg: rgba(217, 217, 217, 0.85);
+            --btn-red: #ff3333;
+            --text-black: #000;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: "Courier New", "MS Gothic", monospace;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        /* === 2. 背景（深海の圧倒的な水圧、微かな発光、沈黙をイメージ） === */
+        .work-background {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 100%, #001a33 0%, #000 100%);
+            z-index: 1;
+        }
+        .work-background::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="50" cy="50" r="1" fill="rgba(88,166,255,0.05)"/></svg>');
+            pointer-events: none;
+        }
+
+        /* === 3. コンテンツ外枠 === */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 650px;
+            height: 90vh;
+            margin: 5vh auto;
+            background: var(--overlay-bg);
+            border: 4px solid #000;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            box-sizing: border-box;
+            color: var(--text-black);
+        }
+
+        /* === 4. テキスト要素 === */
+        .work-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin: 10px 0 20px 0;
+            line-height: 1.1;
+            letter-spacing: 0.2rem;
+        }
+
+        .meta-info {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* あらすじエリア */
+        .synopsis-box {
+            flex-grow: 1;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            font-weight: bold;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 10px;
+            white-space: pre-wrap;
+        }
+
+        /* === 5. ボタン群 === */
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .action-btn {
+            background: var(--btn-red);
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-radius: 25px;
+            border: 3px solid #fff;
+            box-shadow: 3px 3px 0px #000;
+            transition: transform 0.1s;
+        }
+        .action-btn:hover { transform: scale(1.03); }
+
+        .back-nav {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #000;
+            color: var(--primary);
+            padding: 8px 15px;
+            text-decoration: none;
+            border: 1px solid var(--primary);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="work-background"></div>
+
+    <div class="main-container">
+        <h1 class="work-title">深海勲章</h1>
+
+        <p class="meta-info">NOVEL / Philosophical Deep Sea Horror</p>
+
+        <div class="synopsis-box">人類は長らく、救いを「上」に求めてきた。
+だが、真実の空は、地の底にある。
+
+遍く星々が散らばる外宇宙が「剥製」であるならば、この星の深淵こそが熱を帯びた「中心」だ。
+潜水艦ノーチラス号のハッチは、水圧という名の摂理によって閉ざされた。
+
+窓の外に広がるのは、暗黒の海水ではない。
+重力に押し潰され、歪み、それでもなお輝きを放つ「もう一つの宇宙」だ。
+
+ここでは死さえも許されず、ただ「在る」という事実だけが保存される。
+世界の中心を目撃した者にのみ許される、最も重い呪いの記録。</div>
+
+        <div class="button-grid">
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-nav">RETURN TO TERMINAL</a>
+
+</body>
+</html>
