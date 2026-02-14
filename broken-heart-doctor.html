@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品詳細 - Stadio Vault</title>
+    <style>
+        /* === 1. 基本スタイル === */
+        :root {
+            --primary: #58a6ff;
+            --overlay-bg: rgba(217, 217, 217, 0.85);
+            --btn-red: #ff3333;
+            --text-black: #000;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: "Courier New", "MS Gothic", monospace;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        /* === 2. 背景（未完成：夕暮れの田舎町や、診療所の窓明かりをイメージ） === */
+        .work-background {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, #1a0f0f 0%, #2a1a1a 100%);
+            z-index: 1;
+        }
+        .work-background::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 70% 30%, rgba(255, 100, 100, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* === 3. コンテンツ外枠 === */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 650px;
+            height: 90vh;
+            margin: 5vh auto;
+            background: var(--overlay-bg);
+            border: 4px solid #000;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            box-sizing: border-box;
+            color: var(--text-black);
+        }
+
+        /* === 4. テキスト要素 === */
+        .catch-copy {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .work-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin: 10px 0;
+            line-height: 1.1;
+        }
+
+        .meta-info {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* あらすじエリア */
+        .synopsis-box {
+            flex-grow: 1;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            font-weight: bold;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 10px;
+            white-space: pre-wrap;
+        }
+
+        /* === 5. ボタン群 === */
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .action-btn {
+            background: var(--btn-red);
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-radius: 25px;
+            border: 3px solid #fff;
+            box-shadow: 3px 3px 0px #000;
+            transition: transform 0.1s;
+        }
+        .action-btn:hover { transform: scale(1.03); }
+        .action-btn::after { content: " ▶"; font-size: 0.7rem; }
+
+        .back-nav {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #000;
+            color: var(--primary);
+            padding: 8px 15px;
+            text-decoration: none;
+            border: 1px solid var(--primary);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="work-background"></div>
+
+    <div class="main-container">
+        <p class="catch-copy">悩めよ若人、その痛みは愛以外の何物でもない。</p>
+
+        <h1 class="work-title">失恋専門医</h1>
+
+        <p class="meta-info">NOVEL / Negative Face Trilogy Final</p>
+
+        <div class="synopsis-box">ある田舎の病院には、人間に付き纏う「恋」の悩みに強い医者がいた。
+失恋の痛みにどう対処し、尚も挑むのか、あるいは忘れる道を選ぶのか。
+
+しかし、近年の事案は見るに堪えなかった。
+一歩も進まずに「忘れること」ばかりを考え、臆病になっていく人々。
+医者は、再び恋のために生きる人々の背中を押し始める。
+
+ネガティブ・フェイス三部作の大トリ。
+これは痛みを抱えたまま、未来へ想いを「託す」物語。</div>
+
+        <div class="button-grid">
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-nav">RETURN TO TERMINAL</a>
+
+</body>
+</html>
