@@ -20,12 +20,13 @@
             overflow: hidden;
         }
 
-        /* === 2. 背景（激しい雨、闇、絶望的な孤独感をイメージ） === */
         .work-background {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, #050505 0%, #1a1a1a 100%);
+            background: url('image/rainingscreech.png') no-repeat center center;
+            background-size: cover;
             z-index: 1;
+            filter: brightness(0.8);
         }
         /* 雨のエフェクトを模したオーバーレイ */
         .work-background::after {

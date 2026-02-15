@@ -20,12 +20,13 @@
             overflow: hidden;
         }
 
-        /* === 2. 背景（未完成：夕暮れの田舎町や、診療所の窓明かりをイメージ） === */
         .work-background {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, #1a0f0f 0%, #2a1a1a 100%);
+            background: url('image/broken-heart-doctor.png') no-repeat center center;
+            background-size: cover;
             z-index: 1;
+            filter: brightness(0.8);
         }
         .work-background::after {
             content: "";

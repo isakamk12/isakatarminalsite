@@ -20,12 +20,13 @@
             overflow: hidden;
         }
 
-        /* === 2. 背景（静謐な法廷、石造りの重圧感、モノクロームの論理をイメージ） === */
         .work-background {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, #1a1a1a 0%, #000 100%);
+            background: url('image/epocadejulgamento.png') no-repeat center center;
+            background-size: cover;
             z-index: 1;
+            filter: brightness(0.8);
         }
         .work-background::before {
             content: "";

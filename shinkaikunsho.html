@@ -20,12 +20,13 @@
             overflow: hidden;
         }
 
-        /* === 2. 背景（深海の圧倒的な水圧、微かな発光、沈黙をイメージ） === */
         .work-background {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 100%, #001a33 0%, #000 100%);
+            background: url('image/shinkaikunsho.png') no-repeat center center;
+            background-size: cover;
             z-index: 1;
+            filter: brightness(0.8);
         }
         .work-background::before {
             content: "";

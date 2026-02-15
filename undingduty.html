@@ -20,12 +20,13 @@
             overflow: hidden;
         }
 
-        /* === 2. 背景（停滞した時間、冷たく美しい夜をイメージ） === */
         .work-background {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #0f0f0f 0%, #2a1b2a 100%);
+            background: url('image/undingduty.png') no-repeat center center;
+            background-size: cover;
             z-index: 1;
+            filter: brightness(0.8);
         }
 
         /* === 3. コンテンツ外枠 === */

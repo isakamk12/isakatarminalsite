@@ -21,12 +21,13 @@
             overflow: hidden;
         }
 
-        /* === 2. 背景（警告、時計の針、連鎖する闇をイメージ） === */
-        .work-background {
+         .work-background {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, #1a1500 0%, #000 100%);
+            background: url('image/accidentoclock.png') no-repeat center center;
+            background-size: cover;
             z-index: 1;
+            filter: brightness(0.8);
         }
         .work-background::after {
             content: "";

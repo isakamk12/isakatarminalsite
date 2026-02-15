@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>作品詳細 - Stadio Vault</title>
     <style>
-        /* デザイン・スタイルは一貫性を維持 */
+        /* === 1. 基本スタイル === */
         :root {
             --primary: #58a6ff;
             --overlay-bg: rgba(217, 217, 217, 0.85);
@@ -23,10 +23,20 @@
         .work-background {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #121212 0%, #1a1a2e 100%);
+            background: url('image/recyclerecital.png') no-repeat center center;
+            background-size: cover;
             z-index: 1;
+            filter: brightness(0.8);
+        }
+        .work-background::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+            pointer-events: none;
         }
 
+        /* === 3. コンテンツ外枠 === */
         .main-container {
             position: relative;
             z-index: 10;
@@ -43,6 +53,7 @@
             color: var(--text-black);
         }
 
+        /* === 4. テキスト要素 === */
         .catch-copy {
             font-size: 1.1rem;
             font-weight: bold;
@@ -63,6 +74,7 @@
             margin-bottom: 20px;
         }
 
+        /* あらすじエリア */
         .synopsis-box {
             flex-grow: 1;
             font-size: 1.05rem;
@@ -71,3 +83,75 @@
             overflow-y: auto;
             margin-bottom: 20px;
             padding-right: 10px;
+            white-space: pre-wrap;
+        }
+
+        /* === 5. ボタン群 === */
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .action-btn {
+            background: var(--btn-red);
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-radius: 25px;
+            border: 3px solid #fff;
+            box-shadow: 3px 3px 0px #000;
+            transition: transform 0.1s;
+        }
+        .action-btn:hover { transform: scale(1.03); }
+
+        .back-nav {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #000;
+            color: var(--primary);
+            padding: 8px 15px;
+            text-decoration: none;
+            border: 1px solid var(--primary);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="work-background"></div>
+
+    <div class="main-container">
+        <p class="catch-copy">尽きた夢と命に、新たな一歩を。</p>
+
+        <h1 class="work-title">Recycle Recital</h1>
+
+        <p class="meta-info">NOVEL / Medical & Music Drama</p>
+
+        <div class="synopsis-box">ある小さな病院には、夢半ばで諦めた若者たちが集まり、
+自らの遺作や名残を置いて、静かに去っていく。
+
+日々、自殺を考える者たちの前に立ち寄り、不和が重なる院内。
+その沈滞した空気を打破するべく、一人の看護師が立ち上がった。
+
+遺された作品を楽器に変え、未完の曲を繋ぎ合わせる。
+バンド「廃材アート」として、かつて挫折した音楽の夢に再び挑む。</div>
+
+        <div class="button-grid">
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-nav">RETURN TO TERMINAL</a>
+
+</body>
+</html>

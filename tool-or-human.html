@@ -20,14 +20,13 @@
             overflow: hidden;
         }
 
-        /* === 2. 背景（未完成：監視カメラのノイズや、整然としたグリッドをイメージ） === */
         .work-background {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)),
-                repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255,255,255,0.05) 1px, rgba(255,255,255,0.05) 2px);
+            background: url('image/tool-or-human.png') no-repeat center center;
+            background-size: cover;
             z-index: 1;
+            filter: brightness(0.8);
         }
 
         /* === 3. コンテンツ外枠 === */
