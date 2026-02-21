@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOSTRPG - CAB Project | Stadio Vault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Cinzel:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --gold: #c8a84b;
+            --gold-light: #edd97a;
+            --gold-dim: rgba(200, 168, 75, .3);
+            --red: #c44040;
+            --ink: #eee8dc;
+            --ink-dim: rgba(238, 232, 220, .55);
+            --bg: #06080f;
+            --card-bg: rgba(10, 14, 26, .85);
+            --border: rgba(200, 168, 75, .3);
+            --border-red: rgba(196, 64, 64, .35);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Serif JP', serif;
+            background: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        /* ===== ヘッダー ===== */
+        #masthead {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 80px;
+            background: transparent;
+            transition: background .4s, border-bottom .4s;
+        }
+
+        #masthead.scrolled {
+            background: rgba(6, 8, 15, .94);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+
+        .brand img {
+            height: 60px;
+            filter: drop-shadow(0 0 10px rgba(200, 168, 75, .4));
+        }
+
+        .primary-nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        .primary-nav a {
+            color: var(--ink);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: .85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color .2s;
+        }
+
+        .primary-nav a:hover {
+            color: var(--gold-light);
+        }
+
+        @media (max-width:640px) {
+            .header-inner {
+                padding: 0 16px;
+            }
+
+            .brand img {
+                height: 44px;
+            }
+
+            .primary-nav {
+                gap: 14px;
+            }
+
+            .primary-nav a {
+                font-size: .72rem;
+                letter-spacing: 1px;
+            }
+        }
+
+        /* ===== ヒーロー ===== */
+        #hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: var(--bg);
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: url('https://raw.githubusercontent.com/isakamk12/CAB-ver.2/main/image/rockpage-1.png') no-repeat center center / cover;
+            filter: brightness(.45) sepia(.2) hue-rotate(200deg);
+            animation: heroPan 18s ease-in-out infinite alternate;
+        }
+
+        @keyframes heroPan {
+            from {
+                transform: scale(1.05) translateX(8px);
+            }
+
+            to {
+                transform: scale(1.0) translateX(-8px);
+            }
+        }
+
+        .hero-grid-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(200, 168, 75, .04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 168, 75, .04) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .hero-vignette {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 20%, rgba(0, 0, 0, .75) 100%), linear-gradient(to bottom, rgba(6, 8, 15, .5) 0%, transparent 25%, transparent 75%, rgba(6, 8, 15, .8) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 0 20px;
+            animation: hcFade 1.2s ease both;
+        }
+
+        @keyframes hcFade {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-eyebrow {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .8rem;
+            color: var(--gold);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero-ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .hero-ornament::before,
+        .hero-ornament::after {
+            content: '';
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold));
+        }
+
+        .hero-ornament::after {
+            background: linear-gradient(90deg, var(--gold), transparent);
+        }
+
+        .hero-ornament-icon {
+            color: var(--gold);
+            font-size: 1rem;
+        }
+
+        .hero-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            color: var(--ink);
+            line-height: 1.0;
+            letter-spacing: 4px;
+            text-shadow: 0 0 60px rgba(200, 168, 75, .3);
+            margin-bottom: 16px;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: var(--gold-light);
+            font-family: 'Cinzel', serif;
+            letter-spacing: 6px;
+            margin-bottom: 12px;
+        }
+
+        .hero-tagline {
+            font-size: .9rem;
+            color: var(--ink-dim);
+            line-height: 1.8;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .scroll-arrow {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            color: var(--gold-dim);
+            font-size: 1.6rem;
+            animation: arrowBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes arrowBounce {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(8px);
+            }
+        }
+
+        /* ===== イントロセクション ===== */
+        .section-intro {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 100px 40px 60px;
+        }
+
+        .section-rule {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 48px;
+        }
+
+        .section-rule::before,
+        .section-rule::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold-dim), transparent);
+        }
+
+        .section-rule::after {
+            background: linear-gradient(90deg, transparent, var(--gold-dim));
+        }
+
+        .section-rule-icon {
+            color: var(--gold);
+            font-size: .9rem;
+        }
+
+        .intro-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 44px 48px;
+            animation: cardRise .8s ease both;
+        }
+
+        @keyframes cardRise {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .intro-card h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--gold-light);
+            letter-spacing: 3px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gold-dim);
+        }
+
+        .intro-card p {
+            font-size: 1rem;
+            line-height: 2.0;
+            color: var(--ink);
+            margin-bottom: 16px;
+        }
+
+        .intro-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .video-wrap {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin: 28px 0;
+            border: 1px solid var(--border);
+        }
+
+        .video-wrap iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .intro-note {
+            text-align: center;
+            color: var(--gold);
+            font-size: .9rem;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width:640px) {
+            .intro-card {
+                padding: 28px 22px;
+            }
+
+            .intro-card p {
+                font-size: .93rem;
+            }
+        }
+
+        /* ===== 各弾グリッド ===== */
+        .episodes-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px 120px;
+        }
+
+        @media (max-width:640px) {
+            .episodes-section {
+                padding: 0 16px 80px;
+            }
+        }
+
+        .ep-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2px;
+        }
+
+        @media (min-width: 900px) {
+            .ep-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2px;
+            }
+        }
+
+        .ep-card {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            min-height: 280px;
+            overflow: hidden;
+            transition: border-color .3s;
+        }
+
+        .ep-card:hover {
+            border-color: var(--gold);
+        }
+
+        /* 偶数は画像を右に */
+        @media (min-width: 900px) {
+            .ep-card:nth-child(2n) {
+                grid-template-columns: 1fr 300px;
+            }
+
+            .ep-card:nth-child(2n) .ep-img {
+                order: 2;
+            }
+
+            .ep-card:nth-child(2n) .ep-text {
+                order: 1;
+            }
+        }
+
+        .ep-img {
+            overflow: hidden;
+            background: #0d1020;
+        }
+
+        .ep-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            filter: brightness(.85) sepia(.05);
+            transition: transform .5s, filter .4s;
+        }
+
+        .ep-card:hover .ep-img img {
+            transform: scale(1.04);
+            filter: brightness(.9) sepia(0);
+        }
+
+        .ep-text {
+            padding: 30px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .ep-number {
+            font-family: 'Cinzel', serif;
+            font-size: .72rem;
+            color: var(--gold);
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+
+        .ep-title {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--ink);
+            margin-bottom: 14px;
+            line-height: 1.3;
+        }
+
+        .ep-desc {
+            font-size: .88rem;
+            color: var(--ink-dim);
+            line-height: 1.8;
+            flex-grow: 1;
+        }
+
+        .ep-status {
+            margin-top: 16px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .72rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ep-status::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gold);
+            flex-shrink: 0;
+            animation: pBlink 2s ease-in-out infinite;
+        }
+
+        @keyframes pBlink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .2;
+            }
+        }
+
+        .ep-link {
+            color: var(--gold-light);
+            text-decoration: none;
+            border-bottom: 1px solid var(--gold-dim);
+            transition: border-color .2s;
+        }
+
+        .ep-link:hover {
+            border-color: var(--gold-light);
+        }
+
+        @media (max-width: 640px) {
+            .ep-card {
+                grid-template-columns: 1fr !important;
+            }
+
+            .ep-img {
+                height: 220px;
+            }
+
+            .ep-card:nth-child(2n) .ep-img {
+                order: 0;
+            }
+
+            .ep-card:nth-child(2n) .ep-text {
+                order: 1;
+            }
+
+            .ep-text {
+                padding: 22px 18px;
+            }
+        }
+
+        /* 戻るボタン */
+        .back-nav {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
+            background: var(--bg);
+            color: var(--gold);
+            padding: 9px 18px;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            font-family: 'Cinzel', serif;
+            font-size: .78rem;
+            letter-spacing: 2px;
+            transition: background .2s, border-color .2s;
+        }
+
+        .back-nav:hover {
+            background: rgba(200, 168, 75, .1);
+            border-color: var(--gold);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="masthead">
+        <div class="header-inner">
+            <a href="index.html" class="brand"><img src="image/main-logo.png" alt="Stadio Vault"></a>
+            <nav class="primary-nav">
+                <a href="about.html">About</a>
+                <a href="index.html#links">Links</a>
+                <a href="index.html#works">Works</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ヒーロー -->
+    <section id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-grid-overlay"></div>
+        <div class="hero-vignette"></div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">Creation &amp; Believer Project</p>
+            <div class="hero-ornament"><span class="hero-ornament-icon">&#10022;</span></div>
+            <h1 class="hero-title">OOSTRPG</h1>
+            <p class="hero-subtitle">CAB — Official Online Sessions</p>
+            <p class="hero-tagline">共同制作・世代間継承・創作と信念を通じた実験的TRPGプロジェクト</p>
+        </div>
+        <div class="scroll-arrow">&#8964;</div>
+    </section>
+
+    <!-- イントロ -->
+    <section class="section-intro">
+        <div class="section-rule"><span class="section-rule-icon">&#10022;</span></div>
+        <div class="intro-card">
+            <h2>創作と信念プロジェクト について</h2>
+            <p>機材を使いつつと共同制作や関与によって世代の壁を壊し世代間ギャップを無くす、地道な機材使用法の継承、そして創作と共感による解決とまではいかないが不満の解消をメンバー間に齎し、心的負担によるトラブル抑制・察知を行う。
+            </p>
+            <p>また、これにおいて傑作を作り上げる事で目標を打ち立て、それを超えるという分かり易く、同時に広告となる看板作品が出来上がる。この作品を完成させる事で嘗ての創作に対しての姿勢を蘇らせ、更には部全体の安定にもなるのではないかという計画である。
+            </p>
+            <p>色々試したが、自分の作品は基本的に毛色が合わない為、部外の協力者数人と協力、そしてTRPG形式で進める事で傑作の為に統率を取りつつ進める事となった。</p>
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/bJM6hCRvJHQ" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <p class="intro-note">以下より、その傑作の詳細と現時点での報告である。</p>
+        </div>
+    </section>
+
+    <!-- 各弾 -->
+    <section class="episodes-section">
+        <div class="section-rule"><span class="section-rule-icon">&#10022;</span></div>
+        <div class="ep-grid">
+
+            <div class="ep-card">
+                <div class="ep-img"><img
+                        src="https://raw.githubusercontent.com/isakamk12/CAB-ver.2/main/image/spellmissdeleted.png"
+                        alt="第一弾"></div>
+                <div class="ep-text">
+                    <p class="ep-number">EPISODE I</p>
+                    <h2 class="ep-title">悪の零落</h2>
+                    <p class="ep-desc">隣の高校は奇妙な噂に包まれた場所であった。失踪、爆発音、銃声、絶叫…行くなとは言われたが我慢も出来ず、不満をぶつけに行こうとした貴方は…</p>
+                    <div class="video-wrap" style="margin-top:14px;">
+                        <iframe src="https://www.youtube.com/embed/UNJTCk8_5g4" frameborder="0"
+                            allowfullscreen></iframe>
+                    </div>
+                    <p class="ep-status">公開済み</p>
+                </div>
+            </div>
+
+            <div class="ep-card">
+                <div class="ep-img"><img
+                        src="https://raw.githubusercontent.com/isakamk12/CAB-ver.2/main/image/betweensupports-1.png"
+                        alt="第二弾"></div>
+                <div class="ep-text">
+                    <p class="ep-number">EPISODE II</p>
+                    <h2 class="ep-title">狂気の機関車ショー</h2>
+                    <p class="ep-desc">
+                        最近、観光地としての活動を始めた島は知名度こそ高いが、それは曰くつきの話ばかりだ。そこで、島の所有者は莫大な金銭を提供し様々な事件の解決を依頼する。機関車同士で衝突させるショーに赴いた。
+                    </p>
+                    <p class="ep-status">現在制作中 — <a href="https://ncode.syosetu.com/n7782jx/2" target="_blank"
+                            class="ep-link">脚本公開済</a></p>
+                </div>
+            </div>
+
+            <div class="ep-card">
+                <div class="ep-img"><img
+                        src="https://raw.githubusercontent.com/isakamk12/CAB-ver.2/main/image/newsupport-1.png"
+                        alt="第三弾"></div>
+                <div class="ep-text">
+                    <p class="ep-number">EPISODE III</p>
+                    <h2 class="ep-title">全て、白日の元に。</h2>
+                    <p class="ep-desc">
+                        島は嘗て凄惨な歴史より生まれ、その結果この世のものとはいえない存在が跋扈している事が判明し、野放しにすれば賞金よりも莫大な金が手に入ると察し、島と陰謀の中に飛び込んだ。</p>
+                    <p class="ep-status">現在制作中 — <a href="https://ncode.syosetu.com/n7782jx/3/" target="_blank"
+                            class="ep-link">脚本公開済</a></p>
+                </div>
+            </div>
+
+            <div class="ep-card">
+                <div class="ep-img"><img
+                        src="https://raw.githubusercontent.com/isakamk12/CAB-ver.2/main/image/betweensupports-3.png"
+                        alt="第四弾"></div>
+                <div class="ep-text">
+                    <p class="ep-number">EPISODE IV</p>
+                    <h2 class="ep-title">閉鎖海岸或いは平坂異岸</h2>
+                    <p class="ep-desc">
+                        政府は妖怪や邪神を把握しており、その上でテロリストを利用して島ごと消そうと計画した。しかし、テロリストもテロリストで何か思惑があるようだ。生存第一、先ずは事件を解決し命を繋いで逃げ延びてみせろ。
+                    </p>
+                    <p class="ep-status">現在制作中 — <a href="https://ncode.syosetu.com/n7782jx/4/" target="_blank"
+                            class="ep-link">脚本公開済</a></p>
+                </div>
+            </div>
+
+            <div class="ep-card">
+                <div class="ep-img"><img
+                        src="https://raw.githubusercontent.com/isakamk12/CAB-ver.2/main/image/betweensupports-4.png"
+                        alt="第五弾"></div>
+                <div class="ep-text">
+                    <p class="ep-number">EPISODE V</p>
+                    <h2 class="ep-title">悪と夢の氾濫</h2>
+                    <p class="ep-desc">
+                        テロリストの虐殺事件から暫く、高校は沈静化していた。しかし、高校内が尋常でない騒ぎになり、ある日それは変形した人体として露見し生存している状態で発見した。邪神の抱える難題を解決しなければ人類は終止符を迎える事になる。
+                    </p>
+                    <p class="ep-status">現在制作中 — <a href="https://ncode.syosetu.com/n7782jx/5/" target="_blank"
+                            class="ep-link">脚本公開済</a></p>
+                </div>
+            </div>
+
+            <div class="ep-card">
+                <div class="ep-img"><img
+                        src="https://raw.githubusercontent.com/isakamk12/CAB-ver.2/main/image/betweensupports-6.png"
+                        alt="第六弾"></div>
+                <div class="ep-text">
+                    <p class="ep-number">EPISODE VI</p>
+                    <h2 class="ep-title">届かねばならぬ場所</h2>
+                    <p class="ep-desc">
+                        ニャルラトホテプは、あの日から既に姿を見せておらず、その背後には歪んだ信仰、殺意や悪意が混ざっていたが為に起きた事だった。核兵器を託された人類の答えを出し、全ての邪神の協力を得て、物語に終止符を。
+                    </p>
+                    <p class="ep-status">現在制作中 — <a href="https://ncode.syosetu.com/n7782jx/6/" target="_blank"
+                            class="ep-link">脚本公開済</a></p>
+                </div>
+            </div>
+
+            <div class="ep-card">
+                <div class="ep-img"><img
+                        src="https://raw.githubusercontent.com/isakamk12/CAB-ver.2/main/image/betweenimage-2.png"
+                        alt="第七弾"></div>
+                <div class="ep-text">
+                    <p class="ep-number">EPISODE VII</p>
+                    <h2 class="ep-title">認知的不協和</h2>
+                    <p class="ep-desc">
+                        この高校が大きく狂う前には、ある一人の少年がいた。坂義一、彼は誰かに密着し心拍を借りなければ生きれない人間だった。事件の真相と自身の来歴を知り、最後に彼はある選択をした。この場所の安寧は無くなった。
+                    </p>
+                    <p class="ep-status">現在制作中（脚本制作中）</p>
+                </div>
+            </div>
+
+            <div class="ep-card">
+                <div class="ep-img"><img
+                        src="https://raw.githubusercontent.com/isakamk12/CAB-ver.2/main/image/betweenimage-3.png"
+                        alt="第八弾"></div>
+                <div class="ep-text">
+                    <p class="ep-number">EPISODE VIII</p>
+                    <h2 class="ep-title">心不在</h2>
+                    <p class="ep-desc">
+                        この捨てられた人々の為の病院は、部位欠損のある患者達の最後の希望であった。邪神の信仰システムを利用し患者は信じる事で体を治せる様になった。捨てられ、助けも知らなかった彼等に、それ以上の不幸をぶつけて解決してみせる看護師の話。
+                    </p>
+                    <p class="ep-status">現在制作中（脚本制作中）</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <a href="index.html" class="back-nav">&#8592; RETURN</a>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            document.getElementById('masthead').classList.toggle('scrolled', window.scrollY > 60);
+        });
+    </script>
+</body>
+
+</html>
