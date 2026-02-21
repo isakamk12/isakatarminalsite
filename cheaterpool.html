@@ -1,151 +1,364 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>作品詳細 - Stadio Vault</title>
+    <title>チータープール - Stadio Vault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Bebas+Neue&display=swap"
+        rel="stylesheet">
     <style>
-        /* === 1. 基本スタイル === */
         :root {
-            --primary: #58a6ff;
-            --overlay-bg: rgba(217, 217, 217, 0.85);
-            --btn-red: #ff3333;
-            --text-black: #000;
+            --static: #ff3b3b;
+            --static-dim: rgba(255, 59, 59, .4);
+            --overlay: rgba(4, 0, 0, .80);
+            --text: #ffe8e8;
+            --text-dim: #7a4a4a;
+            --border: rgba(255, 59, 59, .25);
         }
 
-        body, html {
-            margin: 0; padding: 0; height: 100%;
-            font-family: "Courier New", "MS Gothic", monospace;
-            background-color: #000;
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body,
+        html {
+            height: 100%;
+            font-family: 'Noto Serif JP', 'Georgia', serif;
+            background: #000;
             overflow: hidden;
         }
 
-        /* === 2. 背景画像 === */
         .work-background {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            /* 画像名：cheaterpool.png */
-            background: url('image/cheaterpool.png') no-repeat center center;
+            inset: 0;
+            background-image:url('image/cheaterpool.png');
             background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             z-index: 1;
-            filter: brightness(0.8);
+            filter: brightness(0.6) saturate(0.4) hue-rotate(320deg);
         }
 
-        /* === 3. コンテンツ外枠 === */
+        .glitch-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            background: repeating-linear-gradient(to bottom, transparent 0px, transparent 2px, rgba(255, 0, 0, .03) 2px, rgba(255, 0, 0, .03) 3px);
+            animation: sFlick 6s step-end infinite;
+        }
+
+        @keyframes sFlick {
+
+            0%,
+            92%,
+            94%,
+            100% {
+                opacity: 1;
+            }
+
+            93% {
+                opacity: .6;
+            }
+
+            98% {
+                opacity: .4;
+            }
+        }
+
         .main-container {
             position: relative;
             z-index: 10;
             width: 90%;
-            max-width: 650px;
+            max-width: 640px;
             height: 90vh;
             margin: 5vh auto;
-            background: var(--overlay-bg);
-            border: 4px solid #000;
+            background: var(--overlay);
+            border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            padding: 40px;
-            box-sizing: border-box;
-            color: var(--text-black);
+            padding: 36px 40px 28px;
+            animation: sApp 1s steps(3) both;
         }
 
-        /* === 4. テキスト要素 === */
+        @keyframes sApp {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .warning-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 12px;
+            background: rgba(255, 59, 59, .08);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+            flex-shrink: 0;
+            opacity: 0;
+            animation: wIn .6s .2s ease forwards;
+        }
+
+        .warning-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--static);
+            animation: dBlink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes dBlink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .15;
+            }
+        }
+
+        .warning-text {
+            font-size: .72rem;
+            color: var(--static);
+            letter-spacing: 3px;
+        }
+
+        @keyframes wIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
         .catch-copy {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin: 0;
-            letter-spacing: 1px;
+            font-size: .88rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            opacity: 0;
+            animation: stxt .5s .5s ease forwards;
         }
 
         .work-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin: 10px 0;
-            line-height: 1.1;
+            font-family: 'Bebas Neue', 'Noto Serif JP', sans-serif;
+            font-size: 3.8rem;
+            color: var(--text);
+            line-height: 1.0;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            position: relative;
+            opacity: 0;
+            animation: stxt .5s .7s ease forwards;
+        }
+
+        .work-title::before,
+        .work-title::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .work-title::before {
+            color: rgba(255, 0, 100, .6);
+            clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+            animation: g1 4s infinite;
+        }
+
+        .work-title::after {
+            color: rgba(0, 200, 255, .4);
+            clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+            animation: g2 5s infinite;
+        }
+
+        @keyframes g1 {
+
+            0%,
+            90%,
+            93%,
+            100% {
+                transform: translateX(0);
+                opacity: 0;
+            }
+
+            91% {
+                transform: translateX(-4px);
+                opacity: .8;
+            }
+
+            92% {
+                transform: translateX(4px);
+                opacity: .5;
+            }
+        }
+
+        @keyframes g2 {
+
+            0%,
+            94%,
+            96%,
+            100% {
+                transform: translateX(0);
+                opacity: 0;
+            }
+
+            95% {
+                transform: translateX(3px);
+                opacity: .7;
+            }
         }
 
         .meta-info {
-            font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 20px;
+            font-size: .8rem;
+            color: var(--static);
+            letter-spacing: 3px;
+            margin-bottom: 22px;
+            opacity: 0;
+            animation: stxt .5s .9s ease forwards;
         }
 
-        /* あらすじエリア */
+        @keyframes stxt {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .synopsis-box {
             flex-grow: 1;
-            font-size: 1.05rem;
-            line-height: 1.7;
-            font-weight: bold;
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--text);
             overflow-y: auto;
             margin-bottom: 20px;
-            padding-right: 10px;
+            padding: 14px;
             white-space: pre-wrap;
+            background: rgba(255, 59, 59, .03);
+            border-left: 2px solid var(--border);
+            opacity: 0;
+            animation: stxt .7s 1.1s ease forwards;
         }
 
-        /* === 5. ボタン群 === */
+        .synopsis-box::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .synopsis-box::-webkit-scrollbar-thumb {
+            background: var(--static-dim);
+        }
+
         .button-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 10px;
+            gap: 10px;
+            opacity: 0;
+            animation: stxt .6s 1.3s ease forwards;
         }
 
         .action-btn {
-            background: var(--btn-red);
-            color: #fff;
+            background: transparent;
+            color: var(--text);
             text-decoration: none;
             text-align: center;
-            padding: 12px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            border-radius: 25px;
-            border: 3px solid #fff;
-            box-shadow: 3px 3px 0px #000;
-            transition: transform 0.1s;
+            padding: 10px 8px;
+            font-family: 'Noto Serif JP', serif;
+            font-size: .82rem;
+            border: 1px solid var(--border);
+            letter-spacing: 1px;
+            transition: background .2s, border-color .2s;
         }
-        .action-btn:hover { transform: scale(1.03); }
-        .action-btn::after { content: " ▶"; font-size: 0.7rem; }
+
+        .action-btn:hover {
+            background: rgba(255, 59, 59, .1);
+            border-color: var(--static);
+            color: var(--static);
+        }
 
         .back-nav {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 22px;
+            right: 22px;
             z-index: 100;
             background: #000;
-            color: var(--primary);
-            padding: 8px 15px;
+            color: var(--static);
+            padding: 8px 16px;
             text-decoration: none;
-            border: 1px solid var(--primary);
-            font-weight: bold;
+            border: 1px solid var(--border);
+            font-size: .8rem;
+            letter-spacing: 2px;
+            transition: background .2s;
+        }
+
+        .back-nav:hover {
+            background: rgba(255, 59, 59, .1);
+        }
+
+        @media(max-width:600px) {
+            .main-container {
+                padding: 24px 20px 20px;
+                height: 95vh;
+                margin: 2.5vh auto;
+            }
+
+            .work-title {
+                font-size: 2.6rem;
+            }
+
+            .button-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
-
     <div class="work-background"></div>
-
+    <div class="glitch-overlay"></div>
     <div class="main-container">
+        <div class="warning-bar">
+            <div class="warning-dot"></div><span class="warning-text">SIGNAL ACTIVE &#8212; UNSTABLE</span>
+        </div>
         <p class="catch-copy">神は私を見捨てない。</p>
-
-        <h1 class="work-title">チータープール</h1>
-
+        <h1 class="work-title" data-text="チータープール">チータープール</h1>
         <p class="meta-info">NOVEL / 連載中</p>
-
         <div class="synopsis-box">舌の上が粉を噛んだようにざらつく、乾いた戦場。少年兵が手にしたのは、親から譲り受けた重い銃と、ありふれた「ギフト」だった。
 
 絶望が日常となった泥濘の中で、しかし少年だけは美しく、明るく笑い続ける。
 ――「あはは、見て！　空に大きな花が咲いたよ！」
 
 偶然か、あるいは必然か。放たれ…</div>
-
-        <div class="button-grid">
-            <a href="https://www.alphapolis.co.jp/novel/568634872/544030330/episode/10789958" class="action-btn" target="_blank">アルファポリス</a>
+        <div class="button-grid"><a href="https://www.alphapolis.co.jp/novel/568634872/544030330/episode/10789958" class="action-btn" target="_blank">アルファポリス</a>
             <a href="https://kakuyomu.jp/my/works/822139844598300102/episodes/822139844598596381" class="action-btn" target="_blank">カクヨム</a>
             <a href="https://ncode.syosetu.com/n0770lt/1" class="action-btn" target="_blank">小説家になろう</a>
-            <a href="https://note.com/isakaakasi/n/n767e2ba231ca" class="action-btn" target="_blank">note</a>
-        </div>
+            <a href="https://note.com/isakaakasi/n/n767e2ba231ca" class="action-btn" target="_blank">note</a></div>
     </div>
-
-    <a href="index.html" class="back-nav">RETURN TO TERMINAL</a>
-
+    <a href="index.html" class="back-nav">&#8592; RETURN</a>
 </body>
+
 </html>
