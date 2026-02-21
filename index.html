@@ -1,542 +1,900 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stadio Vault - Official Terminal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Cinzel:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
     <style>
-        /* === 1. 基本設定・変数 === */
         :root {
-            --primary: #58a6ff;
-            --bg-dark: #0d1117;
-            --card-bg: #161b22;
-            --border: #30363d;
-            --text: #c9d1d9;
-            --tag-color: #f0883e;
+            --gold: #c4a84b;
+            --gold-light: #e8cc78;
+            --gold-dim: rgba(196, 168, 75, .28);
+            --ink: #e8e2d6;
+            --ink-dim: rgba(232, 226, 214, .5);
+            --bg: #07090f;
+            --card-bg: rgba(12, 16, 28, .9);
+            --border: rgba(196, 168, 75, .25);
+            --border-bright: rgba(196, 168, 75, .55);
+            --red: #b84040;
+            --blue: #4a7fc1;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: "Courier New", monospace;
-            background-color: var(--bg-dark);
-            color: var(--text);
-            margin: 0;
-            padding: 0;
+            font-family: 'Noto Serif JP', 'Georgia', serif;
+            background: var(--bg);
+            color: var(--ink);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* === 2. 目標再現：オーバーレイ・巨大ヘッダー === */
+        /* ===== ヘッダー ===== */
         #masthead {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 120px; /* 目標画像に基づいた巨大な高さ */
-            z-index: 10000;
-            background: transparent !important;
-            display: flex;
-            align-items: center;
-            border: none !important;
-            transition: all 0.3s ease;
+            z-index: 1000;
+            height: 90px;
+            background: transparent;
+            transition: background .4s, border .4s, height .3s;
         }
 
         #masthead.scrolled {
-            height: 80px;
-            background: rgba(13, 17, 23, 0.95) !important;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border) !important;
+            height: 72px;
+            background: rgba(7, 9, 15, .94);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
         }
 
         .header-inner {
-            width: 100%;
-            max-width: 1400px;
+            max-width: 1300px;
             margin: 0 auto;
+            height: 100%;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0 40px;
+            justify-content: space-between;
+            padding: 0 48px;
         }
 
-        /* 左端：署名ロゴ */
-        .brand { display: block; text-decoration: none; }
-        .custom-logo {
-            height: 85px; /* 巨大サイズ */
-            width: auto;
-            display: block;
-            filter: drop-shadow(0 0 12px rgba(255,255,255,0.4));
-        }
-
-        /* 右端：巨大ナビゲーション */
-        .primary-nav { display: flex; gap: 40px; }
-        .primary-nav a {
-            color: #fff !important;
+        .brand {
             text-decoration: none;
-            font-size: 1.8rem !important; /* 巨大文字 */
-            font-weight: 900 !important;
-            letter-spacing: 2px;
-            /* 黒い縁取り */
-            text-shadow: 
-                -2px -2px 0 #000, 2px -2px 0 #000, 
-                -2px 2px 0 #000, 2px 2px 0 #000,
-                0 0 20px rgba(0,0,0,1);
-            transition: color 0.3s;
         }
-        .primary-nav a:hover { color: var(--primary) !important; }
 
-        /* === 3. 表紙（Cover）：フルスクリーン === */
+        .custom-logo {
+            height: 72px;
+            width: auto;
+            filter: drop-shadow(0 0 14px rgba(196, 168, 75, .35));
+            transition: filter .3s;
+        }
+
+        #masthead.scrolled .custom-logo {
+            height: 56px;
+        }
+
+        .primary-nav {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .primary-nav a {
+            color: var(--ink);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: .85rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color .2s;
+        }
+
+        .primary-nav a:hover {
+            color: var(--gold-light);
+        }
+
+        @media (max-width: 800px) {
+            .header-inner {
+                padding: 0 18px;
+            }
+
+            .primary-nav {
+                gap: 16px;
+            }
+
+            .primary-nav a {
+                font-size: .72rem;
+                letter-spacing: 1px;
+            }
+
+            .custom-logo {
+                height: 48px;
+            }
+
+            #masthead.scrolled .custom-logo {
+                height: 40px;
+            }
+        }
+
+        /* ===== カバー（フルスクリーン） ===== */
         #cover {
             position: relative;
             height: 100vh;
-            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #000;
             overflow: hidden;
-            border-bottom: 2px solid var(--primary);
         }
 
         #cover-bg-grid {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            inset: 0;
+            z-index: 1;
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr 1fr;
-            opacity: 0.65;
-            z-index: 1;
         }
-        #cover-bg-grid img { width: 100%; height: 100%; object-fit: cover; }
+
+        #cover-bg-grid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(.55) sepia(.1);
+        }
+
+        .cover-vignette {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at center, transparent 20%, rgba(7, 9, 15, .75) 80%),
+                linear-gradient(to bottom, rgba(7, 9, 15, .6) 0, transparent 18%, transparent 80%, rgba(7, 9, 15, .9) 100%);
+        }
+
+        .cover-grid-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(196, 168, 75, .05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(196, 168, 75, .05) 1px, transparent 1px);
+            background-size: 80px 80px;
+        }
 
         #cover-center {
             position: relative;
             z-index: 10;
             text-align: center;
-            width: 90%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            animation: coverFade 1.2s ease both;
+        }
+
+        @keyframes coverFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         #cover-logo {
             width: 100%;
-            max-width: 800px;
-            max-height: 75vh;
+            max-width: 700px;
+            max-height: 60vh;
             height: auto;
             object-fit: contain;
-            filter: drop-shadow(0 0 40px rgba(88, 166, 255, 0.6));
+            filter: drop-shadow(0 0 50px rgba(196, 168, 75, .35));
         }
 
         .scroll-hint {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            z-index: 10; color: #fff; font-size: 1.2rem; font-weight: bold;
-            animation: blink 2s infinite; text-shadow: 0 0 10px #000;
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            color: var(--gold-dim);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .8rem;
+            letter-spacing: 4px;
+            animation: hintBlink 2.5s ease-in-out infinite;
         }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        /* === 4. コンテンツ：タイルカード === */
-        .container { max-width: 1250px; margin: 0 auto; padding: 60px 20px; }
+        @keyframes hintBlink {
 
+            0%,
+            100% {
+                opacity: .4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* ===== コンテナ ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        @media (max-width:640px) {
+            .container {
+                padding: 40px 18px;
+            }
+        }
+
+        /* ===== セクションタイトル ===== */
         .section-title {
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 15px;
-            margin: 100px 0 40px;
-            font-size: 2.2rem;
-            color: var(--primary);
-            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 100px 0 48px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            color: var(--gold-light);
+            letter-spacing: 4px;
             text-transform: uppercase;
         }
 
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-bright), transparent);
+        }
+
+        .section-title-icon {
+            color: var(--gold-dim);
+            font-size: .9rem;
+        }
+
+        .pdf-btn {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .72rem;
+            color: var(--gold);
+            border: 1px solid var(--border);
+            padding: 5px 14px;
+            text-decoration: none;
+            letter-spacing: 2px;
+            transition: background .2s, border-color .2s;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+
+        .pdf-btn:hover {
+            background: rgba(196, 168, 75, .1);
+            border-color: var(--gold);
+        }
+
+        /* ===== Projects ===== */
+        .projects-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            margin-bottom: 60px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 28px 32px;
+            text-decoration: none;
+            transition: border-color .25s, transform .25s, box-shadow .25s;
+        }
+
+        .project-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .4);
+        }
+
+        .project-title {
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: var(--ink);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .project-desc {
+            font-size: .88rem;
+            color: var(--ink-dim);
+            line-height: 1.7;
+        }
+
+        /* ===== External Links ===== */
         .platform-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 14px;
+            margin-bottom: 40px;
         }
 
         .p-card {
             background: var(--card-bg);
-            border: 2px solid var(--border);
-            border-radius: 8px;
+            border: 1px solid var(--border);
             display: flex;
-            height: 165px;
+            height: 150px;
             overflow: hidden;
             text-decoration: none;
-            transition: all 0.2s ease;
+            transition: border-color .2s, transform .2s;
         }
-        .p-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+
+        .p-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+        }
 
         .p-content {
             flex: 1;
-            padding: 15px;
+            padding: 16px 18px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
-        .p-tag { font-size: 0.8rem; color: var(--tag-color); font-weight: bold; border: 1px solid var(--tag-color); padding: 0 5px; width: fit-content; }
-        .p-name { font-size: 1.3rem; font-weight: bold; color: #fff; margin: 5px 0; }
-        .p-note { font-size: 0.85rem; color: #8b949e; line-height: 1.3; }
-        .p-btn-ui { background: #ff3333; color: #fff; text-align: center; padding: 5px 0; font-size: 0.9rem; font-weight: bold; border-radius: 4px; }
 
-        .p-img-box { width: 120px; background: #21262d; display: flex; align-items: flex-end; }
-        .p-img-box img { width: 100%; height: auto; object-fit: cover; }
+        .p-tag {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .7rem;
+            color: var(--gold);
+            border: 1px solid var(--gold-dim);
+            padding: 1px 8px;
+            width: fit-content;
+            letter-spacing: 1px;
+        }
 
-        /* 作品リスト */
-        .category-name { font-size: 1.5rem; font-weight: bold; margin-top: 80px; padding-left: 15px; border-left: 6px solid var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px; color: #fff; }
-        .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin-top: 20px; }
-        .w-item { background: var(--card-bg); padding: 15px; border-radius: 6px; border: 1px solid var(--border); color: var(--text); font-weight: bold; text-decoration: none; transition: 0.2s; display: block; }
-        .w-item:hover { background: #21262d; border-color: var(--primary); color: #fff; }
-        /* === 未作成リンク判定 === */
-        /* 作成済み（青） */
-        .w-item:not([href="#"]) {border-color: var(--primary);color: var(--primary);}
+        .p-name {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--ink);
+            margin: 4px 0;
+        }
 
-        /* 未作成（赤） */
-        .w-item[href="#"] {border-color: #ff3333;color: #ff3333;}
+        .p-note {
+            font-size: .8rem;
+            color: var(--ink-dim);
+        }
 
+        .p-btn-ui {
+            background: var(--red);
+            color: #fff;
+            text-align: center;
+            padding: 5px 0;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .78rem;
+            letter-spacing: 1px;
+        }
 
-        .w-en { display: block; font-size: 0.75rem; color: #8b949e; margin-top: 5px; font-weight: normal; }
+        .p-image-box {
+            width: 110px;
+            background: #0d1020;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
 
-        @media (max-width: 800px) {
-            #masthead { height: 80px; }
-            .custom-logo { height: 45px; }
-            .primary-nav a { font-size: 1.2rem; gap: 15px; }
+        .p-image-box img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* ===== Works Archive ===== */
+        .category-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 60px;
+            margin-bottom: 14px;
+            padding-left: 14px;
+            border-left: 3px solid var(--gold-dim);
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .w-item {
+            background: var(--card-bg);
+            padding: 13px 16px;
+            text-decoration: none;
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--ink);
+            border: 1px solid var(--border);
+            transition: border-color .2s, background .2s, color .2s;
+            display: block;
+        }
+
+        .w-item:hover {
+            background: rgba(196, 168, 75, .08);
+            border-color: var(--gold);
+            color: var(--gold-light);
+        }
+
+        /* リンク済み */
+        .w-item:not([href="#"]) {
+            border-left: 2px solid var(--blue);
+        }
+
+        /* 未作成 */
+        .w-item[href="#"] {
+            border-left: 2px solid var(--red);
+            opacity: .7;
+        }
+
+        .w-en {
+            display: block;
+            font-size: .72rem;
+            color: var(--ink-dim);
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        /* ===== reveal animation ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity .4s ease, transform .4s ease;
+            will-change: opacity, transform;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== フッター ===== */
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--ink-dim);
+            font-size: .82rem;
+            border-top: 1px solid var(--border);
+            font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 640px) {
+            .section-title {
+                font-size: 1.1rem;
+                margin: 60px 0 32px;
+            }
+
+            .platform-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .works-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<header id="masthead">
-    <div class="header-inner">
-        <a href="index.html" class="brand">
-            <img src="image/main-logo.png" alt="伊阪 証" class="custom-logo">
-        </a>
-        <nav class="primary-nav">
-            <a href="about.html">概要</a>
-            <a href="index.html#links">リンク</a>
-            <a href="index.html#works">作品</a>
-            <a href="index.html#isakaakasi">歴代伊阪</a>
-        </nav>
-    </div>
-</header>
+    <header id="masthead">
+        <div class="header-inner">
+            <a href="index.html" class="brand">
+                <img src="image/main-logo.png" alt="伊阪証" class="custom-logo">
+            </a>
+            <nav class="primary-nav">
+                <a href="about.html">概要</a>
+                <a href="#links">リンク</a>
+                <a href="#works">作品</a>
+            </nav>
+        </div>
+    </header>
 
-<section id="cover">
-    <div id="cover-bg-grid"></div>
-    <div id="cover-center">
-        <img id="cover-logo" src="" alt="Stadio Vault">
-    </div>
-    <div class="scroll-hint">▼ SCROLL DOWN ▼</div>
-</section>
+    <!-- カバー -->
+    <section id="cover">
+        <div class="cover-vignette"></div>
+        <div class="cover-grid-overlay"></div>
+        <div id="cover-bg-grid"></div>
+        <div id="cover-center">
+            <img id="cover-logo" src="" alt="Stadio Vault">
+        </div>
+        <div class="scroll-hint">&#10022; &ensp; SCROLL DOWN &ensp; &#10022;</div>
+    </section>
 
-<div class="container">
-    <div class="section-header">
-    <h2 class="section-title" id="links" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-    <span>External Links</span>
-    <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:0f35b40e-a262-4d0a-a9f1-c34cb769b9cb" target="_blank" class="pdf-btn">PROJECT PDF</a>
-</h2>
-</div>
+    <div class="container">
 
+        <!-- Projects -->
+        <h2 class="section-title reveal"><span class="section-title-icon">&#10022;</span> Projects</h2>
+        <div class="projects-grid">
+            <a href="#" class="project-card reveal">
+                <div class="project-title">Vtuber事務所制作企画</div>
+                <div class="project-desc">キャラクター設計・世界観構築・配信戦略支援</div>
+            </a>
+            <a href="#" class="project-card reveal">
+                <div class="project-title">出版社制作企画</div>
+                <div class="project-desc">出版用IP制作・構成設計・ブランディング提案</div>
+            </a>
+            <a href="#" class="project-card reveal">
+                <div class="project-title">他作品宣伝・サポート企画</div>
+                <div class="project-desc">クロスプロモーション・広報支援・企画サポート</div>
+            </a>
+        </div>
 
-    <div class="platform-grid">
-        <a href="https://mypage.syosetu.com/1602816/" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">新作最速投稿!</span><div class="p-name">小説家になろう</div><div class="p-note">メインの小説投稿先</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-1.png" alt=""></div>
-        </a>
-        <a href="https://kakuyomu.jp/users/isakaakasimk14" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">厳選済み小説!</span><div class="p-name">カクヨム</div><div class="p-note">厳選された作品群</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-2.png" alt=""></div>
-        </a>
-        <a href="https://www.alphapolis.co.jp/author/detail/568634872" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">補足多め小説!</span><div class="p-name">アルファポリス</div><div class="p-note">補足情報などが充実</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-3.png" alt=""></div>
-        </a>
-        <a href="https://www.pixiv.net/users/88534879" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">祝千フォロー!</span><div class="p-name">Pixiv</div><div class="p-note">イラスト・ビジュアル作品</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-4.png" alt=""></div>
-        </a>
-        <a href="https://github.com/isakamk12" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">AI開発メイン</span><div class="p-name">GitHub</div><div class="p-note">ソースコード・開発ログ</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-5.png" alt=""></div>
-        </a>
-        <a href="https://x.com/Isakaakasimk76" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">ほぼ報告しかねぇ。</span><div class="p-name">X (Twitter)</div><div class="p-note">最新情報・生存報告</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-6.png" alt=""></div>
-        </a>
-        <a href="https://www.instagram.com/bokusatutyomutyomu763/" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">AIはよく使います。</span><div class="p-name">Instagram</div><div class="p-note">ビジュアル重視の投稿</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-7.png" alt=""></div>
-        </a>
-        <a href="https://www.facebook.com/share/168dfutEsd/" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">正直詳しくない</span><div class="p-name">Facebook</div><div class="p-note">一応アカウントあり</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-8.png" alt=""></div>
-        </a>
-        <a href="https://www.threads.net/@bokusatutyomutyomu763" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">取り敢えず入れた</span><div class="p-name">Threads</div><div class="p-note">テキストベースSNS</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-9.png" alt=""></div>
-        </a>
-        <a href="https://note.com/isakaakasi" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">先行公開多め</span><div class="p-name">note</div><div class="p-note">記事・コラム・先行情報</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-10.png" alt=""></div>
-        </a>
-        <a href="https://www.twitch.tv/isakaakasi" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">思考全部持ってかれる</span><div class="p-name">Twitch</div><div class="p-note">ゲーム配信やってみたいけど</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-11.png" alt=""></div>
-        </a>
-        <a href="https://www.tiktok.com/@user6820718739791" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">再生数真逆になった</span><div class="p-name">TikTok</div><div class="p-note">Youtubeと同じ投稿したら</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-12.png" alt=""></div>
-        </a>
-        <a href="https://www.dailymotion.com/miraisaka767" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">南アジア狙いフォーム</span><div class="p-name">Dailymotion</div><div class="p-note">インド人多めなので</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-13.png" alt=""></div>
-        </a>
-        <a href="https://vimeo.com/user240448697" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">容量上限が厳しい</span><div class="p-name">Vimeo</div><div class="p-note">高画質動画向け</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-14.png" alt=""></div>
-        </a>
-        <a href="https://www.youtube.com/@Isakaakasimk44" target="_blank" class="p-card">
-            <div class="p-content"><span class="p-tag">TRPG 動画予定</span><div class="p-name">YouTube</div><div class="p-note">メイン動画チャンネル</div><div class="p-btn-ui">ここをクリック!</div></div>
-            <div class="p-image-box"><img src="image/char-15.png" alt=""></div>
-        </a>
-    </div>
+        <!-- External Links -->
+        <h2 class="section-title reveal" id="links">
+            <span class="section-title-icon">&#10022;</span> External Links
+            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:0f35b40e-a262-4d0a-a9f1-c34cb769b9cb" target="_blank"
+                class="pdf-btn">PROJECT PDF</a>
+        </h2>
+        <div class="platform-grid">
+            <a href="https://mypage.syosetu.com/1602816/" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">新作最速投稿!</span>
+                    <div class="p-name">小説家になろう</div>
+                    <div class="p-note">メインの小説投稿先</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-1.png" alt=""></div>
+            </a>
+            <a href="https://kakuyomu.jp/users/isakaakasimk14" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">厳選済み小説!</span>
+                    <div class="p-name">カクヨム</div>
+                    <div class="p-note">厳選された作品群</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-2.png" alt=""></div>
+            </a>
+            <a href="https://www.alphapolis.co.jp/author/detail/568634872" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">補足多め小説!</span>
+                    <div class="p-name">アルファポリス</div>
+                    <div class="p-note">補足情報などが充実</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-3.png" alt=""></div>
+            </a>
+            <a href="https://www.pixiv.net/users/88534879" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">祝千フォロー!</span>
+                    <div class="p-name">Pixiv</div>
+                    <div class="p-note">イラスト・ビジュアル作品</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-4.png" alt=""></div>
+            </a>
+            <a href="https://github.com/isakamk12" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">AI開発メイン</span>
+                    <div class="p-name">GitHub</div>
+                    <div class="p-note">ソースコード・開発ログ</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-5.png" alt=""></div>
+            </a>
+            <a href="https://x.com/Isakaakasimk76" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">ほぼ報告しかねぇ。</span>
+                    <div class="p-name">X (Twitter)</div>
+                    <div class="p-note">最新情報・生存報告</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-6.png" alt=""></div>
+            </a>
+            <a href="https://www.instagram.com/bokusatutyomutyomu763/" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">AIはよく使います。</span>
+                    <div class="p-name">Instagram</div>
+                    <div class="p-note">ビジュアル重視の投稿</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-7.png" alt=""></div>
+            </a>
+            <a href="https://www.facebook.com/share/168dfutEsd/" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">正直詳しくない</span>
+                    <div class="p-name">Facebook</div>
+                    <div class="p-note">一応アカウントあり</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-8.png" alt=""></div>
+            </a>
+            <a href="https://www.threads.net/@bokusatutyomutyomu763" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">取り敢えず入れた</span>
+                    <div class="p-name">Threads</div>
+                    <div class="p-note">テキストベースSNS</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-9.png" alt=""></div>
+            </a>
+            <a href="https://note.com/isakaakasi" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">先行公開多め</span>
+                    <div class="p-name">note</div>
+                    <div class="p-note">記事・コラム・先行情報</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-10.png" alt=""></div>
+            </a>
+            <a href="https://www.twitch.tv/isakaakasi" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">思考全部持ってかれる</span>
+                    <div class="p-name">Twitch</div>
+                    <div class="p-note">ゲーム配信やってみたいけど</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-11.png" alt=""></div>
+            </a>
+            <a href="https://www.tiktok.com/@user6820718739791" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">再生数真逆になった</span>
+                    <div class="p-name">TikTok</div>
+                    <div class="p-note">Youtubeと同じ投稿したら</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-12.png" alt=""></div>
+            </a>
+            <a href="https://www.dailymotion.com/miraisaka767" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">南アジア狙いフォーム</span>
+                    <div class="p-name">Dailymotion</div>
+                    <div class="p-note">インド人多めなので</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-13.png" alt=""></div>
+            </a>
+            <a href="https://vimeo.com/user240448697" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">容量上限が厳しい</span>
+                    <div class="p-name">Vimeo</div>
+                    <div class="p-note">高画質動画向け</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-14.png" alt=""></div>
+            </a>
+            <a href="https://www.youtube.com/@Isakaakasimk44" target="_blank" class="p-card reveal">
+                <div class="p-content"><span class="p-tag">TRPG 動画予定</span>
+                    <div class="p-name">YouTube</div>
+                    <div class="p-note">メイン動画チャンネル</div>
+                    <div class="p-btn-ui">ここをクリック!</div>
+                </div>
+                <div class="p-image-box"><img src="image/char-15.png" alt=""></div>
+            </a>
+        </div>
 
-    <div class="section-header">
-    <h2 class="section-title" id="works" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-        <span>Works Archive</span>
-        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:3720776c-78fa-4993-88ff-a98f1a83ccf5" target="_blank" class="pdf-btn">WORK LIST</a>
-    </h2>
-</div>
+        <!-- Works Archive -->
+        <h2 class="section-title reveal" id="works">
+            <span class="section-title-icon">&#10022;</span> Works Archive
+            <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:3720776c-78fa-4993-88ff-a98f1a83ccf5" target="_blank"
+                class="pdf-btn">WORK LIST</a>
+        </h2>
 
-    <div class="category-name">新作・公開予定</div>
-    <div class="works-grid">
-        <a href="cthulhumeshi.html" class="w-item">クトゥルフ飯</a>
-        <a href="#" class="w-item">アウステルリッツ</a>
-        <a href="simon-bolivar.html" class="w-item">シモン=ボリバル</a>
-        <a href="#" class="w-item">世界史の悪役令嬢</a>
-        <a href="cheaterpool.html" class="w-item">チータープール</a>
-        <a href="#" class="w-item">低予算世界侵略部</a>
-        <a href="#" class="w-item">Bloody Bank</a>
-        <a href="#" class="w-item">冥界行路</a>
-    </div>
+        <div class="category-name reveal">新作・公開予定</div>
+        <div class="works-grid">
+            <a href="cthulhumeshi.html" class="w-item reveal">クトゥルフ飯</a>
+            <a href="#" class="w-item reveal">アウステルリッツ</a>
+            <a href="simon-bolivar.html" class="w-item reveal">シモン=ボリバル</a>
+            <a href="#" class="w-item reveal">世界史の悪役令嬢</a>
+            <a href="cheaterpool.html" class="w-item reveal">チータープール</a>
+            <a href="#" class="w-item reveal">低予算世界侵略部</a>
+            <a href="#" class="w-item reveal">Bloody Bank</a>
+            <a href="#" class="w-item reveal">冥界行路</a>
+        </div>
 
-    <div class="category-name">実話シリーズ(閲覧注意)</div>
-    <div class="works-grid">
-        <a href="shishiruiru.html" class="w-item">死屍涙々</a>
-        <a href="hazuretasharin.html" class="w-item">外れた車輪</a>
-        <a href="theseusnofune.html" class="w-item">テセウスの船</a>
-        <a href="trigonometryplane.html" class="w-item">平坦球体或いは三角関数</a>
-        <a href="anywayreals.html" class="w-item">ダイタイジツワ</a>
-    </div>
+        <div class="category-name reveal">実話シリーズ(閲覧注意)</div>
+        <div class="works-grid">
+            <a href="shishiruiru.html" class="w-item reveal">死屍涙々</a>
+            <a href="hazuretasharin.html" class="w-item reveal">外れた車輪</a>
+            <a href="theseusnofune.html" class="w-item reveal">テセウスの船</a>
+            <a href="trigonometryplane.html" class="w-item reveal">平坦球体或いは三角関数</a>
+            <a href="anywayreals.html" class="w-item reveal">ダイタイジツワ</a>
+        </div>
 
-    <div class="category-name">12月投稿短編シリーズ</div>
-    <div class="works-grid">
-    <a href="relation-translation.html" class="w-item">私なら伝えられる <span class="w-en">Relation Translation</span></a>
-    <a href="bad-blank-beyond.html" class="w-item">読書感想文と君 <span class="w-en">Bad Blank Beyond</span></a>
-    <a href="faded-floral-felon.html" class="w-item">猫の花泥棒 <span class="w-en">Faded Floral Felon</span></a>
-    <a href="tracks-and-strucks.html" class="w-item">陸上部vs美術部 <span class="w-en">Tracks and Strucks</span></a>
-    <a href="tall-order-tales.html" class="w-item">注文の多いラブコメディ <span class="w-en">Tall order tales</span></a>
-    <a href="trendy-treading-tragedy.html" class="w-item">命を捧ぐ愛 <span class="w-en">Trendy Treading Tragedy</span></a>
-    <a href="proof-of-photographs.html" class="w-item">十年前マッチングアプリ <span class="w-en">Proof of Photographs</span></a>
-    <a href="escalation-hearts.html" class="w-item">エスカレーション･ハート <span class="w-en">Escalation Hearts</span></a>
-    <a href="heavens-callcenter.html" class="w-item">ヘブンズ･コールセンター <span class="w-en">Heavens Callcenter</span></a>
-    <a href="scary-sweet-story.html" class="w-item">怪奇作家の恋愛事情 <span class="w-en">Scary Sweet Story</span></a>
-    <a href="miss-leaks-mosreads.html" class="w-item">言葉は少し不器用なので <span class="w-en">Miss Leaks & Mosreads</span></a>
-    <a href="voiswitching.html" class="w-item">半端にスイッチング <span class="w-en">Voiswitching</span></a>
-    <a href="reverse-logic-rough-love.html" class="w-item">ヘイト･ラブ･コンバージョン <span class="w-en">Reverse Logic Rough Love</span></a>
-    <a href="musk-of-mistake.html" class="w-item">調香 <span class="w-en">Musk of Mistake</span></a>
-    <a href="gangster-grace-grade.html" class="w-item">元ヤン悪役令嬢 <span class="w-en">Gangster Grace Grade</span></a>
-    <a href="overcharged-romance.html" class="w-item">レンタル彼氏vsレンタル彼女 <span class="w-en">Overcharged Romance</span></a>
-    <a href="when-stormy-whether.html" class="w-item">恋の天気予報士 <span class="w-en">When stormy whether</span></a>
-    <a href="papers-purity-performance.html" class="w-item">逆タイムカプセル <span class="w-en">Papers purity performance</span></a>
-    <a href="hateful-rough-story.html" class="w-item">傷だらけの熱田さん <span class="w-en">Hateful rough Story</span></a>
-    <a href="feline-fade-out.html" class="w-item">猫のように君は去る <span class="w-en">feline fade out</span></a>
-    <a href="half-wing-halt.html" class="w-item">片翼 <span class="w-en">half wing halt</span></a>
-    <a href="corona-borealis.html" class="w-item">冠の星 <span class="w-en">corona borealis</span></a>
-    <a href="trade-and-taste.html" class="w-item">お弁当のかたより <span class="w-en">trade and taste</span></a>
-    <a href="raining-ruin-letter.html" class="w-item">雪解けの春 <span class="w-en">raining ruin letter</span></a>
-    <a href="heat-charge.html" class="w-item">冷蔵庫に込める愛 <span class="w-en">heat charge</span></a>
-    <a href="#" class="w-item">縁絶ゆ</a>
-    <a href="imprisonment-by-relatives.html" class="w-item">親近拘束</a>
-    </div>
+        <div class="category-name reveal">12月投稿短編シリーズ</div>
+        <div class="works-grid">
+            <a href="relation-translation.html" class="w-item reveal">私なら伝えられる <span class="w-en">Relation
+                    Translation</span></a>
+            <a href="bad-blank-beyond.html" class="w-item reveal">読書感想文と君 <span class="w-en">Bad Blank Beyond</span></a>
+            <a href="faded-floral-felon.html" class="w-item reveal">猫の花泥棒 <span class="w-en">Faded Floral
+                    Felon</span></a>
+            <a href="tracks-and-strucks.html" class="w-item reveal">陸上部vs美術部 <span class="w-en">Tracks and
+                    Strucks</span></a>
+            <a href="tall-order-tales.html" class="w-item reveal">注文の多いラブコメディ <span class="w-en">Tall order
+                    tales</span></a>
+            <a href="trendy-treading-tragedy.html" class="w-item reveal">命を捧ぐ愛 <span class="w-en">Trendy Treading
+                    Tragedy</span></a>
+            <a href="proof-of-photographs.html" class="w-item reveal">十年前マッチングアプリ <span class="w-en">Proof of
+                    Photographs</span></a>
+            <a href="escalation-hearts.html" class="w-item reveal">エスカレーション･ハート <span class="w-en">Escalation
+                    Hearts</span></a>
+            <a href="heavens-callcenter.html" class="w-item reveal">ヘブンズ･コールセンター <span class="w-en">Heavens
+                    Callcenter</span></a>
+            <a href="scary-sweet-story.html" class="w-item reveal">怪奇作家の恋愛事情 <span class="w-en">Scary Sweet
+                    Story</span></a>
+            <a href="voiswitching.html" class="w-item reveal">半端にスイッチング <span class="w-en">Voiswitching</span></a>
+            <a href="reverse-logic-rough-love.html" class="w-item reveal">ヘイト･ラブ･コンバージョン <span class="w-en">Reverse
+                    Logic Rough Love</span></a>
+            <a href="gangster-grace-grade.html" class="w-item reveal">元ヤン悪役令嬢 <span class="w-en">Gangster Grace
+                    Grade</span></a>
+            <a href="overcharged-romance.html" class="w-item reveal">レンタル彼氏vsレンタル彼女 <span class="w-en">Overcharged
+                    Romance</span></a>
+            <a href="when-stormy-whether.html" class="w-item reveal">恋の天気予報士 <span class="w-en">When stormy
+                    whether</span></a>
+            <a href="papers-purity-performance.html" class="w-item reveal">逆タイムカプセル <span class="w-en">Papers purity
+                    performance</span></a>
+            <a href="hateful-rough-story.html" class="w-item reveal">傷だらけの熱田さん <span class="w-en">Hateful rough
+                    Story</span></a>
+            <a href="feline-fade-out.html" class="w-item reveal">猫のように君は去る <span class="w-en">feline fade out</span></a>
+            <a href="half-winged-halt.html" class="w-item reveal">片翼 <span class="w-en">half winged halt</span></a>
+            <a href="corona-borealis.html" class="w-item reveal">冠の星 <span class="w-en">corona borealis</span></a>
+            <a href="trade-and-taste.html" class="w-item reveal">お弁当のかたより <span class="w-en">trade and taste</span></a>
+            <a href="raining-ruin-letter.html" class="w-item reveal">雪解けの春 <span class="w-en">raining ruin
+                    letter</span></a>
+            <a href="heat-charge.html" class="w-item reveal">冷蔵庫に込める愛 <span class="w-en">heat charge</span></a>
+            <a href="#" class="w-item reveal">縁絶ゆ</a>
+            <a href="imprisonment-by-relatives.html" class="w-item reveal">親近拘束</a>
+        </div>
 
-    <div class="category-name">連載メイン / ゲームシナリオ</div>
-    <div class="works-grid">
-        <a href="roborista.html" class="w-item">ROBORISTA</a>
-        <a href="doomsday-syndromes.html" class="w-item">DOOMSDAY SYNDROMES</a>
-        <a href="flowers-in-may.html" class="w-item">花、咲き揃うまで</a>
-        <a href="voltage-bandit.html" class="w-item">VOLTAGE BANDIT</a>
-        <a href="broken-fantasia.html" class="w-item">BROKEN FANTASIA</a>
-        <a href="exaxion.html" class="w-item">Exaxion（XX）</a>
-        <a href="fault-line.html" class="w-item">FAULT LINE</a>
-        <a href="syntox.html" class="w-item">SYNTOX</a>
-        <a href="twisted-children.html" class="w-item">TwisteD Children</a>
-        <a href="session-in-last.html" class="w-item">死刑囚の学校</a>
-        <a href="fearless-tellers.html" class="w-item">FEARLESS TELLERS</a>
-        <a href="gacha=deus.html" class="w-item">GACHA=DEUS</a>
-        <a href="without-gospel.html" class="w-item">無法聖典</a>
-        <a href="unlabel-love.html" class="w-item">#Unlabel Love</a>
-        <a href="signia.html" class="w-item">SIGNIA</a>
-        <a href="tool-or-human.html" class="w-item">なりきれない僕らは</a>
-        <a href="undingduty.html" class="w-item">UNDYING DUTY</a>
-        <a href="justify-paragon.html" class="w-item">JUSTIFY PARAGON</a>
-        <a href="recyclerecital.html" class="w-item">Re:cycle Re:cital</a>
-        <a href="milkprotocol.html" class="w-item">MILK PROTOCOL</a>
-        <a href="love-comi-cleanup.html" class="w-item">ラブコメディの後始末</a>
-        <a href="urbansick.html" class="w-item">都会旅団</a>
-        <a href="foaming-brain.html" class="w-item">泡立つ脳</a>
-        <a href="lovely-buddy.html" class="w-item">Lovely Buddy</a>
-        <a href="fitmatch.html" class="w-item">Fit Match</a>
-        <a href="closetandcontact.html" class="w-item">密室&密着</a>
-        <a href="accidentoclock.html" class="w-item">アクシデント・オ・クロック</a>
-        <a href="epocadejulgamento.html" class="w-item">エポカ・デ・ジュルガメント</a>
-        <a href="boy-in-a-wedding-dress.html" class="w-item">男の子のウェディングドレス</a>
-        <a href="carrington-eve.html" class="w-item">キャリントン・イブ</a>
-        <a href="villainess-dog.html" class="w-item">悪役令嬢-犬</a>
-        <a href="rainingscreech.html" class="w-item">Raining Screech</a>
-        <a href="frenchguilty.html" class="w-item">夫人革命逃亡記</a>
-        <a href="dirtydetective.html" class="w-item">Dirty Detective</a>
-        <a href="heartattackdiva.html" class="w-item">ハートアタック・ディーヴァ</a>
-        <a href="torutsume.html" class="w-item">トルツメ</a>
-        <a href="twobirdsascent.html" class="w-item">二羽トリ</a>
-        <a href="datchwife.html" class="w-item">障碍者向け風俗の話</a>
-        <a href="#" class="w-item">全体的知的衰弱論</a>
-    </div>
+        <div class="category-name reveal">連載メイン / ゲームシナリオ</div>
+        <div class="works-grid">
+            <a href="roborista.html" class="w-item reveal">ROBORISTA</a>
+            <a href="doomsday-syndromes.html" class="w-item reveal">DOOMSDAY SYNDROMES</a>
+            <a href="flowers-in-may.html" class="w-item reveal">花、咲き揃うまで</a>
+            <a href="voltage-bandit.html" class="w-item reveal">VOLTAGE BANDIT</a>
+            <a href="broken-fantasia.html" class="w-item reveal">BROKEN FANTASIA</a>
+            <a href="exaxion.html" class="w-item reveal">Exaxion（XX）</a>
+            <a href="fault-line.html" class="w-item reveal">FAULT LINE</a>
+            <a href="syntox.html" class="w-item reveal">SYNTOX</a>
+            <a href="twisted-children.html" class="w-item reveal">TwisteD Children</a>
+            <a href="session-in-last.html" class="w-item reveal">死刑囚の学校</a>
+            <a href="fearless-tellers.html" class="w-item reveal">FEARLESS TELLERS</a>
+            <a href="gacha=deus.html" class="w-item reveal">GACHA=DEUS</a>
+            <a href="without-gospel.html" class="w-item reveal">無法聖典</a>
+            <a href="unlabel-love.html" class="w-item reveal">#Unlabel Love</a>
+            <a href="signia.html" class="w-item reveal">SIGNIA</a>
+            <a href="tool-or-human.html" class="w-item reveal">なりきれない僕らは</a>
+            <a href="undingduty.html" class="w-item reveal">UNDYING DUTY</a>
+            <a href="justify-paragon.html" class="w-item reveal">JUSTIFY PARAGON</a>
+            <a href="recyclerecital.html" class="w-item reveal">Re:cycle Re:cital</a>
+            <a href="milkprotocol.html" class="w-item reveal">MILK PROTOCOL</a>
+            <a href="love-comi-cleanup.html" class="w-item reveal">ラブコメディの後始末</a>
+            <a href="urbansick.html" class="w-item reveal">都会旅団</a>
+            <a href="foaming-brain.html" class="w-item reveal">泡立つ脳</a>
+            <a href="lovely-buddy.html" class="w-item reveal">Lovely Buddy</a>
+            <a href="fitmatch.html" class="w-item reveal">Fit Match</a>
+            <a href="closetandcontact.html" class="w-item reveal">密室&amp;密着</a>
+            <a href="accidentoclock.html" class="w-item reveal">アクシデント・オ・クロック</a>
+            <a href="epocadejulgamento.html" class="w-item reveal">エポカ・デ・ジュルガメント</a>
+            <a href="boy-in-a-wedding-dress.html" class="w-item reveal">男の子のウェディングドレス</a>
+            <a href="carrington-eve.html" class="w-item reveal">キャリントン・イブ</a>
+            <a href="villainess-dog.html" class="w-item reveal">悪役令嬢-犬</a>
+            <a href="rainingscreech.html" class="w-item reveal">Raining Screech</a>
+            <a href="frenchguilty.html" class="w-item reveal">夫人革命逃亡記</a>
+            <a href="dirtydetective.html" class="w-item reveal">Dirty Detective</a>
+            <a href="heartattackdiva.html" class="w-item reveal">ハートアタック・ディーヴァ</a>
+            <a href="torutsume.html" class="w-item reveal">トルツメ</a>
+            <a href="twobirdsascent.html" class="w-item reveal">二羽トリ</a>
+            <a href="datchwife.html" class="w-item reveal">障碍者向け風俗の話</a>
+            <a href="#" class="w-item reveal">全体的知的衰弱論</a>
+        </div>
 
-    <div class="category-name">継承物語群</div>
-    <div class="works-grid">
-        <a href="declarationtostars.html" class="w-item">平和戦記</a>
-        <a href="kingssword.html" class="w-item">KINGS SWORD</a>
-        <a href="exaltorfall.html" class="w-item">Exalt or Fall</a>
-        <a href="poeticwaltz.html" class="w-item">継承物語</a>
-    </div>
+        <div class="category-name reveal">継承物語群</div>
+        <div class="works-grid">
+            <a href="declarationtostars.html" class="w-item reveal">平和戦記</a>
+            <a href="kingssword.html" class="w-item reveal">KINGS SWORD</a>
+            <a href="exaltorfall.html" class="w-item reveal">Exalt or Fall</a>
+            <a href="poeticwaltz.html" class="w-item reveal">継承物語</a>
+        </div>
 
-    <div class="category-name">拝金主義四部作</div>
-    <div class="works-grid">
-        <a href="#" class="w-item">拝金主義</a>
-        <a href="#" class="w-item">廃金主義</a>
-        <a href="#" class="w-item">廃吟主義</a>
-        <a href="#" class="w-item">配金主義</a>
-    </div>
+        <div class="category-name reveal">拝金主義四部作</div>
+        <div class="works-grid">
+            <a href="#" class="w-item reveal">拝金主義</a>
+            <a href="#" class="w-item reveal">廃金主義</a>
+            <a href="#" class="w-item reveal">廃吟主義</a>
+            <a href="#" class="w-item reveal">配金主義</a>
+        </div>
 
-    <div class="category-name">ネガティブ･フェイス三部作</div>
-    <div class="works-grid">
-        <a href="looks-of-me.html" class="w-item">Looks of me</a><a href="updown-swap.html" class="w-item">UP DOWN SWAP</a>
-        <a href="broken-heart-doctor.html" class="w-item">失恋専門医</a>
-    </div>
+        <div class="category-name reveal">ネガティブ･フェイス三部作</div>
+        <div class="works-grid">
+            <a href="looks-of-me.html" class="w-item reveal">Looks of me</a>
+            <a href="updown-swap.html" class="w-item reveal">UP DOWN SWAP</a>
+            <a href="broken-heart-doctor.html" class="w-item reveal">失恋専門医</a>
+        </div>
 
-    <div class="category-name">Truth Cascades三部作</div>
-    <div class="works-grid">
-        <a href="holmes-return.html" class="w-item">Holmes Return</a>
-        <a href="kelvin-market.html" class="w-item">KELVIN MARKET</a>
-        <a href="legal-weapon.html" class="w-item">LEGAL WEAPON</a>
-    </div>
+        <div class="category-name reveal">Truth Cascades三部作</div>
+        <div class="works-grid">
+            <a href="holmes-return.html" class="w-item reveal">Holmes Return</a>
+            <a href="kelvin-market.html" class="w-item reveal">KELVIN MARKET</a>
+            <a href="legal-weapon.html" class="w-item reveal">LEGAL WEAPON</a>
+        </div>
 
-    <div class="category-name">シンギュラー･シグナルス三部作</div>
-    <div class="works-grid">
-        <a href="canonization.html" class="w-item">列聖</a>
-        <a href="martyrdom.html" class="w-item">殉教</a>
-        <a href="longinus.html" class="w-item">LONGINUS</a>
-        <a href="ignis-ad-ignem.html" class="w-item">イグニス・アド・イグネム</a>
-    </div>
+        <div class="category-name reveal">シンギュラー･シグナルス三部作</div>
+        <div class="works-grid">
+            <a href="canonization.html" class="w-item reveal">列聖</a>
+            <a href="martyrdom.html" class="w-item reveal">殉教</a>
+            <a href="longinus.html" class="w-item reveal">LONGINUS</a>
+            <a href="ignis-ad-ignem.html" class="w-item reveal">イグニス・アド・イグネム</a>
+        </div>
 
-    <div class="category-name">Ordeals of Sky三部作 / TRPG</div>
-    <div class="works-grid">
-        <a href="ordealsofsky.html" class="w-item">狂気の機関車ショー</a>
-        <a href="ordealsofsky.html" class="w-item">全て、白日の元に</a>
-        <a href="ordealsofsky.html" class="w-item">閉鎖海岸/平坂異岸</a>
-        <a href="ordealsofsky.html" class="w-item">悪夢の氾濫/認知的不協和</a>
-        <a href="ordealsofsky.html" class="w-item">届かねばならぬ場所/心不在</a>
-    </div>
+        <div class="category-name reveal">Ordeals of Sky三部作 / TRPG</div>
+        <div class="works-grid">
+            <a href="ordealsofsky.html" class="w-item reveal">狂気の機関車ショー</a>
+            <a href="ordealsofsky.html" class="w-item reveal">全て、白日の元に</a>
+            <a href="ordealsofsky.html" class="w-item reveal">閉鎖海岸/平坂異岸</a>
+            <a href="ordealsofsky.html" class="w-item reveal">悪夢の氾濫/認知的不協和</a>
+            <a href="ordealsofsky.html" class="w-item reveal">届かねばならぬ場所/心不在</a>
+        </div>
 
-    <div class="category-name">諸国民の神五部作</div>
-    <div class="works-grid">
-        <a href="aninquiryintothenatureandcausesofthedeitiesofnations.html" class="w-item">天与歴程/肯定と新しい心</a>
-        <a href="aninquiryintothenatureandcausesofthedeitiesofnations.html" class="w-item">大きな森の小さな人間/種の棄権</a>
-        <a href="aninquiryintothenatureandcausesofthedeitiesofnations.html" class="w-item">諸国民の神/宇宙の長い午後</a>
-        <a href="aninquiryintothenatureandcausesofthedeitiesofnations.html" class="w-item">護教正義/急約聖書</a>
-        <a href="aninquiryintothenatureandcausesofthedeitiesofnations.html" class="w-item">功労夢/欠落園</a>
-    </div>
-    <div class="category-name">深海勲章三部作</div>
-    <div class="works-grid">
-        <a href="shinkaikunsho.html" class="w-item">ノーティス・ノーチラス</a>
-        <a href="shinkaikunsho.html" class="w-item">クラシック・クラスター</a>
-        <a href="shinkaikunsho.html" class="w-item">シー・ユー・メイビー</a>
-    </div>
-</div>
+        <div class="category-name reveal">諸国民の神五部作</div>
+        <div class="works-grid">
+            <a href="aninquiryintothenatureandcausesofthedeitiesofnations.html" class="w-item reveal">天与歴程/肯定と新しい心</a>
+            <a href="aninquiryintothenatureandcausesofthedeitiesofnations.html"
+                class="w-item reveal">大きな森の小さな人間/種の棄権</a>
+            <a href="aninquiryintothenatureandcausesofthedeitiesofnations.html" class="w-item reveal">諸国民の神/宇宙の長い午後</a>
+            <a href="aninquiryintothenatureandcausesofthedeitiesofnations.html" class="w-item reveal">護教正義/急約聖書</a>
+            <a href="aninquiryintothenatureandcausesofthedeitiesofnations.html" class="w-item reveal">功労夢/欠落園</a>
+        </div>
 
-<footer style="text-align: center; padding: 60px 0; color: #8b949e; font-size: 0.9rem; border-top: 1px solid var(--border);">
-    &copy; Stadio Vault - Terminal Index
-</footer>
+        <div class="category-name reveal">深海勲章三部作</div>
+        <div class="works-grid">
+            <a href="shinkaikunsho.html" class="w-item reveal">ノーティス・ノーチラス</a>
+            <a href="shinkaikunsho.html" class="w-item reveal">クラシック・クラスター</a>
+            <a href="shinkaikunsho.html" class="w-item reveal">シー・ユー・メイビー</a>
+        </div>
 
-<script>
-(function() {
-    // === 1. 作品マスターリスト（ここに追加すれば自動で反映される） ===
-    const WORKS_DATA = {
-        "list-upcoming": [ // 新作・公開予定
-            { t: "クトゥルフ飯", u: "cthulhumeshi.html" },
-            { t: "アウステルリッツ", u: "#" },
-            { t: "シモン=ボリバル", u: "simon-bolivar.html" },
-            { t: "世界史の悪役令嬢", u: "#" },
-            { t: "チータープール", u: "cheaterpool.html" },
-            { t: "低予算世界侵略部", u: "#" }
-        ],
-        "list-december": [ // 12月投稿短編
-            { t: "私なら伝えられる", u: "relation-translation.html", en: "Relation Translation" },
-            { t: "猫の花泥棒", u: "faded-floral-felon.html", en: "Faded Floral Felon" },
-            { t: "陸上部vs美術部", u: "tracks-and-strucks.html", en: "Tracks and Strucks" }
-        ],
-        "list-main": [ // 連載メイン
-            { t: "ROBORISTA", u: "roborista.html" },
-            { t: "DOOMSDAY SYNDROMES", u: "doomsday-syndromes.html" },
-            { t: "全体的知的衰弱論", u: "#" }
-        ]
-    };
+    </div><!-- end .container -->
 
-    // --- 2. 作品リストの自動生成 ---
-    Object.keys(WORKS_DATA).forEach(id => {
-        const container = document.getElementById(id);
-        if (container) {
-            container.innerHTML = WORKS_DATA[id].map(work => `
-                <a href="${work.u}" class="w-item reveal">
-                    ${work.t}
-                    ${work.en ? `<span class="w-en">${work.en}</span>` : ""}
-                </a>
-            `).join("");
-        }
-    });
+    <footer>&#169; Stadio Vault — Official Terminal</footer>
 
-    // --- 3. 背景グリッドのランダム化（復活！） ---
-    const bgGrid = document.getElementById('cover-bg-grid');
-    if (bgGrid) {
-        const TOTAL_BGS = 34;
-        const bgNums = Array.from({length: TOTAL_BGS}, (_, i) => i + 1).sort(() => Math.random() - 0.5);
-        bgNums.slice(0, 4).forEach(n => {
-            const img = document.createElement('img');
-            img.src = `image/background-${n}.png`;
-            bgGrid.appendChild(img);
-        });
-    }
-
-    // --- 4. ロゴのランダム化（1,2,3,5） ---
-    const logoImg = document.getElementById('cover-logo');
-    if (logoImg) {
-        const validLogos = [1, 2, 3, 5];
-        const choice = validLogos[Math.floor(Math.random() * validLogos.length)];
-        logoImg.src = `image/logo-${choice}.png`;
-    }
-
-    // --- 5. スクロール処理（ヘッダー & 浮き上がり演出） ---
-    window.addEventListener('scroll', () => {
-        const header = document.getElementById('masthead');
-        if (header) header.classList.toggle('scrolled', window.scrollY > 80);
-
-        document.querySelectorAll('.reveal').forEach(el => {
-            if (el.getBoundingClientRect().top < window.innerHeight - 50) {
-                el.classList.add('active');
+    <script>
+        (function () {
+            // 背景グリッドランダム化
+            const bgGrid = document.getElementById('cover-bg-grid');
+            if (bgGrid) {
+                const TOTAL = 34;
+                const nums = Array.from({ length: TOTAL }, (_, i) => i + 1).sort(() => Math.random() - .5);
+                nums.slice(0, 4).forEach(n => {
+                    const img = document.createElement('img');
+                    img.src = `image/background-${n}.png`;
+                    bgGrid.appendChild(img);
+                });
             }
-        });
-    });
-})();
-</script>
-
+            // ロゴランダム化
+            const logoImg = document.getElementById('cover-logo');
+            if (logoImg) {
+                const logos = [1, 2, 3, 5];
+                logoImg.src = `image/logo-${logos[Math.floor(Math.random() * logos.length)]}.png`;
+            }
+            // reveal
+            function runReveal() {
+                document.querySelectorAll('.reveal').forEach(el => {
+                    if (el.getBoundingClientRect().top < window.innerHeight - 50) {
+                        el.classList.add('active');
+                    }
+                });
+            }
+            // スクロール
+            window.addEventListener('scroll', () => {
+                document.getElementById('masthead').classList.toggle('scrolled', window.scrollY > 80);
+                runReveal();
+            });
+            runReveal();
+        })();
+    </script>
 </body>
 
 </html>
