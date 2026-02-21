@@ -1,134 +1,265 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>作品詳細 - Stadio Vault</title>
+    <title>UNDYING DUTY - Stadio Vault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
     <style>
-        /* === 1. 基本スタイル === */
         :root {
-            --primary: #58a6ff;
-            --overlay-bg: rgba(217, 217, 217, 0.85);
-            --btn-red: #ff3333;
-            --text-black: #000;
+            --accent: #39ff14;
+            --accent-dim: #1a7a08;
+            --overlay: rgba(0, 8, 2, 0.78);
+            --text: #d6f5d6;
+            --text-dim: #6b9e6b;
+            --border: rgba(57, 255, 20, 0.35);
         }
 
-        body, html {
-            margin: 0; padding: 0; height: 100%;
-            font-family: "Courier New", "MS Gothic", monospace;
-            background-color: #000;
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body,
+        html {
+            height: 100%;
+            font-family: 'Noto Serif JP', 'Georgia', serif;
+            background: #000;
             overflow: hidden;
         }
 
         .work-background {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: url('image/undingduty.png') no-repeat center center;
+            inset: 0;
+            background-image:url('image/undingduty.png');
             background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             z-index: 1;
-            filter: brightness(0.8);
+            filter: brightness(0.7) saturate(0.6);
+            animation: bgBreath 8s ease-in-out infinite;
         }
 
-        /* === 3. コンテンツ外枠 === */
+        @keyframes bgBreath {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.03);
+            }
+        }
+
+        .scanlines {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0, 0, 0, 0.08) 3px, rgba(0, 0, 0, 0.08) 4px);
+            pointer-events: none;
+        }
+
         .main-container {
             position: relative;
             z-index: 10;
             width: 90%;
-            max-width: 650px;
+            max-width: 640px;
             height: 90vh;
             margin: 5vh auto;
-            background: var(--overlay-bg);
-            border: 4px solid #000;
+            background: var(--overlay);
+            border: 1px solid var(--border);
+            box-shadow: 0 0 40px rgba(57, 255, 20, 0.12);
             display: flex;
             flex-direction: column;
-            padding: 40px;
-            box-sizing: border-box;
-            color: var(--text-black);
+            padding: 36px 40px 30px;
+            animation: cFade .9s cubic-bezier(.22, 1, .36, 1) both;
         }
 
-        /* === 4. テキスト要素 === */
+        @keyframes cFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-container::before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            margin-bottom: 20px;
+            flex-shrink: 0;
+            animation: lineGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes lineGlow {
+
+            0%,
+            100% {
+                opacity: .5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
         .catch-copy {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin: 0;
-            letter-spacing: 1px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .85rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            opacity: 0;
+            animation: tIn .6s .3s ease forwards;
         }
 
         .work-title {
-            font-size: 3.5rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 3.4rem;
             font-weight: 900;
-            margin: 10px 0;
-            line-height: 1.1;
-            letter-spacing: 2px;
+            color: #fff;
+            line-height: 1.0;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(57, 255, 20, .4);
+            opacity: 0;
+            animation: tIn .6s .45s ease forwards;
         }
 
         .meta-info {
-            font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 20px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .82rem;
+            color: var(--text-dim);
+            letter-spacing: 3px;
+            border-left: 2px solid var(--accent-dim);
+            padding-left: 10px;
+            margin-bottom: 22px;
+            opacity: 0;
+            animation: tIn .6s .6s ease forwards;
         }
 
-        /* あらすじエリア */
         .synopsis-box {
             flex-grow: 1;
-            font-size: 1.05rem;
-            line-height: 1.7;
-            font-weight: bold;
+            font-size: 1rem;
+            line-height: 1.85;
+            color: var(--text);
             overflow-y: auto;
-            margin-bottom: 20px;
-            padding-right: 10px;
+            margin-bottom: 22px;
+            padding-right: 8px;
             white-space: pre-wrap;
+            border-left: 1px solid var(--border);
+            padding-left: 16px;
+            opacity: 0;
+            animation: tIn .7s .75s ease forwards;
         }
 
-        /* === 5. ボタン群 === */
+        .synopsis-box::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .synopsis-box::-webkit-scrollbar-thumb {
+            background: var(--accent-dim);
+        }
+
+        @keyframes tIn {
+            from {
+                opacity: 0;
+                transform: translateX(-8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
         .button-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 10px;
+            gap: 12px;
+            opacity: 0;
+            animation: tIn .6s 1s ease forwards;
         }
 
         .action-btn {
-            background: var(--btn-red);
-            color: #fff;
+            background: transparent;
+            color: var(--accent);
             text-decoration: none;
             text-align: center;
-            padding: 12px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            border-radius: 25px;
-            border: 3px solid #fff;
-            box-shadow: 3px 3px 0px #000;
-            transition: transform 0.1s;
+            padding: 11px 10px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .82rem;
+            letter-spacing: 1px;
+            border: 1px solid var(--accent);
+            transition: background .2s, color .2s;
         }
-        .action-btn:hover { transform: scale(1.03); }
-        .action-btn::after { content: " ▶"; font-size: 0.7rem; }
+
+        .action-btn:hover {
+            background: rgba(57, 255, 20, .15);
+            color: #9fffb0;
+        }
 
         .back-nav {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 22px;
+            right: 22px;
             z-index: 100;
             background: #000;
-            color: var(--primary);
-            padding: 8px 15px;
+            color: var(--accent);
+            padding: 8px 16px;
             text-decoration: none;
-            border: 1px solid var(--primary);
-            font-weight: bold;
+            border: 1px solid var(--accent);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .78rem;
+            letter-spacing: 2px;
+            transition: background .2s, color .2s;
+        }
+
+        .back-nav:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        @media(max-width:600px) {
+            .main-container {
+                padding: 24px 20px 20px;
+                height: 95vh;
+                margin: 2.5vh auto;
+            }
+
+            .work-title {
+                font-size: 2.2rem;
+            }
+
+            .button-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
-
     <div class="work-background"></div>
-
+    <div class="scanlines"></div>
     <div class="main-container">
         <p class="catch-copy">認知の歪みは、死の軽減である。</p>
-
         <h1 class="work-title">UNDYING DUTY</h1>
-
         <p class="meta-info">NOVEL / Philosophical SF</p>
-
         <div class="synopsis-box">老人排除のための「長寿税」が課された歪んだ社会。
 死を避けるために不老不死の技術が生まれたが、それは死の恐怖から逃れる代償として、生の燃焼を止めてしまうものでもあった。
 
@@ -137,16 +268,12 @@
 
 桜は散るからこそ美しく、不死は生を停滞させる。
 限りある命の価値を問い直す、静かなる抵抗の物語。</div>
-
-        <div class="button-grid">
+        <div class="button-grid"><a href="#" class="action-btn">準備中</a>
             <a href="#" class="action-btn">準備中</a>
             <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a>
-        </div>
+            <a href="#" class="action-btn">準備中</a></div>
     </div>
-
-    <a href="index.html" class="back-nav">RETURN TO TERMINAL</a>
-
+    <a href="index.html" class="back-nav">&#8592; RETURN</a>
 </body>
+
 </html>
