@@ -1,145 +1,520 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>伊阪証 - 概要 | Stadio Vault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Cinzel:wght@400;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --primary: #58a6ff;
-            --bg-dark: #0d1117;
-            --overlay-bg: rgba(217, 217, 217, 0.85);
-            --border: #30363d;
+            --gold: #c4a44a;
+            --gold-light: #e8cc78;
+            --gold-dim: rgba(196, 164, 74, .3);
+            --ink: #f0ede6;
+            --bg: #0a0a08;
+            --border: rgba(196, 164, 74, .35);
         }
 
-        body, html {
-            margin: 0; padding: 0;
-            font-family: "Courier New", "MS Gothic", monospace;
-            background-color: #f0f0ee;
-            color: #000;
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        /* ヘッダー継続表示 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            /* 背景を「画面の横幅いっぱい」にする */
+            background: url('image/about.png') no-repeat top center;
+            background-size: 100% auto; 
+    
+            /* 背景を画面に固定する設定を「解除」する */
+            background-attachment: scroll; 
+        
+            /* 重要：縦長のキャラ（3375x6000）の比率に合わせて、ページの長さを確保する */
+            min-height: calc(100vw * (6000 / 3375)); 
+
+            font-family: 'Noto Serif JP', serif;
+            color: #333;
+            overflow-x: hidden; /* 横揺れ防止 */
+        }
+
+        /* ========== 全画面固定アニメーション背景 ========== */
+        /* ========== 背景の修正 ========== */
+        #global-bg {
+            /* fixed を absolute に変更 */
+            position: absolute; 
+            top: 0;
+            left: 0;
+            width: 100%;
+
+            /* 縦長の画像 (3375x6000) の比率を維持して、足元まで高さを出す */
+            height: auto;
+            aspect-ratio: 3375 / 6000;
+
+            background: url('image/about.png') no-repeat center top;
+            background-size: 100% auto;
+            z-index: 0;
+
+            filter: brightness(.65);
+            /* スクロールで見せたい場合は、一旦アニメーションを外すか調整します */
+            /* animation: bgPan 20s ease-in-out infinite alternate; */
+        }
+
+        @keyframes bgPan {
+            from {
+                transform: scale(1.06) translateX(12px);
+            }
+
+            to {
+                transform: scale(1.00) translateX(-12px);
+            }
+        }
+
+        /* 全コンテンツは z-index:1 以上で重ねる */
+        #masthead,
+        #hero,
+        .page-content,
+        .back-nav {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========== 固定ヘッダー ========== */
         #masthead {
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            height: 120px;
-            z-index: 10000;
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000 !important;
+            height: 80px;
             background: transparent;
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
+            transition: background .4s, border-bottom .4s;
         }
 
         #masthead.scrolled {
-            height: 80px;
-            background: rgba(13, 17, 23, 0.95) !important;
+            background: rgba(8, 6, 2, .92);
             border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
         }
 
         .header-inner {
-            width: 100%; max-width: 1400px; margin: 0 auto;
-            display: flex; justify-content: space-between; align-items: center; padding: 0 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
         }
 
-        .custom-logo { height: 85px; width: auto; filter: drop-shadow(0 0 12px rgba(255,255,255,0.4)); }
+        .brand img {
+            height: 60px;
+            filter: drop-shadow(0 0 10px rgba(196, 164, 74, .4));
+        }
+
+        .primary-nav {
+            display: flex;
+            gap: 32px;
+        }
 
         .primary-nav a {
-            color: #fff !important; font-size: 1.8rem; font-weight: 900;
-            text-decoration: none; text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
-            margin-left: 35px;
+            color: var(--ink);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color .2s;
         }
 
-        /* 背景：横幅に合わせて、9:16 の比率で高さを自動決定する */
-.scroll-container {
-    width: 100%;
-    background: url('image/about.png') no-repeat top center;
-    background-size: 100% auto; 
-    padding-top: 120px;
-    display: flex;
-    flex-direction: column;
-
-    /* 正確な比率（9:16）を適用 */
-    aspect-ratio: 3375 / 6000; 
-}
-
-        .text-top-box {
-            width: 100%; background: var(--overlay-bg);
-            padding: 50px 20px; box-sizing: border-box; text-align: center;
-            border-bottom: 2px solid rgba(0,0,0,0.1);
+        .primary-nav a:hover {
+            color: var(--gold-light);
         }
 
-        .about-title { font-size: 3rem; font-weight: 900; margin: 0 0 25px 0; letter-spacing: 5px; }
+        @media (max-width:640px) {
+            .header-inner {
+                padding: 0 20px;
+            }
 
-        .about-description {
-            max-width: 900px; margin: 0 auto; text-align: left;
-            font-size: 1.2rem; line-height: 1.9; font-weight: bold; white-space: pre-wrap;
+            .primary-nav {
+                gap: 16px;
+            }
+
+            .primary-nav a {
+                font-size: .8rem;
+                letter-spacing: 1px;
+            }
+
+            .brand img {
+                height: 44px;
+            }
         }
 
-        /* ツールセクション：固定のマージンではなく、中身に応じて配置 */
-        .tool-section {
-            padding: 100px 0 200px 20%; /* 下部に十分な余白を持たせてスクロールを確保 */
-            display: inline-block;
+        /* ========== ヒーロー ========== */
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
 
-        .tool-title { font-size: 2.5rem; font-weight: 900; border-bottom: 4px solid #000; margin-bottom: 10px; }
-        .tool-list { font-size: 1.6rem; font-weight: bold; line-height: 1.5; }
+        /* hero内のビネット（軽め） */
+        .hero-vignette {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, .4) 100%);
+        }
 
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            animation: hFade 1.2s ease both;
+        }
+
+        @keyframes hFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-rule {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            justify-content: center;
+        }
+
+        .hero-rule::before,
+        .hero-rule::after {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold));
+        }
+
+        .hero-rule::after {
+            background: linear-gradient(90deg, var(--gold), transparent);
+        }
+
+        .hero-rule-icon {
+            color: var(--gold);
+        }
+
+        .hero-label {
+            font-family: 'Cinzel', serif;
+            font-size: .8rem;
+            color: var(--gold);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            color: var(--ink);
+            line-height: 1.0;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, .8);
+            margin-bottom: 12px;
+        }
+
+        .hero-sub {
+            font-size: 1rem;
+            color: var(--gold);
+            letter-spacing: 4px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .scroll-arrow {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            color: var(--gold-dim);
+            font-size: 1.6rem;
+            animation: arrowBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes arrowBounce {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(8px);
+            }
+        }
+
+        /* ========== メインコンテンツ ========== */
+        .page-content {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 100px 40px 120px;
+        }
+
+        @media (max-width:640px) {
+            .page-content {
+                padding: 80px 24px 80px;
+            }
+        }
+
+        .section-deco {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 32px;
+        }
+
+        .section-deco::before,
+        .section-deco::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold-dim), transparent);
+        }
+
+        .section-deco::after {
+            background: linear-gradient(90deg, transparent, var(--gold-dim));
+        }
+
+        .section-deco-icon {
+            color: var(--gold);
+            font-size: .9rem;
+        }
+
+        /* コンセプトブロック（半透明で背景が透ける） */
+        .concept-block {
+            background: rgba(4, 4, 6, .72);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--gold);
+            padding: 40px 44px;
+            margin-bottom: 60px;
+            animation: sRise .9s .2s ease both;
+        }
+
+        @keyframes sRise {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .concept-block p {
+            font-size: 1.05rem;
+            line-height: 2.1;
+            color: var(--ink);
+            white-space: pre-wrap;
+        }
+
+        @media (max-width:640px) {
+            .concept-block {
+                padding: 28px 22px;
+            }
+
+            .concept-block p {
+                font-size: .95rem;
+            }
+        }
+
+        .gold-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 48px 0;
+        }
+
+        .gold-divider::before,
+        .gold-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--gold-dim);
+        }
+
+        .gold-divider-icon {
+            color: var(--gold-dim);
+            font-size: .85rem;
+        }
+
+        /* ナビボタン（半透明） */
+        .nav-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 48px;
+        }
+
+        .nav-btn {
+            display: block;
+            text-decoration: none;
+            background: rgba(4, 4, 6, .68);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--border);
+            padding: 16px 20px;
+            color: var(--ink);
+            font-family: 'Noto Serif JP', serif;
+            font-size: .9rem;
+            letter-spacing: 1px;
+            text-align: center;
+            transition: background .25s, border-color .25s, color .25s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(196, 164, 74, .12);
+            border-color: var(--gold);
+            color: var(--gold-light);
+        }
+
+        .nav-btn-label {
+            display: block;
+            font-size: .7rem;
+            color: var(--gold);
+            letter-spacing: 3px;
+            margin-bottom: 6px;
+        }
+
+        @media (max-width:640px) {
+            .nav-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 固定戻るボタン */
         .back-nav {
-            position: fixed; bottom: 30px; right: 30px; z-index: 10001;
-            background: #000; color: var(--primary); padding: 10px 20px;
-            text-decoration: none; border: 2px solid var(--primary); font-weight: bold;
+            position: fixed !important;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
+            background: rgba(4, 4, 6, .76);
+            backdrop-filter: blur(6px);
+            color: var(--gold);
+            padding: 9px 18px;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            font-family: 'Noto Serif JP', serif;
+            font-size: .8rem;
+            letter-spacing: 2px;
+            transition: background .2s, border-color .2s;
+        }
+
+        .back-nav:hover {
+            background: rgba(196, 164, 74, .1);
+            border-color: var(--gold);
         }
     </style>
 </head>
 
 <body>
-<header id="masthead">
-    <div class="header-inner">
-        <a href="index.html" class="brand"><img src="image/main-logo.png" alt="伊阪 証" class="custom-logo"></a>
-        <nav class="primary-nav">
-            <a href="about.html">概要</a>
-            <a href="index.html#links">リンク</a>
-            <a href="index.html#works">作品</a>
-        </nav>
-    </div>
-</header>
 
-<div class="scroll-container">
-    <div class="text-top-box">
-        <h1 class="about-title">伊阪証 - 概要</h1>
-        <div class="about-description">
-伊阪証は、バトンリレーの形式で継続していく企画だ。
-ただ、その継続は保証されていない。
-誰かが忙しくなる。気持ちが途切れる。次が来ない。
-それだけで、いとも簡単に止まる。
-だから、この企画は人間の善意だけに賭けない。
-止まる前に、広げる。止まりかけたら、加速させる。
-そのために、Aiに対応したモデルを作る。
-続いてほしいから、次へ渡る確率を増やす。
-同時に、これは爆発でもある。
-それはやがて届かねばならぬ場所でもある。
-そして、これは実験だ。
-人から人へ渡るはずのバトンを、機械の拡散で増幅させたとき、
-それは「継続」と呼べるのか。文化として成立するのか。
-最後に、これは改造だ。
-止まることを前提に作られた形式を、止まりにくい形に組み替える。
-さぁ、全てを遥か遠い過去にしてやろう。
-…と、17年前に人工知能の黎明期と共に動かし始めた企画である。
-そして、漸く始まったのだ。
+    <!-- ページ全体を覆う固定アニメーション背景 -->
+    <div id="global-bg"></div>
+
+    <header id="masthead">
+        <div class="header-inner">
+            <a href="index.html" class="brand"><img src="image/main-logo.png" alt="伊阪証"></a>
+            <nav class="primary-nav">
+                <a href="about.html">概要</a>
+                <a href="index.html#links">リンク</a>
+                <a href="index.html#works">作品</a>
+            </nav>
         </div>
-    </div>
+    </header>
 
-<a href="index.html" class="back-nav">RETURN TO TERMINAL</a>
+    <section id="hero">
+        <div class="hero-vignette"></div>
+        <div class="hero-content">
+            <p class="hero-label">Stadio Vault — About</p>
+            <div class="hero-rule"><span class="hero-rule-icon">&#10022;</span></div>
+            <h1 class="hero-title">伊阪証</h1>
+            <p class="hero-sub">創作と継続の実験</p>
+        </div>
+        <div class="scroll-arrow">&#8964;</div>
+    </section>
 
-<script>
-    // ヘッダーのスクロール検知
-    window.addEventListener('scroll', () => {
-        const header = document.getElementById('masthead');
-        header.classList.toggle('scrolled', window.scrollY > 50);
-    });
-</script>
+    <main class="page-content">
+        <div class="section-deco"><span class="section-deco-icon">&#10022;</span></div>
 
+        <div class="concept-block">
+            <p>伊阪証は、バトンリレーの形式で継続していく企画だ。
+                ただ、その継続は保証されていない。
+                誰かが忙しくなる。気持ちが途切れる。次が来ない。
+                それだけで、いとも簡単に止まる。
+                だから、この企画は人間の善意だけに賭けない。
+                止まる前に、広げる。止まりかけたら、加速させる。
+                そのために、Aiに対応したモデルを作る。
+                続いてほしいから、次へ渡る確率を増やす。
+                同時に、これは爆発でもある。
+                それはやがて届かねばならぬ場所でもある。
+                そして、これは実験だ。
+                人から人へ渡るはずのバトンを、機械の拡散で増幅させたとき、
+                それは「継続」と呼べるのか。文化として成立するのか。
+                最後に、これは改造だ。
+                止まることを前提に作られた形式を、止まりにくい形に組み替える。
+                さぁ、全てを遥か遠い過去にしてやろう。
+                …と、17年前に人工知能の黎明期と共に動かし始めた企画である。
+                そして、漸く始まったのだ。</p>
+        </div>
+
+        <div class="gold-divider"><span class="gold-divider-icon">&#10022;</span></div>
+
+        <div class="nav-buttons">
+            <a href="index.html#works" class="nav-btn">
+                <span class="nav-btn-label">ARCHIVE</span>
+                作品一覧
+            </a>
+            <a href="OOSTRPG.html" class="nav-btn">
+                <span class="nav-btn-label">PROJECT</span>
+                OOSTRPG
+            </a>
+            <a href="index.html#links" class="nav-btn">
+                <span class="nav-btn-label">EXTERNAL</span>
+                外部リンク
+            </a>
+            <a href="index.html" class="nav-btn">
+                <span class="nav-btn-label">TERMINAL</span>
+                トップへ
+            </a>
+        </div>
+    </main>
+
+    <a href="index.html" class="back-nav">&#8592; RETURN</a>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            document.getElementById('masthead').classList.toggle('scrolled', window.scrollY > 60);
+        });
+    </script>
 </body>
 
 </html>
