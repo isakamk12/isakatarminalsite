@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Design Support - Stadio Vault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=UnifrakturMaguntia&family=Courier+Prime:ital@0;1&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --parchment: #f4f0e8;
+            --parchment-dark: #e8e0d0;
+            --ink: #1a1612;
+            --ink-light: #3d362c;
+            --ink-dim: #7a7060;
+            --red-accent: #8b2020;
+            --rule: #1a1612;
+            --rule-thin: rgba(26, 22, 18, .2);
+            --rule-thick: rgba(26, 22, 18, .65);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Serif JP', 'Georgia', serif;
+            background: var(--parchment);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        /* 微かな紙テクスチャ */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 28px, var(--rule-thin) 28px, var(--rule-thin) 29px);
+            opacity: .35;
+        }
+
+        /* ===== 固定ヘッダー ===== */
+        #masthead {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 48px;
+            background: var(--ink);
+            display: flex;
+            align-items: center;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-bar {
+            font-family: 'Courier Prime', monospace;
+            color: var(--parchment);
+            font-size: .72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            color: rgba(244, 240, 232, .6);
+            text-decoration: none;
+            font-family: 'Courier Prime', monospace;
+            font-size: .72rem;
+            letter-spacing: 1px;
+            transition: color .2s;
+        }
+
+        .nav-link:hover {
+            color: var(--parchment);
+        }
+
+        @media (max-width:640px) {
+            .header-inner {
+                padding: 0 16px;
+            }
+        }
+
+        /* ===== マストヘッド（新聞題字） ===== */
+        .newspaper-masthead {
+            position: relative;
+            z-index: 1;
+            padding: 100px 40px 48px;
+            text-align: center;
+            border-bottom: 4px double var(--rule);
+        }
+
+        .masthead-date {
+            font-family: 'Courier Prime', monospace;
+            font-size: .72rem;
+            color: var(--ink-dim);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .masthead-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 900;
+            color: var(--ink);
+            letter-spacing: 2px;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .masthead-subtitle {
+            font-family: 'Courier Prime', monospace;
+            font-size: .85rem;
+            color: var(--ink-dim);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .masthead-rule {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .masthead-rule::before,
+        .masthead-rule::after {
+            content: '';
+            width: 120px;
+            height: 1px;
+            background: var(--rule);
+        }
+
+        .masthead-rule-icon {
+            font-size: .6rem;
+            color: var(--ink-dim);
+        }
+
+        /* ===== 新聞風背景グリッド ===== */
+        #cover-bg-grid {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            opacity: .06;
+        }
+
+        #cover-bg-grid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(1) contrast(1.2);
+        }
+
+        /* ===== コンテンツ ===== */
+        .newspaper-body {
+            position: relative;
+            z-index: 1;
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 48px 40px 100px;
+        }
+
+        @media (max-width:640px) {
+            .newspaper-body {
+                padding: 32px 18px 60px;
+            }
+        }
+
+        /* 見出し飾り罫 */
+        .column-rule {
+            border: none;
+            border-top: 1px solid var(--rule-thick);
+            margin: 48px 0 12px;
+        }
+
+        .column-rule-double {
+            border: none;
+            border-top: 3px double var(--rule);
+            margin: 56px 0 16px;
+        }
+
+        /* セクション見出し */
+        .headline {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--ink);
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+        }
+
+        .headline::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--rule-thin);
+        }
+
+        .headline-sm {
+            font-family: 'Courier Prime', monospace;
+            font-size: .65rem;
+            color: var(--red-accent);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        /* リード文（左ボーダー） */
+        .lead-block {
+            border-left: 3px solid var(--ink);
+            padding: 24px 32px;
+            margin-bottom: 48px;
+            background: rgba(26, 22, 18, .03);
+        }
+
+        .lead-block p {
+            font-size: 1.06rem;
+            line-height: 2.0;
+        }
+
+        .lead-block strong {
+            color: var(--red-accent);
+            font-weight: 700;
+        }
+
+        @media (max-width:640px) {
+            .lead-block {
+                padding: 18px 18px;
+            }
+        }
+
+        /* 本文2カラム */
+        .article-cols {
+            column-count: 2;
+            column-gap: 40px;
+            column-rule: 1px solid var(--rule-thin);
+            margin-bottom: 48px;
+            font-size: .95rem;
+            line-height: 2.0;
+        }
+
+        @media (max-width:700px) {
+            .article-cols {
+                column-count: 1;
+            }
+        }
+
+        /* 機能カードグリッド（新聞の広告欄風） */
+        .ad-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border: 2px solid var(--rule);
+            margin-bottom: 56px;
+        }
+
+        .ad-cell {
+            padding: 24px 20px;
+            border: 1px solid var(--rule-thin);
+            transition: background .3s;
+        }
+
+        .ad-cell:hover {
+            background: rgba(26, 22, 18, .05);
+        }
+
+        .ad-cell-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--red-accent);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .ad-cell-title {
+            font-weight: 700;
+            font-size: .88rem;
+            margin-bottom: 6px;
+        }
+
+        .ad-cell-desc {
+            font-size: .78rem;
+            color: var(--ink-dim);
+            line-height: 1.6;
+        }
+
+        @media (max-width:700px) {
+            .ad-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* エディトリアルBOX */
+        .editorial-box {
+            background: var(--ink);
+            color: var(--parchment);
+            padding: 48px 44px;
+            margin-bottom: 48px;
+            position: relative;
+        }
+
+        .editorial-box::before {
+            content: 'EDITORIAL';
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-family: 'Courier Prime', monospace;
+            font-size: .6rem;
+            letter-spacing: 4px;
+            color: rgba(244, 240, 232, .25);
+        }
+
+        .editorial-box p {
+            font-size: 1.05rem;
+            line-height: 2.0;
+            margin-bottom: 1.4em;
+        }
+
+        .editorial-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .editorial-box .emphasis {
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: var(--parchment);
+            font-family: 'Playfair Display', serif;
+        }
+
+        @media (max-width:640px) {
+            .editorial-box {
+                padding: 32px 22px;
+            }
+        }
+
+        /* ===== ボタン ===== */
+        .btn-return {
+            display: block;
+            width: fit-content;
+            margin: 64px auto 0;
+            padding: 14px 44px;
+            background: var(--ink);
+            color: var(--parchment);
+            text-decoration: none;
+            font-family: 'Courier Prime', monospace;
+            font-size: .78rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            border: none;
+            transition: background .25s, box-shadow .25s;
+        }
+
+        .btn-return:hover {
+            background: var(--red-accent);
+            box-shadow: 0 4px 16px rgba(139, 32, 32, .25);
+        }
+
+        /* ===== フッター ===== */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 32px 20px;
+            border-top: 3px double var(--rule);
+            font-family: 'Courier Prime', monospace;
+            font-size: .68rem;
+            letter-spacing: 3px;
+            color: var(--ink-dim);
+        }
+
+        /* ===== Reveal ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity .5s ease, transform .5s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="masthead">
+        <div class="header-inner">
+            <div class="brand-bar">Stadio Vault &mdash; Web Design Support</div>
+            <nav><a href="index.html" class="nav-link">&#8592; Back to Terminal</a></nav>
+        </div>
+    </header>
+
+    <!-- 新聞題字エリア -->
+    <section class="newspaper-masthead">
+        <div id="cover-bg-grid"></div>
+        <p class="masthead-date">Stadio Vault &bull; Creative Division</p>
+        <h1 class="masthead-title">Web Design<br>Support</h1>
+        <p class="masthead-subtitle">最も美しい中継拠点</p>
+        <div class="masthead-rule"><span class="masthead-rule-icon">◆</span></div>
+    </section>
+
+    <main class="newspaper-body">
+
+        <!-- リード -->
+        <hr class="column-rule">
+        <div class="lead-block reveal">
+            <p>
+                創作者のためのWebサイト制作を行っています。<br><br>
+                デザインとHTMLを基盤に、回遊・比較・軽量化を構造として組み込みます。<br>
+                作って終わりではなく、更新しやすく、増えても崩れない設計。<br>
+                作品が育つための<strong>「拠点」</strong>を作ります。
+            </p>
+        </div>
+
+        <!-- できること -->
+        <hr class="column-rule-double">
+        <h2 class="headline reveal"><span class="headline-sm">SERVICE</span> できること</h2>
+        <div class="ad-grid reveal">
+            <div class="ad-cell">
+                <div class="ad-cell-num">01</div>
+                <div class="ad-cell-title">ポートフォリオ制作</div>
+                <div class="ad-cell-desc">創作者向けポートフォリオ／作品サイト制作</div>
+            </div>
+            <div class="ad-cell">
+                <div class="ad-cell-num">02</div>
+                <div class="ad-cell-title">回遊設計</div>
+                <div class="ad-cell-desc">シリーズ前提の回遊設計</div>
+            </div>
+            <div class="ad-cell">
+                <div class="ad-cell-num">03</div>
+                <div class="ad-cell-title">構造接続</div>
+                <div class="ad-cell-desc">作品同士を繋ぐ構造設計</div>
+            </div>
+            <div class="ad-cell">
+                <div class="ad-cell-num">04</div>
+                <div class="ad-cell-title">比較導線</div>
+                <div class="ad-cell-desc">Before/After比較導線の実装</div>
+            </div>
+            <div class="ad-cell">
+                <div class="ad-cell-num">05</div>
+                <div class="ad-cell-title">更新容易性</div>
+                <div class="ad-cell-desc">更新しやすいHTML構造の整備</div>
+            </div>
+            <div class="ad-cell">
+                <div class="ad-cell-num">06</div>
+                <div class="ad-cell-title">軽量最適化</div>
+                <div class="ad-cell-desc">軽量化と表示最適化</div>
+            </div>
+        </div>
+
+        <!-- なぜHTMLなのか -->
+        <hr class="column-rule-double">
+        <h2 class="headline reveal"><span class="headline-sm">EDITORIAL</span> なぜHTMLなのか</h2>
+        <div class="editorial-box reveal">
+            <p>SNSは流れ続けます。</p>
+            <p>しかし、作品は積み上がります。<br>
+                HTMLは、情報の階層と流れを自分で決められる。</p>
+            <p>余白も、動線も、比較も、設計できる。<br>
+                世界観は、借り物の枠ではなく、</p>
+            <p class="emphasis">自分の土地に置いたときに完成します。</p>
+        </div>
+
+        <a href="index.html" class="btn-return reveal">Return to Terminal</a>
+    </main>
+
+    <footer>&copy; Stadio Vault &mdash; System.WebDesign.Support</footer>
+
+    <script>
+        (function () {
+            // 背景画像ランダム
+            const bgGrid = document.getElementById('cover-bg-grid');
+            if (bgGrid) {
+                const TOTAL = 34;
+                const nums = Array.from({ length: TOTAL }, (_, i) => i + 1).sort(() => Math.random() - .5);
+                nums.slice(0, 2).forEach(n => {
+                    const img = document.createElement('img');
+                    img.src = `image/background-${n}.png`;
+                    bgGrid.appendChild(img);
+                });
+            }
+
+            // Reveal
+            function runReveal() {
+                document.querySelectorAll('.reveal').forEach(el => {
+                    if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add('active');
+                });
+            }
+            window.addEventListener('scroll', runReveal);
+            runReveal();
+        })();
+    </script>
+</body>
+
+</html>
