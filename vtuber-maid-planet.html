@@ -1,28 +1,42 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAID PLANET - Stadio Vault</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700;900&family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --rose: #c47a9e;
             --rose-light: #e8a5c4;
-            --rose-dim: rgba(196,122,158,.25);
+            --rose-dim: rgba(196, 122, 158, .25);
             --violet: #8e6abf;
             --violet-light: #b99ee0;
             --ink: #f0eae4;
-            --ink-dim: rgba(240,234,228,.55);
+            --ink-dim: rgba(240, 234, 228, .55);
             --bg: #0e0a12;
-            --card-bg: rgba(18,12,24,.88);
-            --border: rgba(196,122,158,.28);
-            --border-bright: rgba(196,122,158,.5);
+            --card-bg: rgba(18, 12, 24, .88);
+            --border: rgba(196, 122, 158, .28);
+            --border-bright: rgba(196, 122, 158, .5);
             --gold-accent: #d4a853;
         }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Noto Serif JP', 'Georgia', serif;
             background: var(--bg);
@@ -33,123 +47,238 @@
         /* ===== 装飾背景パターン ===== */
         body::before {
             content: '';
-            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
             background-image:
-                radial-gradient(circle at 20% 30%, rgba(142,106,191,.06) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(196,122,158,.06) 0%, transparent 50%),
-                repeating-linear-gradient(45deg, transparent, transparent 80px, rgba(196,122,158,.015) 80px, rgba(196,122,158,.015) 81px);
+                radial-gradient(circle at 20% 30%, rgba(142, 106, 191, .06) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(196, 122, 158, .06) 0%, transparent 50%),
+                repeating-linear-gradient(45deg, transparent, transparent 80px, rgba(196, 122, 158, .015) 80px, rgba(196, 122, 158, .015) 81px);
         }
 
         /* ===== 固定ヘッダー ===== */
         #masthead {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            height: 72px; background: rgba(14,10,18,.92);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 72px;
+            background: rgba(14, 10, 18, .92);
             border-bottom: 1px solid var(--border);
             backdrop-filter: blur(12px);
-            display: flex; align-items: center;
+            display: flex;
+            align-items: center;
         }
+
         .header-inner {
-            max-width: 1200px; margin: 0 auto; width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
             padding: 0 40px;
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+
         .brand {
             font-family: 'Cinzel Decorative', serif;
-            color: var(--rose-light); font-size: .85rem; letter-spacing: 3px;
+            color: var(--rose-light);
+            font-size: .85rem;
+            letter-spacing: 3px;
             text-decoration: none;
         }
+
         .nav-link {
-            color: var(--ink-dim); text-decoration: none;
-            font-size: .8rem; letter-spacing: 2px;
+            color: var(--ink-dim);
+            text-decoration: none;
+            font-size: .8rem;
+            letter-spacing: 2px;
             transition: color .2s;
         }
-        .nav-link:hover { color: var(--rose-light); }
+
+        .nav-link:hover {
+            color: var(--rose-light);
+        }
+
         @media (max-width:640px) {
-            .header-inner { padding: 0 16px; }
-            .brand { font-size: .72rem; }
+            .header-inner {
+                padding: 0 16px;
+            }
+
+            .brand {
+                font-size: .72rem;
+            }
         }
 
         /* ===== ヒーロー ===== */
         #cover {
-            position: relative; z-index: 1;
+            position: relative;
+            z-index: 1;
             height: 100vh;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
         }
+
         #cover-bg-grid {
-            position: absolute; inset: 0; z-index: 1;
-            display: grid; grid-template-columns: 1fr 1fr;
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             opacity: .2;
         }
-        #cover-bg-grid img { width: 100%; height: 100%; object-fit: cover; filter: sepia(.2) hue-rotate(280deg); }
-        .cover-vignette {
-            position: absolute; inset: 0; z-index: 2; pointer-events: none;
-            background:
-                radial-gradient(ellipse at center, transparent 30%, rgba(14,10,18,.8) 90%),
-                linear-gradient(to bottom, rgba(14,10,18,.5) 0%, transparent 25%, transparent 75%, rgba(14,10,18,.95) 100%);
+
+        #cover-bg-grid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(.2) hue-rotate(280deg);
         }
+
+        .cover-vignette {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at center, transparent 30%, rgba(14, 10, 18, .8) 90%),
+                linear-gradient(to bottom, rgba(14, 10, 18, .5) 0%, transparent 25%, transparent 75%, rgba(14, 10, 18, .95) 100%);
+        }
+
         .cover-content {
-            position: relative; z-index: 10; text-align: center;
+            position: relative;
+            z-index: 10;
+            text-align: center;
             animation: heroIn 1.4s ease both;
         }
-        @keyframes heroIn { from{opacity:0;transform:translateY(24px);} to{opacity:1;transform:translateY(0);} }
+
+        @keyframes heroIn {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* 装飾ライン */
         .hero-ornament {
-            display: flex; align-items: center; justify-content: center; gap: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
             margin-bottom: 24px;
         }
-        .hero-ornament::before, .hero-ornament::after {
-            content: '❖'; color: var(--rose-dim); font-size: .7rem;
+
+        .hero-ornament::before,
+        .hero-ornament::after {
+            content: '❖';
+            color: var(--rose-dim);
+            font-size: .7rem;
         }
+
         .hero-ornament-line {
-            width: 100px; height: 1px;
+            width: 100px;
+            height: 1px;
             background: linear-gradient(90deg, transparent, var(--rose), transparent);
         }
+
         .project-name {
             font-family: 'Cinzel Decorative', serif;
             font-size: clamp(2.8rem, 7vw, 5.5rem);
-            font-weight: 900; color: var(--ink);
-            letter-spacing: 6px; line-height: 1;
-            text-shadow: 0 0 60px rgba(196,122,158,.25);
+            font-weight: 900;
+            color: var(--ink);
+            letter-spacing: 6px;
+            line-height: 1;
+            text-shadow: 0 0 60px rgba(196, 122, 158, .25);
             margin-bottom: 16px;
         }
+
         .catchcopy {
             color: var(--rose-light);
-            font-size: 1rem; letter-spacing: 4px;
+            font-size: 1rem;
+            letter-spacing: 4px;
             font-family: 'EB Garamond', serif;
             font-style: italic;
         }
+
         .scroll-hint {
-            position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
-            z-index: 10; color: var(--rose-dim); font-size: 1.4rem;
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            color: var(--rose-dim);
+            font-size: 1.4rem;
             animation: sFloat 2s ease-in-out infinite;
         }
-        @keyframes sFloat { 0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(8px);} }
+
+        @keyframes sFloat {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(8px);
+            }
+        }
 
         /* ===== コンテンツ ===== */
         .container {
-            position: relative; z-index: 1;
-            max-width: 960px; margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            max-width: 960px;
+            margin: 0 auto;
             padding: 80px 40px 120px;
         }
-        @media (max-width:640px) { .container { padding: 60px 18px 80px; } }
+
+        @media (max-width:640px) {
+            .container {
+                padding: 60px 18px 80px;
+            }
+        }
 
         /* セクション装飾 */
         .section-rule {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
             margin-bottom: 40px;
         }
-        .section-rule::before, .section-rule::after {
-            content: ''; width: 60px; height: 1px;
+
+        .section-rule::before,
+        .section-rule::after {
+            content: '';
+            width: 60px;
+            height: 1px;
             background: linear-gradient(90deg, transparent, var(--rose-dim));
         }
-        .section-rule::after { background: linear-gradient(90deg, var(--rose-dim), transparent); }
-        .section-rule-icon { color: var(--rose); font-size: .85rem; }
+
+        .section-rule::after {
+            background: linear-gradient(90deg, var(--rose-dim), transparent);
+        }
+
+        .section-rule-icon {
+            color: var(--rose);
+            font-size: .85rem;
+        }
 
         .section-title {
             font-family: 'Cinzel Decorative', serif;
-            font-size: 1.4rem; color: var(--rose-light);
-            letter-spacing: 4px; text-transform: uppercase;
+            font-size: 1.4rem;
+            color: var(--rose-light);
+            letter-spacing: 4px;
+            text-transform: uppercase;
             margin-bottom: 32px;
             text-align: center;
         }
@@ -163,62 +292,133 @@
             margin-bottom: 48px;
             backdrop-filter: blur(4px);
         }
-        .philosophy-box p, .concept-text {
-            font-size: 1rem; line-height: 2.0;
+
+        .philosophy-box p,
+        .concept-text {
+            font-size: 1rem;
+            line-height: 2.0;
         }
-        .philosophy-box strong { color: var(--rose-light); }
+
+        .philosophy-box strong {
+            color: var(--rose-light);
+        }
+
         .concept-text {
             margin-bottom: 80px;
         }
-        @media (max-width:640px) { .philosophy-box { padding: 28px 22px; } }
+
+        @media (max-width:640px) {
+            .philosophy-box {
+                padding: 28px 22px;
+            }
+        }
 
         /* ===== レーベルカード ===== */
         .label-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 18px;
         }
+
         .label-card {
+            display: grid;
+            grid-template-columns: 120px 1fr;
             background: var(--card-bg);
             border: 1px solid var(--border);
-            padding: 24px 26px;
             transition: border-color .3s, transform .3s, box-shadow .3s;
             position: relative;
             overflow: hidden;
         }
+
         .label-card::before {
             content: '';
-            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
             background: linear-gradient(90deg, var(--violet), var(--rose), var(--gold-accent));
-            opacity: 0; transition: opacity .3s;
+            opacity: 0;
+            transition: opacity .3s;
+            z-index: 2;
         }
+
         .label-card:hover {
             border-color: var(--rose);
             transform: translateY(-4px);
-            box-shadow: 0 8px 28px rgba(142,106,191,.15);
+            box-shadow: 0 8px 28px rgba(142, 106, 191, .15);
         }
-        .label-card:hover::before { opacity: 1; }
+
+        .label-card:hover::before {
+            opacity: 1;
+        }
+
+        .label-card:hover .label-img img {
+            transform: scale(1.08);
+            filter: brightness(.95);
+        }
+
+        /* 画像エリア */
+        .label-img {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .label-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            filter: brightness(.8) sepia(.05);
+            transition: transform .4s ease, filter .3s;
+        }
+
+        /* テキストエリア */
+        .label-text {
+            padding: 20px 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
         .label-name {
             font-family: 'EB Garamond', serif;
-            font-size: 1.1rem; font-weight: 700;
+            font-size: 1.05rem;
+            font-weight: 700;
             color: var(--rose-light);
             margin-bottom: 4px;
         }
+
         .label-theme {
-            font-size: .75rem; color: var(--violet-light);
-            letter-spacing: 2px; text-transform: uppercase;
-            margin-bottom: 12px;
-            padding-bottom: 10px;
+            font-size: .72rem;
+            color: var(--violet-light);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
             border-bottom: 1px solid var(--border);
         }
+
         .label-desc {
-            font-size: .88rem; line-height: 1.7;
+            font-size: .84rem;
+            line-height: 1.7;
             color: var(--ink-dim);
+        }
+
+        @media (max-width:500px) {
+            .label-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .label-card {
+                grid-template-columns: 90px 1fr;
+            }
         }
 
         /* ===== ボタン ===== */
         .btn-terminal {
-            display: block; width: fit-content;
+            display: block;
+            width: fit-content;
             margin: 80px auto 0;
             padding: 16px 44px;
             background: transparent;
@@ -226,244 +426,320 @@
             border: 1px solid var(--border);
             text-decoration: none;
             font-family: 'Cinzel Decorative', serif;
-            font-size: .85rem; letter-spacing: 4px;
+            font-size: .85rem;
+            letter-spacing: 4px;
             transition: background .25s, border-color .25s, color .25s;
         }
+
         .btn-terminal:hover {
-            background: rgba(196,122,158,.1);
+            background: rgba(196, 122, 158, .1);
             border-color: var(--rose);
             color: var(--rose-light);
         }
 
         /* ===== フッター ===== */
         footer {
-            position: relative; z-index: 1;
-            text-align: center; padding: 48px 20px;
-            color: var(--ink-dim); font-size: .78rem;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--ink-dim);
+            font-size: .78rem;
             border-top: 1px solid var(--border);
             font-family: 'Cinzel Decorative', serif;
             letter-spacing: 2px;
         }
 
         /* ===== Reveal ===== */
-        .reveal { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal {
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity .5s ease, transform .5s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         /* ===== 降る花びらアニメーション ===== */
         .petal-canvas {
-            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
             overflow: hidden;
         }
+
         .petal {
             position: absolute;
-            width: 8px; height: 8px;
+            width: 8px;
+            height: 8px;
             background: var(--rose-dim);
             border-radius: 50% 0 50% 0;
             opacity: 0;
             animation: fall linear infinite;
         }
+
         @keyframes fall {
-            0% { opacity: 0; transform: translateY(-20px) rotate(0deg); }
-            10% { opacity: .5; }
-            90% { opacity: .3; }
-            100% { opacity: 0; transform: translateY(100vh) rotate(360deg); }
+            0% {
+                opacity: 0;
+                transform: translateY(-20px) rotate(0deg);
+            }
+
+            10% {
+                opacity: .5;
+            }
+
+            90% {
+                opacity: .3;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(360deg);
+            }
         }
     </style>
 </head>
+
 <body>
 
-<!-- 降る花びら -->
-<div class="petal-canvas" id="petalCanvas"></div>
+    <!-- 降る花びら -->
+    <div class="petal-canvas" id="petalCanvas"></div>
 
-<header id="masthead">
-    <div class="header-inner">
-        <a href="index.html" class="brand">Stadio Vault ✦ Maid Planet</a>
-        <nav><a href="index.html" class="nav-link">&#8592; RETURN TO TERMINAL</a></nav>
+    <header id="masthead">
+        <div class="header-inner">
+            <a href="index.html" class="brand">Stadio Vault ✦ Maid Planet</a>
+            <nav><a href="index.html" class="nav-link">&#8592; RETURN TO TERMINAL</a></nav>
+        </div>
+    </header>
+
+    <section id="cover">
+        <div id="cover-bg-grid"></div>
+        <div class="cover-vignette"></div>
+        <div class="cover-content">
+            <div class="hero-ornament">
+                <span class="hero-ornament-line"></span>
+                <span style="color:var(--rose-dim);font-size:.9rem;">✦</span>
+                <span class="hero-ornament-line"></span>
+            </div>
+            <h1 class="project-name">Maid Planet</h1>
+            <div class="catchcopy">最安値でVtuber事務所を作る。</div>
+        </div>
+        <div class="scroll-hint">&#8964;</div>
+    </section>
+
+    <div class="container">
+
+        <!-- CONCEPT -->
+        <div class="section-rule reveal"><span class="section-rule-icon">♠</span></div>
+        <h2 class="section-title reveal">Concept</h2>
+        <div class="philosophy-box reveal">
+            <p>
+                レーベル制で運営する、小さなVtuber事務所。<br>
+                同期でまとめるのではなく、テーマごとに棚を作り、必要な分だけ積み上げます。<br><br>
+                <strong>跳ねる仕掛けより、続けられる構造を。</strong><br>
+                無駄を削ぎ落とし、軽量設計で回す。
+            </p>
+        </div>
+        <div class="concept-text reveal">
+            <p>
+                メイド・プラネットは、レーベル制を採用するVtuber事務所です。<br>
+                キャラクターはテーマごとに分類されますが、活動は個体単位で行われます。<br>
+                大規模な広告運用には依存せず、継続支援（サブスクリプション）を基本とします。<br>
+                企業連携・素材提供は個別契約で対応。世界観と信用を損なう利用は行いません。
+            </p>
+        </div>
+
+        <!-- WHAT IS LABEL -->
+        <div class="section-rule reveal"><span class="section-rule-icon">♣</span></div>
+        <h2 class="section-title reveal">What is "Label"?</h2>
+        <div class="philosophy-box reveal" style="border-top-color: var(--violet);">
+            <p>
+                メイド・プラネットのレーベルは、キャラクターをテーマ別に整理するための分類です。<br>
+                活動内容や発言を縛るルールではありません。<br>
+                レーベルは"看板"ではなく<strong>"整理棚"</strong>として存在します。
+            </p>
+        </div>
+
+        <!-- LABELS -->
+        <div class="section-rule reveal"><span class="section-rule-icon">♦</span></div>
+        <h2 class="section-title reveal">Labels</h2>
+        <div class="label-grid">
+
+            <div class="label-card reveal">
+                <div class="label-img"><img src="image/maid-1.png" alt="デ・ステーレン・ナフト"></div>
+                <div class="label-text">
+                    <div class="label-name">デ・ステーレン・ナフト</div>
+                    <div class="label-theme">夜・星・観測系</div>
+                    <div class="label-desc">静けさ、宇宙、月光、天体モチーフ。落ち着いた色調と幻想寄りのビジュアル設計。</div>
+                </div>
+            </div>
+
+            <div class="label-card reveal">
+                <div class="label-img"><img src="image/maid-2.png" alt="ティータイム・ウィズ・テイスト"></div>
+                <div class="label-text">
+                    <div class="label-name">ティータイム・ウィズ・テイスト</div>
+                    <div class="label-theme">菓子・日常系</div>
+                    <div class="label-desc">甘味、紅茶、カフェ、軽やかな雰囲気。親しみやすく、日常空間に溶け込む設計。</div>
+                </div>
+            </div>
+
+            <div class="label-card reveal">
+                <div class="label-img"><img src="image/maid-3.png" alt="ガーデニング・ガーテン"></div>
+                <div class="label-text">
+                    <div class="label-name">ガーデニング・ガーテン</div>
+                    <div class="label-theme">花・自然系</div>
+                    <div class="label-desc">植物、庭園、エルフ的意匠。自然モチーフと穏やかな世界観設計。</div>
+                </div>
+            </div>
+
+            <div class="label-card reveal">
+                <div class="label-img"><img src="image/maid-4.png" alt="ストラック・ドクトリン"></div>
+                <div class="label-text">
+                    <div class="label-name">ストラック・ドクトリン</div>
+                    <div class="label-theme">スポーツ系</div>
+                    <div class="label-desc">運動、努力、体育会的モチーフ。動きのあるビジュアルと機能的衣装設計。</div>
+                </div>
+            </div>
+
+            <div class="label-card reveal">
+                <div class="label-img"><img src="image/maid-5.png" alt="ディスパッチ・オーダーメイド"></div>
+                <div class="label-text">
+                    <div class="label-name">ディスパッチ・オーダーメイド</div>
+                    <div class="label-theme">職業特化系</div>
+                    <div class="label-desc">特定職能・専門分野をテーマにする。キャラクターごとに明確な職業軸を持つ。</div>
+                </div>
+            </div>
+
+            <div class="label-card reveal">
+                <div class="label-img"><img src="image/maid-6.png" alt="オーセンティック・マイ・カラー"></div>
+                <div class="label-text">
+                    <div class="label-name">オーセンティック・マイ・カラー</div>
+                    <div class="label-theme">芸術・表現系</div>
+                    <div class="label-desc">絵画、創作、色彩。ビジュアルと自己表現を中心にした設計。</div>
+                </div>
+            </div>
+
+            <div class="label-card reveal">
+                <div class="label-img"><img src="image/maid-7.png" alt="極楽郷土"></div>
+                <div class="label-text">
+                    <div class="label-name">極楽郷土</div>
+                    <div class="label-theme">和風理想郷</div>
+                    <div class="label-desc">極楽浄土＋故郷。和装、風土、郷愁、理想郷の意匠。</div>
+                </div>
+            </div>
+
+            <div class="label-card reveal">
+                <div class="label-img"><img src="image/maid-8.png" alt="アフターケア・オブ・ライフ"></div>
+                <div class="label-text">
+                    <div class="label-name">アフターケア・オブ・ライフ</div>
+                    <div class="label-theme">生死境界系</div>
+                    <div class="label-desc">天使・悪魔・輪廻など。境界的存在を扱う世界観設計。</div>
+                </div>
+            </div>
+
+            <div class="label-card reveal">
+                <div class="label-img"><img src="image/maid-9.png" alt="キューテスト・スクワッド"></div>
+                <div class="label-text">
+                    <div class="label-name">キューテスト・スクワッド</div>
+                    <div class="label-theme">ミリタリー系</div>
+                    <div class="label-desc">軍装、部隊、統率モチーフ。可愛さと規律の両立設計。</div>
+                </div>
+            </div>
+
+            <div class="label-card reveal">
+                <div class="label-img"><img src="image/maid-10.png" alt="スピリッツ・アー・ウェイ"></div>
+                <div class="label-text">
+                    <div class="label-name">スピリッツ・アー・ウェイ</div>
+                    <div class="label-theme">妖怪・妖精系</div>
+                    <div class="label-desc">異界存在、精霊、伝承モチーフ。人間と少しズレた存在設計。</div>
+                </div>
+            </div>
+
+            <div class="label-card reveal">
+                <div class="label-img"><img src="image/maid-11.png" alt="トラップ・トリックス"></div>
+                <div class="label-text">
+                    <div class="label-name">トラップ・トリックス</div>
+                    <div class="label-theme">中性・トラップ系</div>
+                    <div class="label-desc">男の子／中性的可愛さ。印象操作や二面性モチーフ。</div>
+                </div>
+            </div>
+
+            <div class="label-card reveal">
+                <div class="label-img"><img src="image/maid-12.png" alt="サポーテド・サポート"></div>
+                <div class="label-text">
+                    <div class="label-name">サポーテド・サポート</div>
+                    <div class="label-theme">病弱・繊細系</div>
+                    <div class="label-desc">弱さ、儚さ、支援モチーフ。無理をしない設計思想。</div>
+                </div>
+            </div>
+
+            <div class="label-card reveal">
+                <div class="label-img"><img src="image/maid-13.png" alt="チェイス・カスケード"></div>
+                <div class="label-text">
+                    <div class="label-name">チェイス・カスケード</div>
+                    <div class="label-theme">探偵・スパイ系</div>
+                    <div class="label-desc">追跡、調査、情報戦モチーフ。知性と行動性を組み合わせる設計。</div>
+                </div>
+            </div>
+
+            <div class="label-card reveal">
+                <div class="label-img"><img src="image/maid-14.png" alt="オーバー・ライト・マザー"></div>
+                <div class="label-text">
+                    <div class="label-name">オーバー・ライト・マザー</div>
+                    <div class="label-theme">上書き・母性系</div>
+                    <div class="label-desc">Override＋Light。状態を整える存在設計。</div>
+                </div>
+            </div>
+
+        </div>
+
+        <a href="index.html" class="btn-terminal reveal">Return to Terminal</a>
     </div>
-</header>
 
-<section id="cover">
-    <div id="cover-bg-grid"></div>
-    <div class="cover-vignette"></div>
-    <div class="cover-content">
-        <div class="hero-ornament">
-            <span class="hero-ornament-line"></span>
-            <span style="color:var(--rose-dim);font-size:.9rem;">✦</span>
-            <span class="hero-ornament-line"></span>
-        </div>
-        <h1 class="project-name">Maid Planet</h1>
-        <div class="catchcopy">最安値でVtuber事務所を作る。</div>
-    </div>
-    <div class="scroll-hint">&#8964;</div>
-</section>
+    <footer>&copy; Stadio Vault — Maid Planet Project</footer>
 
-<div class="container">
+    <script>
+        (function () {
+            // 背景ランダム（2枚）
+            const bgGrid = document.getElementById('cover-bg-grid');
+            if (bgGrid) {
+                const TOTAL = 34;
+                const nums = Array.from({ length: TOTAL }, (_, i) => i + 1).sort(() => Math.random() - .5);
+                nums.slice(0, 2).forEach(n => {
+                    const img = document.createElement('img');
+                    img.src = `image/background-${n}.png`;
+                    bgGrid.appendChild(img);
+                });
+            }
 
-    <!-- CONCEPT -->
-    <div class="section-rule reveal"><span class="section-rule-icon">♠</span></div>
-    <h2 class="section-title reveal">Concept</h2>
-    <div class="philosophy-box reveal">
-        <p>
-            レーベル制で運営する、小さなVtuber事務所。<br>
-            同期でまとめるのではなく、テーマごとに棚を作り、必要な分だけ積み上げます。<br><br>
-            <strong>跳ねる仕掛けより、続けられる構造を。</strong><br>
-            無駄を削ぎ落とし、軽量設計で回す。
-        </p>
-    </div>
-    <div class="concept-text reveal">
-        <p>
-            メイド・プラネットは、レーベル制を採用するVtuber事務所です。<br>
-            キャラクターはテーマごとに分類されますが、活動は個体単位で行われます。<br>
-            大規模な広告運用には依存せず、継続支援（サブスクリプション）を基本とします。<br>
-            企業連携・素材提供は個別契約で対応。世界観と信用を損なう利用は行いません。
-        </p>
-    </div>
+            // 花びら生成
+            const canvas = document.getElementById('petalCanvas');
+            if (canvas) {
+                for (let i = 0; i < 18; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'petal';
+                    p.style.left = Math.random() * 100 + '%';
+                    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+                    p.style.animationDelay = (Math.random() * 10) + 's';
+                    p.style.width = (5 + Math.random() * 6) + 'px';
+                    p.style.height = p.style.width;
+                    canvas.appendChild(p);
+                }
+            }
 
-    <!-- WHAT IS LABEL -->
-    <div class="section-rule reveal"><span class="section-rule-icon">♣</span></div>
-    <h2 class="section-title reveal">What is "Label"?</h2>
-    <div class="philosophy-box reveal" style="border-top-color: var(--violet);">
-        <p>
-            メイド・プラネットのレーベルは、キャラクターをテーマ別に整理するための分類です。<br>
-            活動内容や発言を縛るルールではありません。<br>
-            レーベルは"看板"ではなく<strong>"整理棚"</strong>として存在します。
-        </p>
-    </div>
-
-    <!-- LABELS -->
-    <div class="section-rule reveal"><span class="section-rule-icon">♦</span></div>
-    <h2 class="section-title reveal">Labels</h2>
-    <div class="label-grid">
-
-        <div class="label-card reveal">
-            <div class="label-name">デ・ステーレン・ナフト</div>
-            <div class="label-theme">夜・星・観測系</div>
-            <div class="label-desc">静けさ、宇宙、月光、天体モチーフ。落ち着いた色調と幻想寄りのビジュアル設計。</div>
-        </div>
-
-        <div class="label-card reveal">
-            <div class="label-name">ティータイム・ウィズ・テイスト</div>
-            <div class="label-theme">菓子・日常系</div>
-            <div class="label-desc">甘味、紅茶、カフェ、軽やかな雰囲気。親しみやすく、日常空間に溶け込む設計。</div>
-        </div>
-
-        <div class="label-card reveal">
-            <div class="label-name">ガーデニング・ガーテン</div>
-            <div class="label-theme">花・自然系</div>
-            <div class="label-desc">植物、庭園、エルフ的意匠。自然モチーフと穏やかな世界観設計。</div>
-        </div>
-
-        <div class="label-card reveal">
-            <div class="label-name">ストラック・ドクトリン</div>
-            <div class="label-theme">スポーツ系</div>
-            <div class="label-desc">運動、努力、体育会的モチーフ。動きのあるビジュアルと機能的衣装設計。</div>
-        </div>
-
-        <div class="label-card reveal">
-            <div class="label-name">ディスパッチ・オーダーメイド</div>
-            <div class="label-theme">職業特化系</div>
-            <div class="label-desc">特定職能・専門分野をテーマにする。キャラクターごとに明確な職業軸を持つ。</div>
-        </div>
-
-        <div class="label-card reveal">
-            <div class="label-name">オーセンティック・マイ・カラー</div>
-            <div class="label-theme">芸術・表現系</div>
-            <div class="label-desc">絵画、創作、色彩。ビジュアルと自己表現を中心にした設計。</div>
-        </div>
-
-        <div class="label-card reveal">
-            <div class="label-name">極楽郷土</div>
-            <div class="label-theme">和風理想郷</div>
-            <div class="label-desc">極楽浄土＋故郷。和装、風土、郷愁、理想郷の意匠。</div>
-        </div>
-
-        <div class="label-card reveal">
-            <div class="label-name">アフターケア・オブ・ライフ</div>
-            <div class="label-theme">生死境界系</div>
-            <div class="label-desc">天使・悪魔・輪廻など。境界的存在を扱う世界観設計。</div>
-        </div>
-
-        <div class="label-card reveal">
-            <div class="label-name">キューテスト・スクワッド</div>
-            <div class="label-theme">ミリタリー系</div>
-            <div class="label-desc">軍装、部隊、統率モチーフ。可愛さと規律の両立設計。</div>
-        </div>
-
-        <div class="label-card reveal">
-            <div class="label-name">スピリッツ・アー・ウェイ</div>
-            <div class="label-theme">妖怪・妖精系</div>
-            <div class="label-desc">異界存在、精霊、伝承モチーフ。人間と少しズレた存在設計。</div>
-        </div>
-
-        <div class="label-card reveal">
-            <div class="label-name">トラップ・トリックス</div>
-            <div class="label-theme">中性・トラップ系</div>
-            <div class="label-desc">男の子／中性的可愛さ。印象操作や二面性モチーフ。</div>
-        </div>
-
-        <div class="label-card reveal">
-            <div class="label-name">サポーテド・サポート</div>
-            <div class="label-theme">病弱・繊細系</div>
-            <div class="label-desc">弱さ、儚さ、支援モチーフ。無理をしない設計思想。</div>
-        </div>
-
-        <div class="label-card reveal">
-            <div class="label-name">チェイス・カスケード</div>
-            <div class="label-theme">探偵・スパイ系</div>
-            <div class="label-desc">追跡、調査、情報戦モチーフ。知性と行動性を組み合わせる設計。</div>
-        </div>
-
-        <div class="label-card reveal">
-            <div class="label-name">オーバー・ライト・マザー</div>
-            <div class="label-theme">上書き・母性系</div>
-            <div class="label-desc">Override＋Light。状態を整える存在設計。</div>
-        </div>
-
-    </div>
-
-    <a href="index.html" class="btn-terminal reveal">Return to Terminal</a>
-</div>
-
-<footer>&copy; Stadio Vault — Maid Planet Project</footer>
-
-<script>
-(function(){
-    // 背景ランダム（2枚）
-    const bgGrid = document.getElementById('cover-bg-grid');
-    if (bgGrid) {
-        const TOTAL = 34;
-        const nums = Array.from({length: TOTAL}, (_, i) => i + 1).sort(() => Math.random() - .5);
-        nums.slice(0, 2).forEach(n => {
-            const img = document.createElement('img');
-            img.src = `image/background-${n}.png`;
-            bgGrid.appendChild(img);
-        });
-    }
-
-    // 花びら生成
-    const canvas = document.getElementById('petalCanvas');
-    if (canvas) {
-        for (let i = 0; i < 18; i++) {
-            const p = document.createElement('div');
-            p.className = 'petal';
-            p.style.left = Math.random() * 100 + '%';
-            p.style.animationDuration = (8 + Math.random() * 12) + 's';
-            p.style.animationDelay = (Math.random() * 10) + 's';
-            p.style.width = (5 + Math.random() * 6) + 'px';
-            p.style.height = p.style.width;
-            canvas.appendChild(p);
-        }
-    }
-
-    // Reveal
-    function runReveal() {
-        document.querySelectorAll('.reveal').forEach(el => {
-            if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add('active');
-        });
-    }
-    window.addEventListener('scroll', runReveal);
-    runReveal();
-})();
-</script>
+            // Reveal
+            function runReveal() {
+                document.querySelectorAll('.reveal').forEach(el => {
+                    if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add('active');
+                });
+            }
+            window.addEventListener('scroll', runReveal);
+            runReveal();
+        })();
+    </script>
 </body>
+
 </html>
