@@ -292,7 +292,7 @@
         /* ===== Projects ===== */
         .projects-grid {
             display: grid;
-            gap: 16px;
+            gap: 18px;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             margin-bottom: 60px;
         }
@@ -300,9 +300,11 @@
         .project-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            padding: 28px 32px;
             text-decoration: none;
             transition: border-color .25s, transform .25s, box-shadow .25s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .project-card:hover {
@@ -311,16 +313,49 @@
             box-shadow: 0 8px 30px rgba(0, 0, 0, .4);
         }
 
+        .project-card:hover .project-img img {
+            transform: scale(1.05);
+            filter: brightness(.9);
+        }
+
+        .project-img {
+            height: 160px;
+            overflow: hidden;
+            background: #0d1020;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            filter: brightness(.75) sepia(.06);
+            transition: transform .4s, filter .3s;
+        }
+
+        .project-body {
+            padding: 20px 24px 22px;
+        }
+
+        .project-tag {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .65rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
         .project-title {
             font-size: 1.15rem;
             font-weight: 900;
             color: var(--ink);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             letter-spacing: 1px;
         }
 
         .project-desc {
-            font-size: .88rem;
+            font-size: .85rem;
             color: var(--ink-dim);
             line-height: 1.7;
         }
@@ -455,10 +490,62 @@
 
         .w-en {
             display: block;
-            font-size: .72rem;
+            font-size: .68rem;
             color: var(--ink-dim);
             margin-top: 4px;
             font-weight: 400;
+            font-style: italic;
+        }
+
+        /* 作品カード画像サムネイル */
+        .w-item {
+            display: grid;
+            grid-template-columns: 52px 1fr;
+            align-items: center;
+            gap: 0;
+        }
+
+        .w-thumb {
+            width: 52px;
+            height: 68px;
+            overflow: hidden;
+            background: #0d1020;
+            border-right: 1px solid var(--border);
+        }
+
+        .w-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            filter: brightness(.7) sepia(.05);
+            transition: filter .3s;
+        }
+
+        .w-item:hover .w-thumb img {
+            filter: brightness(.9);
+        }
+
+        .w-text {
+            padding: 8px 14px;
+        }
+
+        /* サムネ無しフォールバック */
+        .w-item--noimg {
+            grid-template-columns: 1fr;
+        }
+
+        .w-item--noimg .w-text {
+            padding: 10px 14px;
+        }
+
+        /* カテゴリバッジ */
+        .category-count {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .65rem;
+            color: var(--gold-dim);
+            margin-left: 8px;
+            letter-spacing: 1px;
         }
 
         /* ===== reveal animation ===== */
@@ -534,16 +621,28 @@
         <h2 class="section-title reveal"><span class="section-title-icon">&#10022;</span> Projects</h2>
         <div class="projects-grid">
             <a href="vtuber-maid-planet.html" class="project-card reveal">
-                <div class="project-title">Vtuber事務所制作企画</div>
-                <div class="project-desc">キャラクター設計・デザイン設計</div>
+                <div class="project-img"><img src="image/maidplanet.png" alt="Maid Planet"></div>
+                <div class="project-body">
+                    <div class="project-tag">Vtuber Agency</div>
+                    <div class="project-title">Maid Planet</div>
+                    <div class="project-desc">レーベル制で運営する小さなVtuber事務所。キャラクター設計・デザイン設計。</div>
+                </div>
             </a>
             <a href="publisher-project.html" class="project-card reveal">
-                <div class="project-title">出版社制作企画</div>
-                <div class="project-desc">編集サポート・コミュニティ制作</div>
+                <div class="project-img"><img src="image/publisher.png" alt="Publisher"></div>
+                <div class="project-body">
+                    <div class="project-tag">Web Design</div>
+                    <div class="project-title">出版社制作企画</div>
+                    <div class="project-desc">編集サポート・コミュニティ制作。作品が育つための拠点を作る。</div>
+                </div>
             </a>
             <a href="publisher-project.html" class="project-card reveal">
-                <div class="project-title">他作品宣伝・サポート企画</div>
-                <div class="project-desc">ウェブ制作・広報支援</div>
+                <div class="project-img"><img src="image/webmaker.png" alt="Support"></div>
+                <div class="project-body">
+                    <div class="project-tag">Promotion</div>
+                    <div class="project-title">他作品宣伝・サポート企画</div>
+                    <div class="project-desc">ウェブ制作・広報支援。SNSで使える魅力的な画像とHTMLサイト。</div>
+                </div>
             </a>
         </div>
 
@@ -879,6 +978,35 @@
                 const logos = [1, 2, 3, 5];
                 logoImg.src = `image/logo-${logos[Math.floor(Math.random() * logos.length)]}.png`;
             }
+
+            // 作品カードにサムネイル画像を動的挿入
+            document.querySelectorAll('.w-item').forEach(item => {
+                const href = item.getAttribute('href');
+                const inner = item.innerHTML;
+                if (!href || href === '#') {
+                    // 未作成の作品：noimg扱い
+                    item.classList.add('w-item--noimg');
+                    item.innerHTML = `<div class="w-text">${inner}</div>`;
+                    return;
+                }
+                // hrefからカバー画像名を推定: roborista.html → image/roborista.png
+                const baseName = href.replace('.html', '');
+                const imgSrc = `image/${baseName}.png`;
+                item.innerHTML = `<div class="w-thumb"><img src="${imgSrc}" alt="" onerror="this.parentElement.style.background='#0d1020';this.remove();"></div><div class="w-text">${inner}</div>`;
+            });
+
+            // カテゴリ名に作品数バッジを自動追加
+            document.querySelectorAll('.category-name').forEach(cat => {
+                const grid = cat.nextElementSibling;
+                if (grid && grid.classList.contains('works-grid')) {
+                    const count = grid.querySelectorAll('.w-item').length;
+                    const badge = document.createElement('span');
+                    badge.className = 'category-count';
+                    badge.textContent = `${count} works`;
+                    cat.appendChild(badge);
+                }
+            });
+
             // reveal
             function runReveal() {
                 document.querySelectorAll('.reveal').forEach(el => {

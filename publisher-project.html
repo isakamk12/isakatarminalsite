@@ -166,8 +166,8 @@
             inset: 0;
             z-index: 0;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            opacity: .06;
+            grid-template-columns: 1fr;
+            opacity: .1;
         }
 
         #cover-bg-grid img {
@@ -497,16 +497,12 @@
 
     <script>
         (function () {
-            // 背景画像ランダム
+            // カバー画像
             const bgGrid = document.getElementById('cover-bg-grid');
             if (bgGrid) {
-                const TOTAL = 34;
-                const nums = Array.from({ length: TOTAL }, (_, i) => i + 1).sort(() => Math.random() - .5);
-                nums.slice(0, 2).forEach(n => {
-                    const img = document.createElement('img');
-                    img.src = `image/background-${n}.png`;
-                    bgGrid.appendChild(img);
-                });
+                const img = document.createElement('img');
+                img.src = 'image/publisher.png';
+                bgGrid.appendChild(img);
             }
 
             // Reveal

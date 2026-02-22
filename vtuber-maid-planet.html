@@ -128,8 +128,8 @@
             inset: 0;
             z-index: 1;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            opacity: .2;
+            grid-template-columns: 1fr;
+            opacity: .35;
         }
 
         #cover-bg-grid img {
@@ -703,16 +703,12 @@
 
     <script>
         (function () {
-            // 背景ランダム（2枚）
+            // カバー画像
             const bgGrid = document.getElementById('cover-bg-grid');
             if (bgGrid) {
-                const TOTAL = 34;
-                const nums = Array.from({ length: TOTAL }, (_, i) => i + 1).sort(() => Math.random() - .5);
-                nums.slice(0, 2).forEach(n => {
-                    const img = document.createElement('img');
-                    img.src = `image/background-${n}.png`;
-                    bgGrid.appendChild(img);
-                });
+                const img = document.createElement('img');
+                img.src = 'image/maidplanet.png';
+                bgGrid.appendChild(img);
             }
 
             // 花びら生成
