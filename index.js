@@ -17,22 +17,6 @@
         logoImg.src = `image/logo-${logos[Math.floor(Math.random() * logos.length)]}.png`;
     }
 
-    // 作品カードにサムネイル画像を動的挿入
-    document.querySelectorAll('.w-item').forEach(item => {
-        const href = item.getAttribute('href');
-        const inner = item.innerHTML;
-        if (!href || href === '#') {
-            // 未作成の作品：noimg扱い
-            item.classList.add('w-item--noimg');
-            item.innerHTML = `<div class="w-text">${inner}</div>`;
-            return;
-        }
-        // hrefからカバー画像名を推定: roborista.html → image/roborista.png
-        const baseName = href.replace('.html', '');
-        const imgSrc = `image/${baseName}.png`;
-        item.innerHTML = `<div class="w-thumb"><img src="${imgSrc}" alt="" onerror="this.parentElement.style.background='#0d1020';this.remove();"></div><div class="w-text">${inner}</div>`;
-    });
-
     // カテゴリ名に作品数バッジを自動追加
     document.querySelectorAll('.category-name').forEach(cat => {
         const grid = cat.nextElementSibling;

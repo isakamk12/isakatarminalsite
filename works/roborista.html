@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROBORISTA - Stadio Vault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        /* ===== THEME: DARK-THRILLER ===== */
+        /* SF / ゲームシナリオ / ダークトーン */
+        :root {
+            --accent: #39ff14;        /* ネオングリーン */
+            --accent-dim: #1a7a08;
+            --overlay: rgba(0, 8, 2, 0.78);
+            --text: #d6f5d6;
+            --text-dim: #6b9e6b;
+            --border: rgba(57, 255, 20, 0.35);
+            --btn-bg: transparent;
+            --btn-border: #39ff14;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body, html {
+            height: 100%;
+            font-family: 'Noto Serif JP', 'Georgia', serif;
+            background: #000;
+            overflow: hidden;
+        }
+
+        /* === 背景（表紙）=== */
+        .work-background {
+            position: fixed;
+            inset: 0;
+            background: url('../image/roborista.png') no-repeat center center / cover;
+            z-index: 1;
+            filter: brightness(0.7) saturate(0.6);
+            animation: bgBreath 8s ease-in-out infinite;
+        }
+        @keyframes bgBreath {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        /* スキャンライン演出 */
+        .scanlines {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 3px,
+                rgba(0,0,0,0.08) 3px,
+                rgba(0,0,0,0.08) 4px
+            );
+            pointer-events: none;
+        }
+
+        /* === メインコンテナ === */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 640px;
+            height: 90vh;
+            margin: 5vh auto;
+            background: var(--overlay);
+            border: 1px solid var(--border);
+            box-shadow: 0 0 40px rgba(57,255,20,0.12), inset 0 0 60px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            padding: 36px 40px 30px;
+            animation: containerFadeIn 0.9s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        @keyframes containerFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 上部の装飾ライン */
+        .main-container::before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            margin-bottom: 20px;
+            flex-shrink: 0;
+            animation: lineGlow 3s ease-in-out infinite;
+        }
+        @keyframes lineGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* === テキスト要素 === */
+        .catch-copy {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            opacity: 0;
+            animation: textIn 0.6s 0.3s ease forwards;
+        }
+
+        .work-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 3.6rem;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.0;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(57,255,20,0.4);
+            opacity: 0;
+            animation: textIn 0.6s 0.45s ease forwards;
+        }
+
+        .meta-info {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            letter-spacing: 3px;
+            border-left: 2px solid var(--accent-dim);
+            padding-left: 10px;
+            margin-bottom: 22px;
+            opacity: 0;
+            animation: textIn 0.6s 0.6s ease forwards;
+        }
+
+        /* あらすじ */
+        .synopsis-box {
+            flex-grow: 1;
+            font-size: 1rem;
+            line-height: 1.85;
+            color: var(--text);
+            overflow-y: auto;
+            margin-bottom: 22px;
+            padding-right: 8px;
+            white-space: pre-wrap;
+            border-left: 1px solid var(--border);
+            padding-left: 16px;
+            opacity: 0;
+            animation: textIn 0.7s 0.75s ease forwards;
+        }
+        .synopsis-box::-webkit-scrollbar { width: 4px; }
+        .synopsis-box::-webkit-scrollbar-thumb { background: var(--accent-dim); }
+
+        @keyframes textIn {
+            from { opacity: 0; transform: translateX(-8px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* === ボタン群 === */
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            opacity: 0;
+            animation: textIn 0.6s 1s ease forwards;
+        }
+
+        .action-btn {
+            background: var(--btn-bg);
+            color: var(--accent);
+            text-decoration: none;
+            text-align: center;
+            padding: 11px 10px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.82rem;
+            letter-spacing: 1px;
+            border: 1px solid var(--btn-border);
+            transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent);
+            transform: translateX(-101%);
+            transition: transform 0.25s ease;
+        }
+        .action-btn:hover::before { transform: translateX(0); }
+        .action-btn:hover { color: #000; }
+        .action-btn span { position: relative; z-index: 1; }
+
+        /* 戻るボタン */
+        .back-nav {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            z-index: 100;
+            background: #000;
+            color: var(--accent);
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid var(--accent);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .back-nav:hover { background: var(--accent); color: #000; }
+
+        /* スマホ対応 */
+        @media (max-width: 600px) {
+            .main-container { padding: 24px 20px 20px; height: 95vh; margin: 2.5vh auto; }
+            .work-title { font-size: 2.4rem; }
+            .button-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+<link rel="stylesheet" href="../mouse-trail.css">
+</head>
+<body>
+
+    <div class="work-background"></div>
+    <div class="scanlines"></div>
+
+    <div class="main-container">
+        <p class="catch-copy">機械の残骸ばかりの文明で生きる。</p>
+
+        <h1 class="work-title">ROBORISTA</h1>
+
+        <p class="meta-info">NOVEL / Coming Soon</p>
+
+        <div class="synopsis-box">機械文明の電力不足による破綻後、緩やかに人類は壊滅した。
+それも摩耗するように、じっくりと。
+
+自然と対面し人は多くを残さず、その結果忘れられた知識の多くは沈む…。
+その中で唯一機械の整備を受け継ぎ、直し、人に役立てると知った子供の話。
+
+機械こそ残したかったものだろう…と、彼は今日も錆びついた過去を磨く。</div>
+
+        <div class="button-grid">
+            <a href="#" class="action-btn"><span>準備中</span></a>
+            <a href="#" class="action-btn"><span>準備中</span></a>
+            <a href="#" class="action-btn"><span>準備中</span></a>
+            <a href="#" class="action-btn"><span>準備中</span></a>
+        </div>
+    </div>
+
+    <a href="../index.html" class="back-nav">← RETURN</a>
+
+<script src="../mouse-trail.js"></script>
+</body>
+</html>

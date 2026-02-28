@@ -456,7 +456,7 @@ body {
 
 .w-item {
     background: var(--card-bg);
-    padding: 13px 16px;
+    padding: 16px;
     text-decoration: none;
     font-size: .9rem;
     font-weight: 700;
@@ -490,48 +490,6 @@ body {
     margin-top: 4px;
     font-weight: 400;
     font-style: italic;
-}
-
-/* 作品カード画像サムネイル */
-.w-item {
-    display: grid;
-    grid-template-columns: 52px 1fr;
-    align-items: center;
-    gap: 0;
-}
-
-.w-thumb {
-    width: 52px;
-    height: 68px;
-    overflow: hidden;
-    background: #0d1020;
-    border-right: 1px solid var(--border);
-}
-
-.w-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    filter: brightness(.7) sepia(.05);
-    transition: filter .3s;
-}
-
-.w-item:hover .w-thumb img {
-    filter: brightness(.9);
-}
-
-.w-text {
-    padding: 8px 14px;
-}
-
-/* サムネ無しフォールバック */
-.w-item--noimg {
-    grid-template-columns: 1fr;
-}
-
-.w-item--noimg .w-text {
-    padding: 10px 14px;
 }
 
 /* カテゴリバッジ */
