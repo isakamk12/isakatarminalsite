@@ -38,7 +38,7 @@
         .work-background {
             position: fixed;
             inset: 0;
-            background-image:url('../image/exaxion.png');
+            background-image: url('../image/exaxion.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -209,6 +209,13 @@
             transition: background .2s, color .2s;
         }
 
+        .action-btn.special-btn {
+            border-color: var(--accent);
+            color: #000;
+            background: var(--accent);
+            font-weight: bold;
+        }
+
         .action-btn:hover {
             background: rgba(57, 255, 20, .15);
             color: #9fffb0;
@@ -251,7 +258,6 @@
             }
         }
     </style>
-<link rel="stylesheet" href="../mouse-trail.css">
 </head>
 
 <body>
@@ -263,16 +269,18 @@
         <p class="meta-info">GAME PROJECT / Coming Soon</p>
         <div class="synopsis-box">現実世界と同期したゲーム。SNSの言葉がAIを育て、行動を導く。
 
-発言の痕跡が残る世界で、感情と戦略が交差する。
+            発言の痕跡が残る世界で、感情と戦略が交差する。
 
-その言葉にある恥を知れ。</div>
-        <div class="button-grid"><a href="#" class="action-btn">準備中</a>
+            その言葉にある恥を知れ。</div>
+        <div class="button-grid">
+            <a href="exaxion-special.html" class="action-btn special-btn">コンセプトページ(特別版)</a>
             <a href="#" class="action-btn">準備中</a>
             <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a></div>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+        </div>
     </div>
     <a href="../index.html" class="back-nav">&#8592; RETURN</a>
-<script src="../mouse-trail.js"></script>
 </body>
 
 </html>

@@ -35,7 +35,7 @@
         .work-background {
             position: fixed;
             inset: 0;
-            background-image:url('../image/lovely-buddy.png');
+            background-image: url('../image/lovely-buddy.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -278,6 +278,13 @@
             transition: background .3s, color .3s;
         }
 
+        .action-btn.special-btn {
+            border-color: var(--rose);
+            color: #000;
+            background: var(--rose);
+            font-weight: bold;
+        }
+
         .action-btn:hover {
             background: rgba(232, 164, 176, .12);
             color: var(--cream);
@@ -320,7 +327,6 @@
             }
         }
     </style>
-<link rel="stylesheet" href="../mouse-trail.css">
 </head>
 
 <body>
@@ -342,17 +348,19 @@
         <p class="meta-info">NOVEL / Coming Soon</p>
         <div class="synopsis-box">AI の発展と同時に進み、女装という概念が一般化し廃れ、同時に清潔感や少食、共感と様々な恩恵を齎した。
 
-しかし、その社会において本来生まれる筈のない少女が生き延び、女装を似合っていないと嫌う少年の婚約から物語は始まる。
+            しかし、その社会において本来生まれる筈のない少女が生き延び、女装を似合っていないと嫌う少年の婚約から物語は始まる。
 
-そんな彼女の為に彼は美容を学び、彼女の為の道具を集めていく。</div>
+            そんな彼女の為に彼は美容を学び、彼女の為の道具を集めていく。</div>
         <div class="flower-footer">&#10022;</div>
-        <div class="button-grid"><a href="#" class="action-btn">準備中</a>
+        <div class="button-grid">
+            <a href="lovely-buddy-special.html" class="action-btn special-btn">コンセプトページ(特別版)</a>
             <a href="#" class="action-btn">準備中</a>
             <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a></div>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+        </div>
     </div>
     <a href="../index.html" class="back-nav">&#8592; 一覧へ戻る</a>
-<script src="../mouse-trail.js"></script>
 </body>
 
 </html>

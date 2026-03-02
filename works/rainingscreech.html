@@ -37,7 +37,7 @@
         .work-background {
             position: fixed;
             inset: 0;
-            background-image:url('../image/rainingscreech.png');
+            background-image: url('../image/rainingscreech.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -294,6 +294,13 @@
             transition: background .2s, border-color .2s;
         }
 
+        .action-btn.special-btn {
+            border-color: var(--static);
+            color: var(--static);
+            background: rgba(255, 59, 59, 0.05);
+            font-weight: bold;
+        }
+
         .action-btn:hover {
             background: rgba(255, 59, 59, .1);
             border-color: var(--static);
@@ -335,7 +342,6 @@
             }
         }
     </style>
-<link rel="stylesheet" href="../mouse-trail.css">
 </head>
 
 <body>
@@ -350,21 +356,23 @@
         <p class="meta-info">GAME / Ethical Psychological Horror</p>
         <div class="synopsis-box">怪物の恐怖が、人々の本性を無慈悲に引き摺り出す。
 
-銀の弾丸を手に真相へ迫る「ストーリーモード」と、
-怪物を殺せない圧倒的弱者として生き延びる「一般人モード」。
+            銀の弾丸を手に真相へ迫る「ストーリーモード」と、
+            怪物を殺せない圧倒的弱者として生き延びる「一般人モード」。
 
-どの選択も正解ではなく、どの道を選んでも犠牲は避けられない。
-結末は必ず暗転する。
+            どの選択も正解ではなく、どの道を選んでも犠牲は避けられない。
+            結末は必ず暗転する。
 
-ジャンプスケアに頼らず、倫理観と二択の重圧でプレイヤーを追い詰める。
-最後に残るのは真相か、それとも拭い去れぬ罪か。</div>
-        <div class="button-grid"><a href="#" class="action-btn">準備中</a>
+            ジャンプスケアに頼らず、倫理観と二択の重圧でプレイヤーを追い詰める。
+            最後に残るのは真相か、それとも拭い去れぬ罪か。</div>
+        <div class="button-grid">
+            <a href="rainingscreech-special.html" class="action-btn special-btn">コンセプトページ(特別版)</a>
             <a href="#" class="action-btn">準備中</a>
             <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a></div>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+        </div>
     </div>
     <a href="../index.html" class="back-nav">&#8592; RETURN</a>
-<script src="../mouse-trail.js"></script>
 </body>
 
 </html>

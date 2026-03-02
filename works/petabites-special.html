@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetaBites!! - Stadio Vault Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Special+Elite&family=Noto+Sans+JP:wght@100;400;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --spark-orange: #f97316;
+            --engine-bronze: #78350f;
+            --oil-black: #18181b;
+            --gauge-green: #22c55e;
+            --exhaust-gray: #52525b;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --oil-black: #09090b;
+                --engine-bronze: #451a03;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--oil-black);
+            color: #d4d4d8;
+            font-family: 'Noto Sans JP', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        /* Industrial Background */
+        .engine-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background-image: url('../image/petabites.png');
+            background-size: cover;
+            background-position: center;
+            filter: contrast(1.5) brightness(0.15) sepia(0.3);
+            opacity: 0.8;
+        }
+
+        .smoke-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at 70% 30%, rgba(249, 115, 22, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Rusty Header */
+        header {
+            padding: 120px 40px;
+            text-align: center;
+            border-bottom: 5px solid var(--engine-bronze);
+            background: linear-gradient(to bottom, rgba(120, 53, 15, 0.1), transparent);
+            position: relative;
+        }
+
+        .engine-status {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--spark-orange);
+            font-size: 0.9rem;
+            letter-spacing: 0.3em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Special Elite', cursive;
+            font-size: 6rem;
+            color: var(--spark-orange);
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.3));
+        }
+
+        .catch {
+            font-size: 1.2rem;
+            color: #fff;
+            letter-spacing: 0.2em;
+            font-weight: 300;
+        }
+
+        /* Main Container */
+        .wrapper {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px 150px;
+        }
+
+        section {
+            background: rgba(24, 24, 27, 0.85);
+            border: 1px solid rgba(120, 53, 15, 0.3);
+            padding: 60px;
+            margin-bottom: 60px;
+            backdrop-filter: blur(8px);
+            position: relative;
+        }
+
+        section::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+            border-top: 2px solid var(--spark-orange);
+            border-left: 2px solid var(--spark-orange);
+            opacity: 0.3;
+        }
+
+        h2 {
+            font-family: 'Special Elite', cursive;
+            color: var(--spark-orange);
+            font-size: 2rem;
+            margin-bottom: 35px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--engine-bronze);
+        }
+
+        /* Chapter Cards */
+        .log-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .log-card {
+            border: 1px dashed var(--exhaust-gray);
+            padding: 25px;
+            transition: 0.3s;
+        }
+
+        .log-card:hover {
+            border-color: var(--spark-orange);
+            background: rgba(249, 115, 22, 0.05);
+        }
+
+        .log-no {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--gauge-green);
+        }
+
+        .log-title {
+            font-weight: 900;
+            color: #fff;
+            margin: 10px 0;
+            display: block;
+        }
+
+        /* Character Profiles */
+        .char-item {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .char-gauge {
+            width: 80px;
+            text-align: center;
+        }
+
+        .gauge-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 4px solid var(--engine-bronze);
+            border-top-color: var(--gauge-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--gauge-green);
+        }
+
+        .back-nav {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            background: var(--spark-orange);
+            color: #000;
+            padding: 12px 24px;
+            font-family: 'Special Elite', cursive;
+            font-weight: 900;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .back-nav:hover {
+            background: #fff;
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 800px) {
+            h1 {
+                font-size: 3rem;
+                letter-spacing: 5px;
+            }
+
+            .char-item {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            section {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../mouse-trail.css">
+</head>
+
+<body>
+    <div class="engine-bg"></div>
+    <div class="smoke-overlay"></div>
+
+    <header>
+        <span class="engine-status">DIFFERENCE ENGINE: ACTIVE // TEMP: 850K // RPM: 4200</span>
+        <h1>PetaBites!!</h1>
+        <p class="catch">内燃機関の灯す赤い光は、電気よりも安堵を与える。</p>
+    </header>
+
+    <div class="wrapper">
+        <section id="synopsis">
+            <h2>TECHNICAL ABSTRACT</h2>
+            <p>1970年、通信技術なきデータ社会。巨大な機械を引きずり、内燃式の演算装置で記憶を運ぶ時代。記憶が通貨となり、燃料となる歪んだ世界の狭間で、中年の技師・九堂勇作は記憶の修復に挑む。</p>
+            <p style="margin-top: 20px;">「記憶とは、残すものか、燃やすものか」。火花と油の匂い、そして信念が、冷たいデータの世界を赤く染め上げる。</p>
+        </section>
+
+        <section id="logs">
+            <h2>LOG RECORDS</h2>
+            <div class="log-grid">
+                <div class="log-card">
+                    <span class="log-no">LOG#01</span>
+                    <span class="log-title">火花の記憶</span>
+                    <p style="font-size: 0.8rem;">壊れた記憶に紛れ込んだ、発電所の機密と恩人の痕跡。すべての歯車が回りだす。</p>
+                </div>
+                <div class="log-card">
+                    <span class="log-no">LOG#03</span>
+                    <span class="log-title">記録に愛は刻まれない</span>
+                    <p style="font-size: 0.8rem;">人類初のアンドロイド・リコ。「残らない想い」を火花で繋ぎ止める、虚空の祈り。</p>
+                </div>
+                <div class="log-card">
+                    <span class="log-no">LOG#05</span>
+                    <span class="log-title">記憶と引き換えに、世界を</span>
+                    <p style="font-size: 0.8rem;">恩人の記憶を再構成するため、仲間の記憶を壊すか。究極の演算値が導く答え。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="crew">
+            <h2>OPERATORS</h2>
+            <div class="char-item">
+                <div class="char-gauge">
+                    <div class="gauge-ring">45y</div><span
+                        style="font-size: 0.6rem; color: var(--gauge-green);">EXP</span>
+                </div>
+                <div>
+                    <strong style="color: #fff; font-size: 1.5rem;">九堂 勇作 (Yusaku)</strong>
+                    <p style="font-size: 0.9rem; margin-top: 5px;">記憶修復士。階差機関を相棒に、人の心の澱みを物理的に修復する。火の音と匂いに執着する、最後の職人。</p>
+                </div>
+            </div>
+            <div class="char-item">
+                <div class="char-gauge">
+                    <div class="gauge-ring">NEW</div><span
+                        style="font-size: 0.6rem; color: var(--gauge-green);">TYPE</span>
+                </div>
+                <div>
+                    <strong style="color: #fff; font-size: 1.5rem;">リコ (Rico)</strong>
+                    <p style="font-size: 0.9rem; margin-top: 5px;">
+                        人類初のアンドロイド。記憶と身体が適合しない欠陥を抱えながらも、勇作を「夫」として愛し続ける一途な演算回路。</p>
+                </div>
+            </div>
+            <div class="char-item">
+                <div class="char-gauge">
+                    <div class="gauge-ring">EX</div><span
+                        style="font-size: 0.6rem; color: var(--gauge-green);">CERT</span>
+                </div>
+                <div>
+                    <strong style="color: #fff; font-size: 1.5rem;">アオイ (Aoi)</strong>
+                    <p style="font-size: 0.9rem; margin-top: 5px;">
+                        熟練整備士。勇作とは旧知の間柄で、共に死線を潜り抜けてきた。彼女の内に宿る失われた恩人の記憶が、物語の鍵となる。</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <a href="../index.html" class="back-nav">IGNITION_OFF</a>
+
+    <script src="../mouse-trail.js"></script>
+</body>
+
+</html>

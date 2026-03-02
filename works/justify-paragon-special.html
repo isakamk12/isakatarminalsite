@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justify Paragon - Stadio Vault Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400&family=Montserrat:wght@100;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --ash-gray: #71717a;
+            --noir-black: #09090b;
+            --blood-crimson: #991b1b;
+            --silk-white: #f4f4f5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--noir-black);
+            color: var(--silk-white);
+            font-family: 'Playfair Display', serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Fashion-Noir Background */
+        .noir-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background-image: url('../image/justify-paragon.png');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(1) contrast(1.2) brightness(0.3);
+            opacity: 0.8;
+        }
+
+        .crimson-gradient {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at bottom right, rgba(153, 27, 27, 0.2) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Typographic Header */
+        header {
+            padding: 150px 40px 100px;
+            text-align: middle;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .ash-tag {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--ash-gray);
+            font-size: 0.8rem;
+            letter-spacing: 0.8em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 6rem;
+            font-weight: 900;
+            font-style: italic;
+            line-height: 1;
+            color: var(--silk-white);
+            margin-bottom: 15px;
+            text-shadow: 10px 10px 0 var(--blood-crimson);
+        }
+
+        .contract-text {
+            color: var(--blood-crimson);
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+        }
+
+        /* Abstract Box */
+        .wrapper {
+            max-width: 1100px;
+            margin: 60px auto 200px;
+            padding: 0 40px;
+        }
+
+        section {
+            margin-bottom: 120px;
+            position: relative;
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 900;
+            color: var(--blood-crimson);
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            border-left: 5px solid var(--blood-crimson);
+            padding-left: 20px;
+        }
+
+        .summary-box {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            max-width: 800px;
+            margin-bottom: 40px;
+        }
+
+        .crimson-line {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, var(--blood-crimson), transparent);
+            margin: 40px 0;
+        }
+
+        /* Story Grid */
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .chapter-card {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 30px;
+            transition: 0.3s;
+        }
+
+        .chapter-card:hover {
+            border-bottom-color: var(--blood-crimson);
+        }
+
+        .chapter-no {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            color: var(--ash-gray);
+        }
+
+        .chapter-title {
+            font-size: 1.4rem;
+            color: #fff;
+            margin: 10px 0;
+            display: block;
+        }
+
+        /* Character Profile */
+        .char-section {
+            display: flex;
+            gap: 80px;
+            margin-top: 60px;
+        }
+
+        .char-profile {
+            flex: 1;
+        }
+
+        .char-name {
+            font-size: 2.5rem;
+            font-weight: 900;
+            border-bottom: 3px solid var(--blood-crimson);
+            margin-bottom: 20px;
+        }
+
+        .back-nav {
+            position: fixed;
+            bottom: 50px;
+            left: 50px;
+            color: var(--blood-crimson);
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+            writing-mode: vertical-rl;
+            z-index: 100;
+            transition: 0.3s;
+        }
+
+        .back-nav:hover {
+            color: #fff;
+            transform: translateY(-10px);
+        }
+
+        @media (max-width: 900px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            .char-section {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .summary-box {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../mouse-trail.css">
+</head>
+
+<body>
+    <div class="noir-bg"></div>
+    <div class="crimson-gradient"></div>
+
+    <header>
+        <span class="ash-tag">Ash Like Her Skin // Justice Inscribed in Cinders</span>
+        <h1>Justify Paragon</h1>
+        <div class="contract-text">契約、完了。</div>
+    </header>
+
+    <div class="wrapper">
+        <section id="abstract">
+            <h2>The Concept</h2>
+            <div class="summary-box">
+                「正義」を騙る欺瞞と、「美しさ」を搾取する構造。入れ替わりの契約で、巨悪の因縁を断ち切る報復のダークファンタジー。
+            </div>
+            <p>美に囚われた国に、一人の灰色の少女レイナがやってきた。彼女は裏切られ、支配され、奪われた。だから魔女イオは契約を差し出した。「丸ごとぶっ壊すか」――。ふたりは世界と契約し、断罪の引き金を引く。</p>
+            <div class="crimson-line"></div>
+        </section>
+
+        <section id="personnel">
+            <h2>The Avengers</h2>
+            <div class="char-section">
+                <div class="char-profile">
+                    <span class="char-name">イオ (Io)</span>
+                    <p>冷静沈着な"魔女"。入れ替わりの魔術を操り、自らの脚を代償にレイナと運命を共にする。合理主義の裏側に、誰よりも深い覚悟を秘めた復讐の演出家。</p>
+                </div>
+                <div class="char-profile">
+                    <span class="char-name">レイナ (Reina)</span>
+                    <p>灰色の肌と髪を持つ元女優。支配と搾取から自らを取り戻すため、自身の憎悪を魔術に変える。依存から主体性へと成長する、物語の真の主人公。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="records">
+            <h2>Case Files</h2>
+            <div class="chapter-grid">
+                <div class="chapter-card">
+                    <span class="chapter-no">Episode 02</span>
+                    <span class="chapter-title">Beneath the Grace</span>
+                    <p style="font-size: 0.8rem; font-style: italic; opacity: 0.7;">慈善団体を装い売春組織を牛耳る「聖女」の断罪。</p>
+                </div>
+                <div class="chapter-card">
+                    <span class="chapter-no">Episode 05</span>
+                    <span class="chapter-title">Broken Strings</span>
+                    <p style="font-size: 0.8rem; font-style: italic; opacity: 0.7;">虐待と搾取を繰り返す「育ての親」との決別。</p>
+                </div>
+                <div class="chapter-card">
+                    <span class="chapter-no">Episode 11</span>
+                    <span class="chapter-title">Inheritance of Death</span>
+                    <p style="font-size: 0.8rem; font-style: italic; opacity: 0.7;">家族を道具とした実の父、その因果応報。</p>
+                </div>
+                <div class="chapter-card">
+                    <span class="chapter-no">Episode 12</span>
+                    <span class="chapter-title">Stand Again</span>
+                    <p style="font-size: 0.8rem; font-style: italic; opacity: 0.7;">真実を飲み込み、立ち上がる少女の結末。</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <a href="../index.html" class="back-nav">PARAGON_END</a>
+
+    <script src="../mouse-trail.js"></script>
+</body>
+
+</html>

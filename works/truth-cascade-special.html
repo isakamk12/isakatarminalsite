@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truth Cascade - Stadio Vault Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400;700&family=Montserrat:wght@900&family=Noto+Sans+JP:wght@100;400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --cascade-blue: #0ea5e9;
+            --deep-obsidian: #020617;
+            --data-cyan: #22d3ee;
+            --glass-bg: rgba(15, 23, 42, 0.8);
+            --border-blue: rgba(14, 165, 233, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--deep-obsidian);
+            color: #cbd5e1;
+            font-family: 'Noto Sans JP', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Digital Waterfall Background */
+        .waterfall-container {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: url('../image/truth-cascade.png');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.2) saturate(0.5);
+            opacity: 0.6;
+        }
+
+        .data-stream {
+            position: fixed;
+            top: 0;
+            width: 1px;
+            height: 100vh;
+            background: linear-gradient(to bottom, transparent, var(--cascade-blue), transparent);
+            opacity: 0.2;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            from {
+                transform: translateY(-100vh);
+            }
+
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        /* Tech Header */
+        header {
+            padding: 100px 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-blue);
+            background: linear-gradient(to bottom, rgba(14, 165, 233, 0.05), transparent);
+        }
+
+        .sys-log {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--cascade-blue);
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px var(--cascade-blue);
+        }
+
+        /* Layout */
+        .wrapper {
+            max-width: 1100px;
+            margin: 40px auto 150px;
+            padding: 0 20px;
+        }
+
+        section {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-blue);
+            padding: 60px;
+            margin-bottom: 60px;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            color: var(--data-cyan);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h2::before {
+            content: '';
+            width: 50px;
+            height: 1px;
+            background: var(--data-cyan);
+        }
+
+        /* Trilogy Grid */
+        .trilogy-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .part-card {
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.02);
+            transition: 0.3s;
+        }
+
+        .part-card:hover {
+            border-color: var(--cascade-blue);
+            background: rgba(14, 165, 233, 0.05);
+        }
+
+        .part-no {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--cascade-blue);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .part-title {
+            font-weight: bold;
+            color: #fff;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* System Info */
+        .stat-box {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--data-cyan);
+        }
+
+        .back-nav {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--cascade-blue);
+            color: #fff;
+            padding: 12px 24px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        @media (max-width: 900px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+
+            .trilogy-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../mouse-trail.css">
+</head>
+
+<body>
+    <div class="waterfall-container"></div>
+    <div id="streams"></div>
+
+    <header>
+        <span class="sys-log">CONNECTING TO TRUTH_SYSTEM... // STATUS: INTERCONNECTED</span>
+        <h1>Truth Cascade</h1>
+        <p style="font-size: 1.1rem; letter-spacing: 0.3em; margin-top: 10px; opacity: 0.8;">真実の連鎖、情報の奔流。</p>
+    </header>
+
+    <div class="wrapper">
+        <section id="synopsis">
+            <h2>Abstract</h2>
+            <p>独立した三つの事件。元スパイの探偵、変装の達人と経済学博士、そして冷徹な検察官。彼らが追うのは、デジタル社会の深層に潜む「情報の支配」。</p>
+            <p style="margin-top: 20px;">悪の教授ジョルジュが仕掛ける情報操作のパズルを解き明かし、信頼記録の改竄、世論の熱度、そして論理の武器で真実へと辿り着く。知的スリラー・ミステリー三部作。
+            </p>
+        </section>
+
+        <section id="trilogy">
+            <h2>Trilogy Structure</h2>
+            <div class="trilogy-grid">
+                <div class="part-card">
+                    <span class="part-no">Part 01</span>
+                    <span class="part-title">Holmes Return</span>
+                    <p style="font-size: 0.8rem;">信頼記録の改竄を追う探偵ホリー・ムーア。元スパイの知略が、静かな都市の闇を暴く。</p>
+                </div>
+                <div class="part-card">
+                    <span class="part-no">Part 02</span>
+                    <span class="part-title">Kelvin Market</span>
+                    <p style="font-size: 0.8rem;">情報の「熱度」を操るバディ。変装と経済的操作を駆使し、失踪と利欲の渦中へ潜入する。</p>
+                </div>
+                <div class="part-card">
+                    <span class="part-no">Part 03</span>
+                    <span class="part-title">Legal Weapon</span>
+                    <p style="font-size: 0.8rem;">論理を武器とした法廷。精神を追い詰め、暴走を制圧する、真実のための最終陳述。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="personnel">
+            <h2>Major Personnel</h2>
+            <div style="display: flex; gap: 30px; flex-direction: column;">
+                <div>
+                    <strong style="color: var(--data-cyan);">ホリー・ムーア (Holly Moore)</strong>
+                    <p style="font-size: 0.9rem;">元スパイの探偵。飄々とした振る舞いの裏に、確かな推理とバリツ（格闘術）を秘める。</p>
+                </div>
+                <div>
+                    <strong style="color: var(--data-cyan);">シルヴァーノ・ヘルツル (Silvano)</strong>
+                    <p style="font-size: 0.9rem;">教授によって一族を破滅させられた復讐の検察官。冷徹に真実のみを追い込む、論理の体現者。</p>
+                </div>
+                <div>
+                    <strong style="color: var(--data-cyan);">ジョルジュ (Professor George)</strong>
+                    <p style="font-size: 0.9rem;">三部作すべてを裏で操る「悪の教授」。情報操作を芸術の域へと高めた、シリーズ最大の敵。</p>
+                </div>
+            </div>
+            <div class="stat-box">
+                <div><span class="stat-label">TOTAL CHAPTERS</span><br><strong>30</strong></div>
+                <div><span class="stat-label">GENRE</span><br><strong>Mystery Thriller</strong></div>
+                <div><span class="stat-label">CORE SYSTEM</span><br><strong>Trust Logic</strong></div>
+            </div>
+        </section>
+    </div>
+
+    <a href="../index.html" class="back-nav">DISCONNECT_CASCADE</a>
+
+    <script>
+        const container = document.getElementById('streams');
+        for (let i = 0; i < 30; i++) {
+            const s = document.createElement('div');
+            s.className = 'data-stream';
+            s.style.left = Math.random() * 100 + 'vw';
+            s.style.animationDuration = (Math.random() * 2 + 1) + 's';
+            s.style.animationDelay = Math.random() * 2 + 's';
+            container.appendChild(s);
+        }
+    </script>
+    <script src="../mouse-trail.js"></script>
+</body>
+
+</html>

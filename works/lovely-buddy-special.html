@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lovely Buddy - Stadio Vault Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=M+PLUS+Rounded+1c:wght@300;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --love-pink: #ff85a1;
+            --soft-pink: #fbb6ce;
+            --sky-blue: #bee3f8;
+            --heart-red: #f56565;
+            --bg-pastel: #fff5f7;
+            --white-glass: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-pastel);
+            color: #4a5568;
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Bubbles & Hearts Background */
+        .bg-decor {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+            background-image: url('../image/lovely-buddy.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+        }
+
+        .sparkle {
+            position: absolute;
+            color: var(--love-pink);
+            font-size: 20px;
+            animation: float 5s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-30px) rotate(20deg);
+            }
+        }
+
+        /* Romantic Header */
+        header {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(to bottom, #fff, transparent);
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 4.5rem;
+            color: var(--love-pink);
+            font-weight: 700;
+            text-shadow: 2px 2px 0 rgba(255, 133, 161, 0.2);
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+        }
+
+        .love-tag {
+            background: var(--love-pink);
+            color: #fff;
+            padding: 5px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: bold;
+        }
+
+        /* Layout */
+        .wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+
+        section {
+            background: var(--white-glass);
+            border: 2px solid #fff;
+            border-radius: 30px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px rgba(255, 133, 161, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        h2 {
+            font-family: 'Quicksand', sans-serif;
+            color: var(--love-pink);
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        h2::before,
+        h2::after {
+            content: '❤';
+            font-size: 1.2rem;
+        }
+
+        /* Character Grid */
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .char-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid var(--soft-pink);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .char-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 133, 161, 0.2);
+        }
+
+        .char-name {
+            font-weight: bold;
+            color: var(--love-pink);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* System Boxes */
+        .system-flex {
+            display: flex;
+            gap: 20px;
+            flex-direction: column;
+        }
+
+        .system-item {
+            display: flex;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 15px;
+            align-items: center;
+        }
+
+        .icon {
+            font-size: 2rem;
+        }
+
+        .back-nav {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #fff;
+            color: var(--love-pink);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-size: 1.5rem;
+            transition: 0.3s;
+            z-index: 100;
+        }
+
+        .back-nav:hover {
+            background: var(--love-pink);
+            color: #fff;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+
+            section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../mouse-trail.css">
+</head>
+
+<body>
+    <div class="bg-decor" id="sparkles"></div>
+
+    <header>
+        <span class="love-tag">SUPPORT × ROMANCE SIMULATION</span>
+        <h1>Lovely Buddy</h1>
+        <p style="color: var(--soft-pink); letter-spacing: 0.2em;">キミの恋を、ボクが応援するよ。</p>
+    </header>
+
+    <div class="wrapper">
+        <section id="concept">
+            <h2>Concept</h2>
+            <p style="text-align: center; font-size: 1.1rem; color: #718096;">
+                誰かの恋を応援することで、自分自身の恋が進んでいく。<br>
+                「おせっかい」が奇跡を起こす、新感覚のサポート型恋愛シミュレーション。
+            </p>
+            <p style="margin-top: 25px;">
+                舞台は輝かしい学園生活。あなたは"バディ"として、周囲の友人たちの恋の悩みを聞き、デートの作戦を立て、彼らの背中を押し続けます。しかし、誰かを応援するその姿こそが、誰かの心を動かしていることに、あなたはまだ気づいていません。
+            </p>
+        </section>
+
+        <section id="system">
+            <h2>Support System</h2>
+            <div class="system-flex">
+                <div class="system-item">
+                    <span class="icon">💬</span>
+                    <div>
+                        <strong>作戦会議 (Strategy Hub)</strong>
+                        <p>ターゲットの好みを分析し、最高のデートプランを提案。成功すれば応援ポイントが溜まります。</p>
+                    </div>
+                </div>
+                <div class="system-item">
+                    <span class="icon">💝</span>
+                    <div>
+                        <strong>バディ・シナジー</strong>
+                        <p>応援活動を通じて、特定のヒロインとの「秘密の共有」が発生。二人の距離が急接近！</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="heroines">
+            <h2>Lovely Friends</h2>
+            <div class="char-grid">
+                <div class="char-card">
+                    <span class="char-name">カナ (Kana)</span>
+                    <p style="font-size: 0.85rem;">ボーイッシュでおしゃれ大好き。真っ直ぐな性格で、あなたの応援を一番楽しんでくれる。</p>
+                </div>
+                <div class="char-card">
+                    <span class="char-name">サナ (Sana)</span>
+                    <p style="font-size: 0.85rem;">クラスの人気者。世話焼きだけど、実は自分の恋には奥手な一面も…？</p>
+                </div>
+                <div class="char-card">
+                    <span class="char-name">アミ (Ami)</span>
+                    <p style="font-size: 0.85rem;">元気いっぱいの後輩。あなたの「応援」のテクニックを師匠と仰いでついてくる。</p>
+                </div>
+                <div class="char-card">
+                    <span class="char-name">ナギサ (Nagisa)</span>
+                    <p style="font-size: 0.85rem;">クールなスポーツマン。信頼を大事にする彼女にとって、あなたはかけがえのない相棒。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="climax" style="text-align: center; background: linear-gradient(135deg, #fff, var(--bg-pastel));">
+            <h2 style="margin-bottom: 20px;">最後に実るのは、キミの恋。</h2>
+            <p>100件の応援を達成した時、学園祭の夜に何かが起こる。誰かのために頑張ったあなたの物語、その結末はパステルカラーの奇跡に包まれます。</p>
+        </section>
+    </div>
+
+    <a href="../index.html" class="back-nav">🏠</a>
+
+    <script>
+        const container = document.getElementById('sparkles');
+        for (let i = 0; i < 20; i++) {
+            const s = document.createElement('div');
+            s.className = 'sparkle';
+            s.innerHTML = '✨';
+            s.style.left = Math.random() * 100 + 'vw';
+            s.style.top = Math.random() * 100 + 'vh';
+            s.style.animationDelay = (Math.random() * 5) + 's';
+            s.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            container.appendChild(s);
+        }
+    </script>
+    <script src="../mouse-trail.js"></script>
+</body>
+
+</html>

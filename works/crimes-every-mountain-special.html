@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crimes every Mountain - Stadio Vault Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Noto+Serif+JP:wght@200;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --paper-white: #f2f2f2;
+            --ink-black: #1a1a1a;
+            --judicial-blue: #2c3e50;
+            --guilt-red: #a93226;
+            --border-gray: #ccc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #e5e5e5;
+            color: var(--ink-black);
+            font-family: 'Noto Serif JP', serif;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Abstract Dossier Background */
+        .folder-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                linear-gradient(90deg, #ddd 1px, transparent 1px) 0 0 / 100px 100px,
+                linear-gradient(#ddd 1px, transparent 1px) 0 0 / 100px 100px,
+                #e5e5e5;
+            opacity: 0.5;
+        }
+
+        .blood-stain {
+            position: fixed;
+            top: 20%;
+            right: 10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(169, 50, 38, 0.05) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Header as a Case File */
+        header {
+            max-width: 800px;
+            margin: 60px auto 0;
+            padding: 60px;
+            background: #fff;
+            border: 1px solid var(--border-gray);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        header::before {
+            content: 'CONFIDENTIAL / TOP SECRET';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--guilt-red);
+            font-family: 'Courier Prime', monospace;
+            font-weight: bold;
+            border: 2px solid var(--guilt-red);
+            padding: 5px 10px;
+            transform: rotate(5deg);
+            font-size: 0.7rem;
+        }
+
+        .case-no {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--ink-black);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--judicial-blue);
+            font-weight: bold;
+            border-bottom: 3px solid var(--judicial-blue);
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* Content Blocks as Evidence Folders */
+        .wrapper {
+            max-width: 1000px;
+            margin: 40px auto 100px;
+            padding: 0 20px;
+        }
+
+        section {
+            background: var(--paper-white);
+            border: 1px solid var(--border-gray);
+            padding: 60px;
+            margin-bottom: 40px;
+            position: relative;
+            transform: rotate(-0.5deg);
+        }
+
+        section:nth-child(even) {
+            transform: rotate(0.5deg);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--ink-black);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h2::before {
+            content: '■';
+            color: var(--guilt-red);
+        }
+
+        /* Personnel Table */
+        .dossier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .profile-card {
+            border: 1px dashed #aaa;
+            padding: 20px;
+            background: #fff;
+        }
+
+        .profile-name {
+            font-weight: bold;
+            color: var(--guilt-red);
+            display: block;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .back-nav {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: var(--ink-black);
+            color: #fff;
+            padding: 12px 24px;
+            text-decoration: none;
+            font-family: 'Courier Prime', monospace;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+
+        .back-nav:hover {
+            background: var(--guilt-red);
+        }
+
+        @media (max-width: 700px) {
+            h1 {
+                font-size: 2.23rem;
+            }
+
+            header,
+            section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../mouse-trail.css">
+</head>
+
+<body>
+    <div class="folder-bg"></div>
+    <div class="blood-stain"></div>
+
+    <header>
+        <span class="case-no">CASE ID: CEM-9982X / TWISTED_COLLABORATION</span>
+        <div class="subtitle">死刑囚の学校</div>
+        <h1>Crimes every Mountain</h1>
+        <p style="font-family: 'Courier Prime', monospace; border-left: 2px solid #ccc; padding-left: 15px;">
+            罪を教え、矛盾を解く。死刑囚のみが収容される教育機関。そこは、真実が窒息する場所。</p>
+    </header>
+
+    <div class="wrapper">
+        <section id="abstract">
+            <h2>TECHNICAL ABSTRACT</h2>
+            <p>本作は、死刑囚を対象とした特殊な教育施設を舞台にした群像劇である。主人公・月野守は、囚人たちに己の罪を直視させる「教育者」でありながら、同時に裁判記録の綻びを見抜き、冤罪の可能性を追及する戦略家でもある。
+            </p>
+            <p style="margin-top: 20px;">『Twisted Children』と世界観を共有し、かつて「死刑囚にされた」生存者・月野志織の遺した教育記録を頼りに、法と倫理、そして正しさの境界を彷徨う。
+            </p>
+        </section>
+
+        <section id="profiles">
+            <h2>INMATE PROFILES</h2>
+            <div class="dossier-grid">
+                <div class="profile-card">
+                    <span class="profile-name">名取 綾子 (Ayako Natori)</span>
+                    <p style="font-size: 0.85rem;">毒殺容疑。一貫して無実を訴えるが、社会のまなざしは冷たい。彼女にとっての「教育」とは何か。</p>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-name">芦屋 涼雅 (Ryoga Ashiya)</span>
+                    <p style="font-size: 0.85rem;">皆殺しの理論犯。極めて高い知性を持ち、一切の感情を排した冷徹な男。心の揺らぎを教育の焦点とする。</p>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-name">月野 守 (Mamoru Tsukino)</span>
+                    <p style="font-size: 0.85rem;">主人公。教育を通じて裁判の矛盾を揺さぶり、自らも過去の事件という深い闇と向き合うことになる。</p>
+                </div>
+                <div class="profile-card">
+                    <span class="profile-name">二階堂 空 (Sora Nikaido)</span>
+                    <p style="font-size: 0.85rem;">動機不明の通り魔。精神的な欠落、あるいは沈黙。彼が語るべき言葉は存在するのか。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="chapters">
+            <h2>RECORDS</h2>
+            <p style="font-family: 'Courier Prime', monospace; margin-bottom: 20px;">[DATA_LOG START]</p>
+            <ul style="list-style: none; padding-left: 20px; font-size: 0.9rem;">
+                <li style="margin-bottom: 10px;">> 第1章：白布の教室（教育の導入）</li>
+                <li style="margin-bottom: 10px;">> 第X章：死刑囚個別の真実と綻び</li>
+                <li style="margin-bottom: 10px;">> 終盤：再審請求と主人公、守の事件</li>
+                <li style="margin-bottom: 10px;">> 最終章：罪と教育の終着点</li>
+            </ul>
+        </section>
+    </div>
+
+    <a href="../index.html" class="back-nav">ARCHIVE_OUT</a>
+
+    <script src="../mouse-trail.js"></script>
+</body>
+
+</html>

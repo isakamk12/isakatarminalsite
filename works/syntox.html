@@ -38,7 +38,7 @@
         .work-background {
             position: fixed;
             inset: 0;
-            background-image:url('../image/syntox.png');
+            background-image: url('../image/syntox.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -209,6 +209,13 @@
             transition: background .2s, color .2s;
         }
 
+        .action-btn.special-btn {
+            border-color: var(--accent);
+            color: #000;
+            background: var(--accent);
+            font-weight: bold;
+        }
+
         .action-btn:hover {
             background: rgba(57, 255, 20, .15);
             color: #9fffb0;
@@ -251,7 +258,6 @@
             }
         }
     </style>
-<link rel="stylesheet" href="../mouse-trail.css">
 </head>
 
 <body>
@@ -263,17 +269,19 @@
         <p class="meta-info">GAME / New Sensation Strategy RPG</p>
         <div class="synopsis-box">人工知能と戦術判断が交差する中で、選択の積み重ねが心と勝敗を侵していく。
 
-知的衰弱に染まり、やがて人は自ら考えられなくなる。
-しかし、AIを使わねば戦略的に負ける。
+            知的衰弱に染まり、やがて人は自ら考えられなくなる。
+            しかし、AIを使わねば戦略的に負ける。
 
-この矛盾に満ちた新感覚戦略RPGに、脳を焼き切れ。</div>
-        <div class="button-grid"><a href="#" class="action-btn">準備中</a>
+            この矛盾に満ちた新感覚戦略RPGに、脳を焼き切れ。</div>
+        <div class="button-grid">
+            <a href="syntox-special.html" class="action-btn special-btn">コンセプトページ(特別版)</a>
             <a href="#" class="action-btn">準備中</a>
             <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a></div>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+        </div>
     </div>
     <a href="../index.html" class="back-nav">&#8592; RETURN</a>
-<script src="../mouse-trail.js"></script>
 </body>
 
 </html>

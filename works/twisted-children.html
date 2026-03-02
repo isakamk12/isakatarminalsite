@@ -37,7 +37,7 @@
         .work-background {
             position: fixed;
             inset: 0;
-            background-image:url('../image/twisted-children.png');
+            background-image: url('../image/twisted-children.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -294,6 +294,13 @@
             transition: background .2s, border-color .2s;
         }
 
+        .action-btn.special-btn {
+            border-color: var(--static);
+            color: var(--static);
+            background: rgba(255, 59, 59, 0.05);
+            font-weight: bold;
+        }
+
         .action-btn:hover {
             background: rgba(255, 59, 59, .1);
             border-color: var(--static);
@@ -335,7 +342,6 @@
             }
         }
     </style>
-<link rel="stylesheet" href="../mouse-trail.css">
 </head>
 
 <body>
@@ -350,17 +356,19 @@
         <p class="meta-info">GAME / Coming Soon</p>
         <div class="synopsis-box">育てたその先に待つのは、愛か、裏切りか。
 
-ゆがんだ成長を見届ける、分岐型育成ゲーム。
-繰り返す物語の中で、プレイヤーは彼らに何を与え、何を奪うのか。
+            ゆがんだ成長を見届ける、分岐型育成ゲーム。
+            繰り返す物語の中で、プレイヤーは彼らに何を与え、何を奪うのか。
 
-逃れられない愛着の果てに、やがてその真実に辿り着く。</div>
-        <div class="button-grid"><a href="#" class="action-btn">準備中</a>
+            逃れられない愛着の果てに、やがてその真実に辿り着く。</div>
+        <div class="button-grid">
+            <a href="twisted-children-special.html" class="action-btn special-btn">コンセプトページ(特別版)</a>
             <a href="#" class="action-btn">準備中</a>
             <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a></div>
+            <a href="#" class="action-btn">準備中</a>
+            <a href="#" class="action-btn">準備中</a>
+        </div>
     </div>
     <a href="../index.html" class="back-nav">&#8592; RETURN</a>
-<script src="../mouse-trail.js"></script>
 </body>
 
 </html>
