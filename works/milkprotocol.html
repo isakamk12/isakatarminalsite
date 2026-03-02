@@ -4,277 +4,540 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Milk Protocol - Stadio Vault</title>
+    <title>MILK PROTOCOL - Stadio Vault</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&family=Noto+Serif+JP:wght@400;700;900&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --accent: #39ff14;
-            --accent-dim: #1a7a08;
-            --overlay: rgba(0, 8, 2, 0.78);
-            --text: #d6f5d6;
-            --text-dim: #6b9e6b;
-            --border: rgba(57, 255, 20, 0.35);
+            /* Front Mode (Pastel / Pastoral) */
+            --bg-color: #fffaf0;
+            --text-color: #554433;
+            --accent-main: #ffb6c1;
+            /* Pastel Pink */
+            --accent-sub: #add8e6;
+            /* Pastel Blue */
+            --border-color: #ffdae0;
+            --font-base: 'M PLUS Rounded 1c', sans-serif;
+            --heading-weight: 900;
+            --panel-bg: #ffffff;
+            --shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+            --transition-speed: 0.6s;
         }
 
-        *,
-        *::before,
-        *::after {
+        /* Back Mode (Dark / Horror / Medical) */
+        body.dark-mode {
+            --bg-color: #121415;
+            --text-color: #d0d5d9;
+            --accent-main: #9e0b0b;
+            /* Blood Red */
+            --accent-sub: #3b596b;
+            /* Surgical Blue/Gray */
+            --border-color: #331111;
+            --font-base: 'Noto Serif JP', serif;
+            --panel-bg: #1a1c1e;
+            --shadow: 0 4px 25px rgba(158, 11, 11, 0.4);
+        }
+
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        body,
-        html {
-            height: 100%;
-            font-family: 'Noto Serif JP', 'Georgia', serif;
-            background: #000;
+        body {
+            font-family: var(--font-base);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            transition: background-color var(--transition-speed), color var(--transition-speed), font-family var(--transition-speed);
+            overflow-x: hidden;
+            letter-spacing: 0.05em;
+        }
+
+        /* Mode Toggle Switch */
+        .toggle-container {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .toggle-label {
+            transition: color var(--transition-speed);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background-color: var(--accent-sub);
+            border-radius: 30px;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            border-radius: 50%;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: var(--accent-main);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(30px);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--panel-bg);
+            border-bottom: 2px solid var(--border-color);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            box-sizing: border-box;
+            transition: background-color var(--transition-speed), border-color var(--transition-speed);
+        }
+
+        nav a {
+            color: var(--accent-main);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color var(--transition-speed);
+        }
+
+        nav a:hover {
+            color: var(--accent-sub);
+        }
+
+        /* Hero */
+        .cover-wrapper {
+            max-width: 800px;
+            width: 90%;
+            margin: 0 auto 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 4px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+            transition: all var(--transition-speed);
+        }
+
+        .cover-wrapper img {
+            width: 100%;
+            display: block;
+        }
+
+        .hero {
+            min-height: 100vh;
+            padding: 120px 0 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            border-bottom: 5px solid var(--accent-main);
+            transition: border-color var(--transition-speed);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255, 182, 193, 0.05) 20px, rgba(255, 182, 193, 0.05) 40px);
+            transition: opacity var(--transition-speed);
+        }
+
+        body.dark-mode .hero::before {
+            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(158, 11, 11, 0.05) 10px, rgba(158, 11, 11, 0.05) 20px);
+            opacity: 0.8;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: var(--accent-main);
+            font-weight: var(--heading-weight);
+            margin-bottom: 10px;
+            transition: color var(--transition-speed);
+            position: relative;
+        }
+
+        .hero-catch {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--panel-bg);
+            padding: 20px 40px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            transition: all var(--transition-speed);
+            position: relative;
             overflow: hidden;
         }
 
-        .work-background {
-            position: fixed;
-            inset: 0;
-            background-image:url('../image/milkprotocol.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: 1;
-            filter: brightness(0.7) saturate(0.6);
-            animation: bgBreath 8s ease-in-out infinite;
+        /* The True Meaning (visible only in dark mode) */
+        .true-meaning {
+            display: none;
+            color: #ff3333;
         }
 
-        @keyframes bgBreath {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.03);
-            }
+        body.dark-mode .true-meaning {
+            display: inline;
+            text-decoration: line-through;
+            opacity: 0.7;
+            margin-right: 5px;
         }
 
-        .scanlines {
-            position: fixed;
-            inset: 0;
-            z-index: 2;
-            background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0, 0, 0, 0.08) 3px, rgba(0, 0, 0, 0.08) 4px);
-            pointer-events: none;
+        body.dark-mode .surface-meaning {
+            color: var(--accent-main);
         }
 
-        .main-container {
+        .hero-genre {
+            font-size: 1.1rem;
+            color: #fff;
+            background: var(--accent-main);
+            border-radius: 20px;
+            padding: 10px 30px;
+            letter-spacing: 2px;
+            transition: background var(--transition-speed);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+
+        .sec-title {
+            font-size: 2.2rem;
+            color: var(--accent-main);
+            margin-bottom: 40px;
+            border-bottom: 2px dashed var(--accent-sub);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all var(--transition-speed);
+        }
+
+        body.dark-mode .sec-title {
+            border-bottom-style: solid;
+            border-bottom-color: var(--accent-main);
+            color: #fff;
+        }
+
+        /* Panels */
+        .panel {
+            background: var(--panel-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-speed);
             position: relative;
-            z-index: 10;
-            width: 90%;
-            max-width: 640px;
-            height: 90vh;
-            margin: 5vh auto;
-            background: var(--overlay);
-            border: 1px solid var(--border);
-            box-shadow: 0 0 40px rgba(57, 255, 20, 0.12);
+        }
+
+        body.dark-mode .panel {
+            border-radius: 0;
+            border-left: 4px solid var(--accent-main);
+        }
+
+        .panel h3 {
+            font-size: 1.6rem;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            transition: color var(--transition-speed);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        body.dark-mode .panel h3 {
+            color: var(--accent-main);
+        }
+
+        .panel-role {
+            font-size: 0.9rem;
+            color: var(--accent-sub);
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Dark Mode Text Reveals */
+        .dark-text {
+            display: none;
+        }
+
+        body.dark-mode .dark-text {
+            display: inline;
+            color: #ff5555;
+            background: rgba(158, 11, 11, 0.1);
+            padding: 0 4px;
+        }
+
+        body.dark-mode .light-text {
+            text-decoration: line-through;
+            opacity: 0.4;
+        }
+
+        /* Grids */
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Episodes */
+        .ep-list {
             display: flex;
             flex-direction: column;
-            padding: 36px 40px 30px;
-            animation: cFade .9s cubic-bezier(.22, 1, .36, 1) both;
+            gap: 15px;
         }
 
-        @keyframes cFade {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .ep-box {
+            background: var(--panel-bg);
+            border-left: 5px solid var(--accent-sub);
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+            box-shadow: var(--shadow);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            transition: all var(--transition-speed);
         }
 
-        .main-container::before {
-            content: '';
-            display: block;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            margin-bottom: 20px;
-            flex-shrink: 0;
-            animation: lineGlow 3s ease-in-out infinite;
+        body.dark-mode .ep-box {
+            border-left-color: var(--accent-main);
+            border-radius: 0;
         }
 
-        @keyframes lineGlow {
+        .ep-no {
+            font-weight: bold;
+            color: var(--accent-sub);
+            font-size: 1.2rem;
+            transition: color var(--transition-speed);
+        }
 
-            0%,
-            100% {
-                opacity: .5;
+        body.dark-mode .ep-no {
+            color: var(--accent-main);
+        }
+
+        .ep-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Glitch effect for dark mode (applied on hover) */
+        body.dark-mode .panel:hover h3 {
+            text-shadow: 2px 0 2px rgba(255, 0, 0, 0.5), -2px 0 2px rgba(0, 255, 255, 0.5);
+            animation: glitch 0.2s infinite;
+        }
+
+        @keyframes glitch {
+            0% {
+                transform: translate(1px, 1px);
             }
 
             50% {
-                opacity: 1;
-            }
-        }
-
-        .catch-copy {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .85rem;
-            color: var(--accent);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            opacity: 0;
-            animation: tIn .6s .3s ease forwards;
-        }
-
-        .work-title {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 3.4rem;
-            font-weight: 900;
-            color: #fff;
-            line-height: 1.0;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(57, 255, 20, .4);
-            opacity: 0;
-            animation: tIn .6s .45s ease forwards;
-        }
-
-        .meta-info {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .82rem;
-            color: var(--text-dim);
-            letter-spacing: 3px;
-            border-left: 2px solid var(--accent-dim);
-            padding-left: 10px;
-            margin-bottom: 22px;
-            opacity: 0;
-            animation: tIn .6s .6s ease forwards;
-        }
-
-        .synopsis-box {
-            flex-grow: 1;
-            font-size: 1rem;
-            line-height: 1.85;
-            color: var(--text);
-            overflow-y: auto;
-            margin-bottom: 22px;
-            padding-right: 8px;
-            white-space: pre-wrap;
-            border-left: 1px solid var(--border);
-            padding-left: 16px;
-            opacity: 0;
-            animation: tIn .7s .75s ease forwards;
-        }
-
-        .synopsis-box::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .synopsis-box::-webkit-scrollbar-thumb {
-            background: var(--accent-dim);
-        }
-
-        @keyframes tIn {
-            from {
-                opacity: 0;
-                transform: translateX(-8px);
+                transform: translate(-1px, 0);
             }
 
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .button-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            opacity: 0;
-            animation: tIn .6s 1s ease forwards;
-        }
-
-        .action-btn {
-            background: transparent;
-            color: var(--accent);
-            text-decoration: none;
-            text-align: center;
-            padding: 11px 10px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .82rem;
-            letter-spacing: 1px;
-            border: 1px solid var(--accent);
-            transition: background .2s, color .2s;
-        }
-
-        .action-btn:hover {
-            background: rgba(57, 255, 20, .15);
-            color: #9fffb0;
-        }
-
-        .back-nav {
-            position: fixed;
-            bottom: 22px;
-            right: 22px;
-            z-index: 100;
-            background: #000;
-            color: var(--accent);
-            padding: 8px 16px;
-            text-decoration: none;
-            border: 1px solid var(--accent);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .78rem;
-            letter-spacing: 2px;
-            transition: background .2s, color .2s;
-        }
-
-        .back-nav:hover {
-            background: var(--accent);
-            color: #000;
-        }
-
-        @media(max-width:600px) {
-            .main-container {
-                padding: 24px 20px 20px;
-                height: 95vh;
-                margin: 2.5vh auto;
-            }
-
-            .work-title {
-                font-size: 2.2rem;
-            }
-
-            .button-grid {
-                grid-template-columns: 1fr;
+            100% {
+                transform: translate(1px, -1px);
             }
         }
     </style>
-<link rel="stylesheet" href="../mouse-trail.css">
+    <link rel="stylesheet" href="../mouse-trail.css">
 </head>
 
 <body>
-    <div class="work-background"></div>
-    <div class="scanlines"></div>
-    <div class="main-container">
-        <p class="catch-copy">守って、愛して、分かり合って。</p>
-        <h1 class="work-title">Milk Protocol</h1>
-        <p class="meta-info">NOVEL / Dystopia & Ethics</p>
-        <div class="synopsis-box">家畜の亜人化と獣人化が始まった世界。
-倫理的な問題から、タンパク質の供給は乳製品をメインにすると定められた。
 
-しかし、乳牛に従来の精液が適合せず、配合を一から組み直す必要に迫られる。
-人が手を貸せば「血統の汚染」として、殺人よりも重い罪を課せられる過酷な法の下で、家畜たちは愛情に応えるように様々な「誘い」を仕掛けてくる。
-
-守るべきは法か、種か、それとも目の前の愛か。</div>
-        <div class="button-grid"><a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a></div>
+    <div class="toggle-container">
+        <span class="toggle-label" id="mode-text">日勤モード</span>
+        <label class="switch">
+            <input type="checkbox" id="mode-toggle">
+            <span class="slider"></span>
+        </label>
     </div>
-    <a href="../index.html" class="back-nav">&#8592; RETURN</a>
-<script src="../mouse-trail.js"></script>
+
+    <nav>
+        <span style="font-weight:bold; color:var(--text-color);">MILK PROTOCOL</span>
+        <a href="../index.html">RETURN</a>
+    </nav>
+
+    <header class="hero">
+        <div class="cover-wrapper">
+            <img src="../image/milkprotocol.png" alt="MILK PROTOCOL Cover">
+        </div>
+        <h1 class="hero-title">ミルク・プロトコル</h1>
+        <div class="hero-catch">
+            <span class="true-meaning">管理して、搾取して、諦め合って。</span>
+            <span class="surface-meaning">「守って、愛して、分かり合って。」</span>
+        </div>
+        <div class="hero-genre">獣医・厩務員シミュレーション &times; 倫理SFノベル</div>
+    </header>
+
+    <div class="container">
+        <section id="story">
+            <h2 class="sec-title">01. STORY & CONCEPT</h2>
+            <div class="panel">
+                <h3>牧場の日常 <span class="dark-text">（崩壊した生存圏）</span></h3>
+                <p><span class="light-text">青空の下、可愛い動物たちと触れ合う牧場での日々。</span><span class="dark-text">
+                        人間の食糧危機と倫理の退廃が進行する未来、命を繋ぐ主要タンパク資源は「乳製品」となった。</span></p>
+                <br>
+                <p>牛、馬、豚、犬、猫、ラクダ……あらゆる家畜たちは<span class="light-text">可愛い擬人化フィルター（亜人化）を通して描かれ</span><span
+                        class="dark-text">亜人化され、管理と愛玩、繁殖と処分、生産と性の狭間で生きることを強いられている。</span></p>
+                <br>
+                <p>彼女たちと共に暮らす5人の女性（獣医・厩務員）たちは、<span class="light-text">ハートフルなトラブルを乗り越え</span><span
+                        class="dark-text">命の重みと優しさという名の矛盾に向き合っていく。</span></p>
+            </div>
+        </section>
+
+        <section id="characters_human">
+            <h2 class="sec-title">02. HUMAN STAFF <span
+                    style="font-size:1rem;font-weight:normal;opacity:0.6;margin-left:auto;">(管理する側)</span></h2>
+            <div class="char-grid">
+                <div class="panel">
+                    <h3>志摩 ユウリ <span style="font-size:0.9rem;opacity:0.6;">(22)</span></h3>
+                    <span class="panel-role">新人獣医</span>
+                    <p>成績優秀だが現場の判断に迷いが多く、割り切ることが苦手。<span class="dark-text">救えない命を前に精神をすり減らしていく。</span></p>
+                </div>
+                <div class="panel">
+                    <h3>高根 トオリ <span style="font-size:0.9rem;opacity:0.6;">(24)</span></h3>
+                    <span class="panel-role">若手医師（医学生あがり）</span>
+                    <p>論理的だが感情への耐性が低く、自信と迷いを抱える。<span class="dark-text">合理性で自らを守ろうとする。</span></p>
+                </div>
+                <div class="panel">
+                    <h3>柴咲 レイナ <span style="font-size:0.9rem;opacity:0.6;">(21)</span></h3>
+                    <span class="panel-role">現場派厩務員</span>
+                    <p>体力重視。人付き合いは雑だが動物の扱いは上手い。<span class="dark-text">血と泥の臭いに最も慣れている。</span></p>
+                </div>
+                <div class="panel">
+                    <h3>伏見 コハル <span style="font-size:0.9rem;opacity:0.6;">(19)</span></h3>
+                    <span class="panel-role">最年少厩務員</span>
+                    <p>慎重で繊細。“やさしさ”の定義を手探りで探している。<span class="dark-text">無自覚な残酷さに傷つく。</span></p>
+                </div>
+                <div class="panel">
+                    <h3>瀬野 ハルカ <span style="font-size:0.9rem;opacity:0.6;">(23)</span></h3>
+                    <span class="panel-role">冷静な厩務員</span>
+                    <p>寡黙で落ち着いている。「管理」より「理解」に軸を置く。<span class="dark-text">すでに多くを諦観している。</span></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="characters_demihuman">
+            <h2 class="sec-title">03. DEMI-HUMAN <span
+                    style="font-size:1rem;font-weight:normal;opacity:0.6;margin-left:auto;">(管理される側)</span></h2>
+            <div class="char-grid">
+                <div class="panel">
+                    <h3>マキ <span style="font-size:0.9rem;opacity:0.6;">(馬)</span></h3>
+                    <p>クラシック有力馬の母。誇り高く忍耐強い。<span class="dark-text">種付けと出産の道具として寿命を削る。</span></p>
+                </div>
+                <div class="panel">
+                    <h3>ミーヤ <span style="font-size:0.9rem;opacity:0.6;">(豚)</span></h3>
+                    <p>優しさと献身性を持つ。物語の転機となる<span class="light-text">「素敵なプレゼント」</span><span
+                            class="dark-text">「自らの臓器提供」</span>を申し出る。</p>
+                </div>
+                <div class="panel">
+                    <h3>ルル <span style="font-size:0.9rem;opacity:0.6;">(犬)</span></h3>
+                    <p>明るく活発なムードメーカー。注射シーンなどで<span class="light-text">暴走ギャグを担当。</span><span
+                            class="dark-text">パニックを起こし拘束される。</span></p>
+                </div>
+                <div class="panel">
+                    <h3>サーシャ <span style="font-size:0.9rem;opacity:0.6;">(ラクダ)</span></h3>
+                    <p>無口でマイペース。砂漠地帯育ちの異色存在。<span class="dark-text">過酷な環境耐性ゆえに実験対象となる。</span></p>
+                </div>
+                <div class="panel">
+                    <h3>ミミ <span style="font-size:0.9rem;opacity:0.6;">(猫)</span></h3>
+                    <p>神経質で鋭敏。体調変化に敏感で診断が難しい。<span class="dark-text">繊細さゆえに心身を病みやすい。</span></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="episodes">
+            <h2 class="sec-title">04. CLINIC RECORDS</h2>
+            <div class="ep-list">
+                <div class="ep-box"><span class="ep-no">Ch.01</span> <span class="ep-title"><span
+                            class="light-text">ミルクのお仕事</span><span class="dark-text">ミルク編：ウブレ・ブランカの再来</span></span>
+                </div>
+                <div class="ep-box"><span class="ep-no">Ch.02</span> <span class="ep-title"><span
+                            class="light-text">がんばれクラシック</span><span class="dark-text">馬伝染性貧血編：クラシックの命運</span></span>
+                </div>
+                <div class="ep-box"><span class="ep-no">Ch.03</span> <span class="ep-title"><span
+                            class="light-text">新しいいのち</span><span class="dark-text">種付け編：禁じられた交配</span></span></div>
+                <div class="ep-box"><span class="ep-no">Ch.04</span> <span class="ep-title"><span
+                            class="light-text">あわあわパニック！</span><span class="dark-text">BSE編：泡立つ脳</span></span></div>
+                <div class="ep-box"><span class="ep-no">Ch.05</span> <span class="ep-title"><span
+                            class="light-text">たのしい放牧</span><span class="dark-text">放牧編：誤解と帰還</span></span></div>
+                <div class="ep-box"><span class="ep-no">Ch.06</span> <span class="ep-title"><span
+                            class="light-text">みんなのやさしさ</span><span class="dark-text">臓器提供編：命の等価交換</span></span></div>
+                <div class="ep-box"><span class="ep-no">Ch.07</span> <span class="ep-title"><span
+                            class="light-text">お注射こわい？</span><span class="dark-text">お薬（注射）編：暴走と抑制</span></span></div>
+                <div class="ep-box"><span class="ep-no">Ch.08</span> <span class="ep-title"><span
+                            class="light-text">こころのケア</span><span class="dark-text">メンタル障害編：伝わらない痛み</span></span></div>
+                <div class="ep-box"><span class="ep-no">Ch.09</span> <span class="ep-title"><span
+                            class="light-text">オトナへの階段</span><span class="dark-text">去勢編：変化する性の役割</span></span></div>
+                <div class="ep-box"><span class="ep-no">Ch.10</span> <span class="ep-title"><span
+                            class="light-text">おやすみなさい</span><span class="dark-text">安楽死編：殺さずに向き合う</span></span></div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const modeToggle = document.getElementById('mode-toggle');
+        const body = document.body;
+        const modeText = document.getElementById('mode-text');
+
+        modeToggle.addEventListener('change', () => {
+            if (modeToggle.checked) {
+                body.classList.add('dark-mode');
+                modeText.innerText = '夜勤モード (Truth)';
+                modeText.style.color = 'var(--accent-main)';
+            } else {
+                body.classList.remove('dark-mode');
+                modeText.innerText = '日勤モード';
+                modeText.style.color = 'var(--text-color)';
+            }
+        });
+    </script>
+    <script src="../mouse-trail.js"></script>
 </body>
 
 </html>

@@ -4,277 +4,750 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voltage Bandit - Stadio Vault</title>
+    <title>VOLTAGE BANDIT - Stadio Vault</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Sans+JP:wght@400;700;900&family=Share+Tech+Mono&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --accent: #39ff14;
-            --accent-dim: #1a7a08;
-            --overlay: rgba(0, 8, 2, 0.78);
-            --text: #d6f5d6;
-            --text-dim: #6b9e6b;
-            --border: rgba(57, 255, 20, 0.35);
+            --vb-yellow: #ffeb3b;
+            --vb-cyan: #00f0ff;
+            --vb-black: #0a0a0a;
+            --vb-dark-grey: #1a1a1a;
+            --vb-text: #e0e0e0;
+            --font-main: 'Noto Sans JP', sans-serif;
+            --font-en: 'Share Tech Mono', monospace;
+            --font-title: 'Anton', sans-serif;
         }
 
-        *,
-        *::before,
-        *::after {
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        body,
-        html {
-            height: 100%;
-            font-family: 'Noto Serif JP', 'Georgia', serif;
-            background: #000;
-            overflow: hidden;
+        body {
+            font-family: var(--font-main);
+            background-color: var(--vb-black);
+            color: var(--vb-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            letter-spacing: 0.05em;
         }
 
-        .work-background {
+        /* Screen Glitch & Low Power Overlay */
+        #power-overlay {
             position: fixed;
             inset: 0;
-            background-image:url('../image/voltage-bandit.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: 1;
-            filter: brightness(0.7) saturate(0.6);
-            animation: bgBreath 8s ease-in-out infinite;
+            z-index: 9998;
+            pointer-events: none;
+            background: rgba(0, 0, 0, 0);
+            transition: background 0.5s;
         }
 
-        @keyframes bgBreath {
+        body.low-power #power-overlay {
+            background: rgba(10, 10, 10, 0.85);
+        }
 
-            0%,
-            100% {
-                transform: scale(1);
+        body.critical-power {
+            animation: screen-flicker 0.2s infinite;
+        }
+
+        @keyframes screen-flicker {
+            0% {
+                opacity: 1;
             }
 
             50% {
-                transform: scale(1.03);
+                opacity: 0.8;
+                transform: translate(1px, -1px);
+            }
+
+            100% {
+                opacity: 0.9;
+                transform: translate(-1px, 1px);
             }
         }
 
-        .scanlines {
+        /* Battery UI */
+        .battery-hud {
             position: fixed;
-            inset: 0;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-en);
+            font-size: 1.2rem;
+            color: var(--vb-yellow);
+            background: rgba(10, 10, 10, 0.8);
+            padding: 10px 15px;
+            border: 2px solid var(--vb-yellow);
+            box-shadow: 0 0 10px rgba(255, 235, 59, 0.3);
+            transition: 0.3s;
+        }
+
+        .battery-icon {
+            width: 40px;
+            height: 18px;
+            border: 2px solid var(--vb-yellow);
+            position: relative;
+            padding: 2px;
+        }
+
+        .battery-icon::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 3px;
+            width: 4px;
+            height: 8px;
+            background: var(--vb-yellow);
+        }
+
+        .battery-level {
+            height: 100%;
+            background: var(--vb-yellow);
+            width: 100%;
+            transition: width 0.3s, background 0.3s;
+        }
+
+        /* Color changes based on power */
+        body.low-power .battery-hud {
+            color: var(--vb-cyan);
+            border-color: var(--vb-cyan);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+
+        body.low-power .battery-icon {
+            border-color: var(--vb-cyan);
+        }
+
+        body.low-power .battery-icon::after {
+            background: var(--vb-cyan);
+        }
+
+        body.low-power .battery-level {
+            background: var(--vb-cyan);
+        }
+
+        body.critical-power .battery-hud {
+            color: red;
+            border-color: red;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            animation: alert-flash 0.5s infinite;
+        }
+
+        body.critical-power .battery-icon {
+            border-color: red;
+        }
+
+        body.critical-power .battery-icon::after {
+            background: red;
+        }
+
+        body.critical-power .battery-level {
+            background: red;
+        }
+
+        @keyframes alert-flash {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3 {
+            line-height: 1.2;
+        }
+
+        .cyber-text {
+            font-family: var(--font-en);
+            color: var(--vb-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .highlight {
+            background: var(--vb-yellow);
+            color: var(--vb-black);
+            padding: 0 4px;
+            font-weight: bold;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: var(--vb-text);
+            text-decoration: none;
+            font-family: var(--font-en);
+            font-size: 0.9rem;
+            border: 1px solid var(--vb-text);
+            padding: 5px 15px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            background: var(--vb-cyan);
+            color: var(--vb-black);
+            border-color: var(--vb-cyan);
+            box-shadow: 0 0 10px var(--vb-cyan);
+        }
+
+        /* Hero */
+        .cover-wrapper {
+            max-width: 800px;
+            width: 90%;
+            margin: 0 auto 30px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+            border: 2px solid var(--vb-cyan);
+            position: relative;
             z-index: 2;
-            background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0, 0, 0, 0.08) 3px, rgba(0, 0, 0, 0.08) 4px);
+        }
+
+        .cover-wrapper img {
+            width: 100%;
+            display: block;
+        }
+
+        .hero {
+            min-height: 100vh;
+            padding: 120px 0 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            border-bottom: 2px solid var(--vb-yellow);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(45deg, transparent 40%, rgba(255, 235, 59, 0.05) 50%, transparent 60%),
+                radial-gradient(circle at center, rgba(0, 240, 255, 0.1) 0%, transparent 70%);
+            background-size: 200% 200%;
+            animation: hero-bg 10s infinite linear;
             pointer-events: none;
         }
 
-        .main-container {
+        @keyframes hero-bg {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            100% {
+                background-position: 200% 200%;
+            }
+        }
+
+        .hero-title {
+            font-family: var(--font-title);
+            font-size: clamp(4rem, 10vw, 8rem);
+            color: transparent;
+            -webkit-text-stroke: 2px var(--vb-yellow);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-title::after {
+            content: 'VOLTAGE BANDIT';
+            position: absolute;
+            left: 4px;
+            top: 4px;
+            color: var(--vb-yellow);
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(4px);
+        }
+
+        .hero-catch {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            max-width: 700px;
+            margin: 20px auto 40px;
+            padding: 0 20px;
+        }
+
+        .hero-catch p {
+            margin-bottom: 10px;
+        }
+
+        .hero-genre {
+            font-family: var(--font-en);
+            font-size: 1.1rem;
+            color: var(--vb-cyan);
+            border: 1px solid var(--vb-cyan);
+            padding: 10px 30px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2);
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 20px 200px;
             position: relative;
             z-index: 10;
-            width: 90%;
-            max-width: 640px;
-            height: 90vh;
-            margin: 5vh auto;
-            background: var(--overlay);
-            border: 1px solid var(--border);
-            box-shadow: 0 0 40px rgba(57, 255, 20, 0.12);
+        }
+
+        /* Section Titles */
+        .sec-title {
+            font-family: var(--font-title);
+            font-size: 3rem;
+            color: var(--vb-text);
+            letter-spacing: 2px;
+            margin-bottom: 50px;
             display: flex;
-            flex-direction: column;
-            padding: 36px 40px 30px;
-            animation: cFade .9s cubic-bezier(.22, 1, .36, 1) both;
+            align-items: center;
+            gap: 20px;
         }
 
-        @keyframes cFade {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .main-container::before {
+        .sec-title::before {
             content: '';
             display: block;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            width: 50px;
+            height: 4px;
+            background: var(--vb-cyan);
+        }
+
+        section {
+            margin-bottom: 150px;
+        }
+
+        /* Story */
+        .world-box {
+            background: var(--vb-dark-grey);
+            border-left: 4px solid var(--vb-yellow);
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .world-box::after {
+            content: 'WARNING: HIGH VOLTAGE';
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: var(--vb-yellow);
+            color: var(--vb-black);
+            font-family: var(--font-en);
+            font-size: 0.8rem;
+            padding: 2px 10px;
+            font-weight: bold;
+        }
+
+        .story-text p {
             margin-bottom: 20px;
-            flex-shrink: 0;
-            animation: lineGlow 3s ease-in-out infinite;
+            font-size: 1.1rem;
         }
 
-        @keyframes lineGlow {
-
-            0%,
-            100% {
-                opacity: .5;
-            }
-
-            50% {
-                opacity: 1;
-            }
-        }
-
-        .catch-copy {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .85rem;
-            color: var(--accent);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            opacity: 0;
-            animation: tIn .6s .3s ease forwards;
-        }
-
-        .work-title {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 3.4rem;
-            font-weight: 900;
-            color: #fff;
-            line-height: 1.0;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(57, 255, 20, .4);
-            opacity: 0;
-            animation: tIn .6s .45s ease forwards;
-        }
-
-        .meta-info {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .82rem;
-            color: var(--text-dim);
-            letter-spacing: 3px;
-            border-left: 2px solid var(--accent-dim);
-            padding-left: 10px;
-            margin-bottom: 22px;
-            opacity: 0;
-            animation: tIn .6s .6s ease forwards;
-        }
-
-        .synopsis-box {
-            flex-grow: 1;
-            font-size: 1rem;
-            line-height: 1.85;
-            color: var(--text);
-            overflow-y: auto;
-            margin-bottom: 22px;
-            padding-right: 8px;
-            white-space: pre-wrap;
-            border-left: 1px solid var(--border);
-            padding-left: 16px;
-            opacity: 0;
-            animation: tIn .7s .75s ease forwards;
-        }
-
-        .synopsis-box::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .synopsis-box::-webkit-scrollbar-thumb {
-            background: var(--accent-dim);
-        }
-
-        @keyframes tIn {
-            from {
-                opacity: 0;
-                transform: translateX(-8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .button-grid {
+        /* System Infographic */
+        .sys-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            opacity: 0;
-            animation: tIn .6s 1s ease forwards;
+            gap: 30px;
         }
 
-        .action-btn {
-            background: transparent;
-            color: var(--accent);
-            text-decoration: none;
-            text-align: center;
-            padding: 11px 10px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .82rem;
-            letter-spacing: 1px;
-            border: 1px solid var(--accent);
-            transition: background .2s, color .2s;
+        .sys-card {
+            border: 1px solid var(--vb-cyan);
+            padding: 30px;
+            background: rgba(0, 240, 255, 0.03);
+            position: relative;
         }
 
-        .action-btn:hover {
-            background: rgba(57, 255, 20, .15);
-            color: #9fffb0;
+        .sys-card h3 {
+            font-family: var(--font-en);
+            color: var(--vb-cyan);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
         }
 
-        .back-nav {
-            position: fixed;
-            bottom: 22px;
-            right: 22px;
-            z-index: 100;
+        .sys-icon {
+            font-size: 3rem;
+            color: var(--vb-yellow);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
+        }
+
+        /* Characters */
+        .char-list {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .char-row {
+            display: flex;
+            gap: 30px;
+            background: var(--vb-dark-grey);
+            border: 1px solid #333;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .char-row:hover {
+            border-color: var(--vb-yellow);
+            box-shadow: -5px 0 0 var(--vb-yellow);
+            transform: translateX(5px);
+        }
+
+        .char-info {
+            flex: 1;
+        }
+
+        .char-name {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .char-role {
+            font-family: var(--font-en);
+            color: var(--vb-cyan);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .char-desc {
+            color: #bbb;
+            font-size: 0.95rem;
+        }
+
+        /* Episodes */
+        .ep-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .ep-item {
             background: #000;
-            color: var(--accent);
-            padding: 8px 16px;
-            text-decoration: none;
-            border: 1px solid var(--accent);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .78rem;
-            letter-spacing: 2px;
-            transition: background .2s, color .2s;
+            border: 1px solid #333;
+            padding: 25px;
+            border-left: 2px solid var(--vb-cyan);
+            transition: 0.3s;
+            cursor: crosshair;
         }
 
-        .back-nav:hover {
-            background: var(--accent);
+        .ep-item:hover {
+            background: rgba(0, 240, 255, 0.1);
+            border-color: var(--vb-cyan);
+        }
+
+        .ep-num {
+            font-family: var(--font-en);
+            color: var(--vb-text);
+            font-size: 0.9rem;
+            opacity: 0.6;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .ep-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .ep-theme {
+            font-family: var(--font-en);
+            font-size: 0.8rem;
+            color: var(--vb-yellow);
+            text-transform: lowercase;
+        }
+
+        /* Creator UI */
+        .creator-ui {
+            margin-top: 100px;
+            padding: 40px;
+            border: 1px dashed var(--vb-cyan);
+            background: rgba(0, 0, 0, 0.8);
+            text-align: center;
+        }
+
+        .creator-ui h3 {
+            font-family: var(--font-en);
+            color: var(--vb-cyan);
+            margin-bottom: 20px;
+        }
+
+        .prompt-input {
+            width: 100%;
+            max-width: 600px;
+            background: transparent;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 15px 20px;
+            font-family: var(--font-en);
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .prompt-input:focus {
+            border-color: var(--vb-yellow);
+            box-shadow: 0 0 10px rgba(255, 235, 59, 0.2);
+        }
+
+        .gen-btn {
+            background: var(--vb-cyan);
             color: #000;
+            font-family: var(--font-title);
+            font-size: 1.2rem;
+            border: none;
+            padding: 10px 40px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        @media(max-width:600px) {
-            .main-container {
-                padding: 24px 20px 20px;
-                height: 95vh;
-                margin: 2.5vh auto;
+        .gen-btn:hover {
+            background: var(--vb-yellow);
+        }
+
+        @media(max-width: 768px) {
+            .sys-grid {
+                grid-template-columns: 1fr;
             }
 
-            .work-title {
+            .hero-title {
+                font-size: 4rem;
+            }
+
+            .sec-title {
                 font-size: 2.2rem;
             }
 
-            .button-grid {
-                grid-template-columns: 1fr;
+            .char-row {
+                flex-direction: column;
             }
         }
     </style>
-<link rel="stylesheet" href="../mouse-trail.css">
+    <link rel="stylesheet" href="../mouse-trail.css">
 </head>
 
 <body>
-    <div class="work-background"></div>
-    <div class="scanlines"></div>
-    <div class="main-container">
-        <p class="catch-copy">神の怒りは人の灯火として生きぬ</p>
-        <h1 class="work-title">Voltage Bandit</h1>
-        <p class="meta-info">NOVEL / Coming Soon</p>
-        <div class="synopsis-box">戦火がすべてを焼き尽くした後の世界。「電力」が文明を支える唯一の通貨として君臨していた。
 
-格差社会の片隅で、発電所から高圧電流を盗み出す青年・電野鋼兵。そんな彼の日常は、一体の少女型AI兵器「ダンジグ」を拾ったことで一変する。
-
-彼女は「今後人殺しをしない様にする為に、全ての殺しを遂行する」という、矛盾した倫理観を抱えた逃亡兵器だった。
-
-富を追求する盗電屋、復讐を誓う闇医者、そして矛盾を抱えたAIが、それぞれの譲れない義理と人情のために電力支配の歪みに挑むアクションSF。</div>
-        <div class="button-grid"><a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a></div>
+    <!-- Battery HUD -->
+    <div class="battery-hud">
+        <span class="cyber-text">PWR</span>
+        <div class="battery-icon">
+            <div class="battery-level" id="bat-level"></div>
+        </div>
+        <span id="bat-text">100%</span>
     </div>
-    <a href="../index.html" class="back-nav">&#8592; RETURN</a>
-<script src="../mouse-trail.js"></script>
+
+    <div id="power-overlay"></div>
+
+    <nav>
+        <a href="../index.html">&lt; SYS.EXIT</a>
+    </nav>
+
+    <header class="hero">
+        <div class="cover-wrapper">
+            <img src="../image/voltage-bandit.png" alt="VOLTAGE BANDIT Cover">
+        </div>
+        <h1 class="hero-title">VOLTAGE BANDIT</h1>
+        <div class="hero-catch">
+            <p>「光れ穿て雷が如く、轟け届けその命。」</p>
+            <p>「電力が命を繋ぎ、電力が世界を回す。<br><span class="highlight">この狂った格差を、盗み出せ。</span>」</p>
+        </div>
+        <div class="hero-genre">SF ACTION RPG</div>
+    </header>
+
+    <div class="container">
+
+        <section id="story">
+            <h2 class="sec-title">WORLD.DAT</h2>
+            <div class="world-box">
+                <h3 class="cyber-text" style="font-size:1.5rem; margin-bottom:15px; color:#fff;">電力＝絶対の貨幣</h3>
+                <p>激しい戦争と資源枯渇の末、仮想通貨による裏付けを得た「電力」が絶対的な貨幣となった極端な格差社会。<br>富裕層は防衛技術と電力を用いた都市で自堕落に生き、貧困層は都市から漏れ出る電気や廃棄物を拾って餓死寸前で生きている。
+                </p>
+            </div>
+            <div class="story-text">
+                <p>貧困層出身の青年・電野鋼兵は、発電所から高圧電流を盗み出しては闇医者のキリルを通じてロンダリングし、スレスレの生活を送っていた。</p>
+                <p>ある日、軍から脱走してきた旧式の少女型軍事AI「ダンジグ」を拾ったことで、彼らは「命の価値」と「電気の価値」が交差する、巨大な企業や軍を巻き込む戦いへと身を投じていく。</p>
+            </div>
+        </section>
+
+        <section id="system">
+            <h2 class="sec-title">SYS_REQ</h2>
+            <div class="sys-grid">
+                <div class="sys-card">
+                    <div class="sys-icon">⚡</div>
+                    <h3>POWER = LIFE</h3>
+                    <p>戦闘における武器の使用（レールガン、高周波ブレードなど）、生活、ガジェットのクラフト。すべてのアクションで「電力」を消費する。リソースの枯渇は死と破産を意味するシビアなリスク＆リターン設計。
+                    </p>
+                </div>
+                <div class="sys-card" style="border-color: var(--vb-yellow); background: rgba(255, 235, 59, 0.05);">
+                    <div class="sys-icon" style="color:var(--vb-cyan); text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);">⚖️
+                    </div>
+                    <h3 style="color:var(--vb-yellow);">MORAL CHOICE</h3>
+                    <p>手に入れたなけなしの電力を「盗む」「譲る」「売る」のどれに割り当てるか？ プレイヤーの選択によって、ダンジグ（AI）の学習傾向や市民の反応、そして物語の結末が大きく分岐する。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="characters">
+            <h2 class="sec-title">OUTLAWS</h2>
+            <div class="char-list">
+
+                <div class="char-row">
+                    <div class="char-info">
+                        <h3 class="char-name">電野 鋼兵 <span style="font-size:1rem;font-weight:normal;color:#888;">/ Kohei
+                                Denno</span></h3>
+                        <span class="char-role">Voltage Thief / Main Operator</span>
+                        <p class="char-desc">
+                            盗電業を営む青年。映画館用の3Dメガネをかけている。利益最大化を目指す義賊だが、「殺しはしないが金持ちの命乞いを配信して稼ぐ」など倫理観は少し歪んでいる。レールガンピストルと高周波ブレードが武器。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="char-row">
+                    <div class="char-info">
+                        <h3 class="char-name">ダンジグ <span style="font-size:1rem;font-weight:normal;color:#888;">/
+                                Danzig</span></h3>
+                        <span class="char-role">Military AI / Tri-State Logic</span>
+                        <p class="char-desc">
+                            軍から逃亡してきた少女型軍事AI。違法プラグイン導入のダウングレード時に「倫理観パッチ」が偶然機能し、「二度と人殺しをしないために殺しを記憶する」ことを使命としている。三進数で稼働する特異なアーキテクチャ。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="char-row">
+                    <div class="char-info">
+                        <h3 class="char-name">Dr.キリル <span style="font-size:1rem;font-weight:normal;color:#888;">/
+                                Kirill</span></h3>
+                        <span class="char-role">Underground Medic / Money Launderer</span>
+                        <p class="char-desc">
+                            貧者を助ける闇医者。鋼兵の盗んだ電気をロンダリングしている。かつては有数の野戦医だったが、AIに技術を奪われ逃亡。大企業「鹿島一家」への復讐を秘めている。轟音でPTSDを引き起こす。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="char-row">
+                    <div class="char-info">
+                        <h3 class="char-name">電野 彩澄 <span style="font-size:1rem;font-weight:normal;color:#888;">/ Asumi
+                                Denno</span></h3>
+                        <span class="char-role">Genius Hacker / Employer</span>
+                        <p class="char-desc">
+                            鋼兵の雇用主にして、天才美少女ハッカー。元女優。ハニートラップや社会的な干渉も得意とし、スマホのシールを剥がすのが趣味。「如何に敗北しないか」を焦点にしたサイバー戦の達人。</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="episodes">
+            <h2 class="sec-title">CHAPTERS</h2>
+            <div class="ep-list">
+                <div class="ep-item"><span class="ep-num">CH.01</span>
+                    <h3 class="ep-title">倫理観パッチ ver.3.01</h3><span class="ep-theme">theme: ai ethics</span>
+                </div>
+                <div class="ep-item"><span class="ep-num">CH.02</span>
+                    <h3 class="ep-title">マセマティカル・メディック</h3><span class="ep-theme">theme: medicine vs ai</span>
+                </div>
+                <div class="ep-item"><span class="ep-num">CH.03</span>
+                    <h3 class="ep-title">Aiは両性具有の夢を見るか</h3><span class="ep-theme">theme: gender identity in
+                        machine</span>
+                </div>
+                <div class="ep-item"><span class="ep-num">CH.04</span>
+                    <h3 class="ep-title">天体観測的失望</h3><span class="ep-theme">theme: lost future</span>
+                </div>
+                <div class="ep-item"><span class="ep-num">CH.05</span>
+                    <h3 class="ep-title">殺す価値と生かす価値</h3><span class="ep-theme">theme: value of life</span>
+                </div>
+                <div class="ep-item"><span class="ep-num">CH.06</span>
+                    <h3 class="ep-title">権利の証明</h3><span class="ep-theme">theme: cryptocurrency right</span>
+                </div>
+                <div class="ep-item"><span class="ep-num">CH.07</span>
+                    <h3 class="ep-title">二進数と三進数と心理</h3><span class="ep-theme">theme: logic architecture</span>
+                </div>
+                <div class="ep-item"><span class="ep-num">CH.08</span>
+                    <h3 class="ep-title">人体という機械</h3><span class="ep-theme">theme: transhumanism</span>
+                </div>
+                <div class="ep-item"><span class="ep-num">CH.09</span>
+                    <h3 class="ep-title">愛と人</h3><span class="ep-theme">theme: human connection</span>
+                </div>
+                <div class="ep-item"><span class="ep-num">CH.10</span>
+                    <h3 class="ep-title">次なる人よ逞しく</h3><span class="ep-theme">theme: evolution</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="creator-ui">
+            <h3>&gt; GENERATE_NEW_SCENARIO</h3>
+            <input type="text" class="prompt-input" value="Generate a side quest where Danzig hacks a corporate server."
+                spellcheck="false">
+            <button class="gen-btn">EXECUTE</button>
+        </div>
+
+    </div>
+
+    <script>
+        // Battery Drain Script based on scroll
+        const batText = document.getElementById('bat-text');
+        const batLevel = document.getElementById('bat-level');
+        const body = document.body;
+
+        window.addEventListener('scroll', () => {
+            // Calculate scroll percentage
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.offsetHeight - window.innerHeight;
+            const scrollPercent = scrollTop / docHeight;
+
+            // Calculate remaining battery (100% to 5%)
+            let remaining = Math.max(5, Math.floor(100 - (scrollPercent * 95)));
+
+            batLevel.style.width = remaining + '%';
+            batText.innerText = remaining + '%';
+
+            // Apply warning classes
+            if (remaining <= 40 && remaining > 15) {
+                body.className = 'low-power';
+            } else if (remaining <= 15) {
+                body.className = 'critical-power';
+            } else {
+                body.className = '';
+            }
+        });
+    </script>
+    <script src="../mouse-trail.js"></script>
 </body>
 
 </html>

@@ -44,4 +44,33 @@
         runReveal();
     });
     runReveal();
+
+    // Hover Image Preview
+    const hoverContainer = document.getElementById('hover-image-container');
+    const hoverImage = document.getElementById('hover-image');
+
+    if (hoverContainer && hoverImage) {
+        document.querySelectorAll('.w-item[data-image]').forEach(item => {
+            item.addEventListener('mouseenter', function (e) {
+                const imgSrc = this.getAttribute('data-image');
+                if (imgSrc) {
+                    hoverImage.src = imgSrc;
+                    hoverContainer.classList.add('visible');
+                    // Optional: slight random rotation for style
+                    const rot = (Math.random() - 0.5) * 6;
+                    hoverContainer.style.transform = `translate(-50%, -50%) scale(1) rotate(${rot}deg)`;
+                }
+            });
+
+            item.addEventListener('mousemove', function (e) {
+                hoverContainer.style.left = e.clientX + 'px';
+                hoverContainer.style.top = e.clientY + 'px';
+            });
+
+            item.addEventListener('mouseleave', function () {
+                hoverContainer.classList.remove('visible');
+                hoverContainer.style.transform = `translate(-50%, -50%) scale(0.9)`;
+            });
+        });
+    }
 })();

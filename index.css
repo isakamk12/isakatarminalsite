@@ -492,6 +492,33 @@ body {
     font-style: italic;
 }
 
+/* Hover Image Preview */
+#hover-image-container {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    width: 320px;
+    height: auto;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    border: 2px solid var(--gold);
+}
+
+#hover-image-container.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#hover-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
 /* カテゴリバッジ */
 .category-count {
     font-family: 'Share Tech Mono', monospace;

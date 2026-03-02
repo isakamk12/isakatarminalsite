@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深海勲章 Deep Sea Medal - Stadio Vault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Noto+Serif+JP:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #03050a;
+            --bg-steel: #1a1e24;
+            --text-glow: #a2d9ff;
+            --text-dim: #495a6b;
+            --font-jp: 'Noto Serif JP', serif;
+            --font-en: 'Special Elite', monospace;
+            --x: 50vw;
+            --y: 50vh;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-jp);
+            background: var(--bg-deep);
+            color: var(--text-dim);
+            line-height: 1.8;
+            letter-spacing: 0.05em;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        /* Ambient Lighting - Lantern Effect */
+        .lantern-light {
+            position: fixed;
+            inset: 0;
+            z-index: 900;
+            pointer-events: none;
+            background: radial-gradient(circle 350px at var(--x) var(--y), transparent 0%, rgba(3, 5, 10, 0.98) 80%);
+            transition: background 0.1s ease-out;
+        }
+
+        /* Ambient Glow Layer for Text under the light */
+        .lantern-glow {
+            position: fixed;
+            inset: 0;
+            z-index: 899;
+            pointer-events: none;
+            background: radial-gradient(circle 200px at var(--x) var(--y), rgba(162, 217, 255, 0.15) 0%, transparent 100%);
+            mix-blend-mode: color-dodge;
+        }
+
+        /* Infinite Scroll Parallax Background */
+        .infinite-bg {
+            position: fixed;
+            top: -100vh;
+            left: 0;
+            width: 100vw;
+            height: 300vh;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+            background-image:
+                repeating-linear-gradient(transparent 0, transparent 400px, rgba(255, 255, 255, 0.02) 400px, rgba(255, 255, 255, 0.02) 410px),
+                repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 150px, rgba(162, 217, 255, 0.03) 150px, rgba(162, 217, 255, 0.03) 160px);
+            background-size: 100% 800px;
+            animation: sink 40s linear infinite;
+        }
+
+        @keyframes sink {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(800px);
+            }
+
+            /* Height of one pattern repetition */
+        }
+
+        /* Typography & Glitch */
+        .typewriter {
+            font-family: var(--font-en);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-glow);
+        }
+
+        .glitch-text {
+            font-family: var(--font-en);
+            position: relative;
+            display: inline-block;
+            color: #fff;
+            text-shadow: 2px 0 2px rgba(255, 0, 0, 0.5), -2px 0 2px rgba(0, 255, 255, 0.5);
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% {
+                clip-path: inset(20% 0 80% 0);
+                transform: translate(-2px, 1px);
+            }
+
+            20% {
+                clip-path: inset(60% 0 10% 0);
+                transform: translate(2px, -1px);
+            }
+
+            40% {
+                clip-path: inset(40% 0 50% 0);
+                transform: translate(-2px, -2px);
+            }
+
+            60% {
+                clip-path: inset(80% 0 5% 0);
+                transform: translate(2px, 2px);
+            }
+
+            80% {
+                clip-path: inset(10% 0 70% 0);
+                transform: translate(-1px, -1px);
+            }
+
+            100% {
+                clip-path: inset(30% 0 50% 0);
+                transform: translate(1px, 1px);
+            }
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(3, 5, 10, 0.8);
+            border-bottom: 1px solid var(--bg-steel);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: var(--text-glow);
+            text-decoration: none;
+            font-family: var(--font-en);
+            font-size: 0.9rem;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 1;
+            text-shadow: 0 0 10px var(--text-glow);
+        }
+
+        /* Content Base */
+        .content-layer {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-family: var(--font-jp);
+            font-weight: 900;
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: var(--text-glow);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-en);
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            margin-bottom: 50px;
+            letter-spacing: 5px;
+        }
+
+        .hero-catch {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            max-width: 600px;
+            margin-bottom: 30px;
+            line-height: 2;
+        }
+
+        .hero-genre {
+            font-family: var(--font-jp);
+            font-size: 0.9rem;
+            color: var(--text-glow);
+            border: 1px solid var(--bg-steel);
+            padding: 8px 20px;
+            background: rgba(26, 30, 36, 0.5);
+            letter-spacing: 2px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 100px 20px 200px;
+        }
+
+        /* Sections */
+        .sec-title {
+            font-family: var(--font-en);
+            font-size: 1.5rem;
+            color: var(--text-glow);
+            border-bottom: 1px solid var(--bg-steel);
+            padding-bottom: 10px;
+            margin-bottom: 40px;
+            display: inline-block;
+        }
+
+        .sec-title::before {
+            content: '// ';
+            opacity: 0.5;
+        }
+
+        section {
+            margin-bottom: 120px;
+        }
+
+        /* Story */
+        .story-text {
+            font-size: 1.1rem;
+            color: #cbd6e2;
+            padding-left: 20px;
+            border-left: 2px solid var(--bg-steel);
+        }
+
+        /* Characters */
+        .char-grid {
+            display: grid;
+            gap: 40px;
+        }
+
+        .char-item {
+            background: rgba(26, 30, 36, 0.2);
+            border: 1px solid var(--bg-steel);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .char-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--text-dim);
+            transition: 0.3s;
+        }
+
+        .char-item:hover::before {
+            background: var(--text-glow);
+        }
+
+        .char-item h3 {
+            font-size: 1.6rem;
+            color: #fff;
+            margin-bottom: 5px;
+            font-weight: 900;
+        }
+
+        .char-item .char-role {
+            font-family: var(--font-en);
+            color: var(--text-glow);
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            opacity: 0.7;
+        }
+
+        .char-item p {
+            color: #aebacd;
+        }
+
+        /* Madness System */
+        .madness-list {
+            list-style: none;
+        }
+
+        .madness-list li {
+            margin-bottom: 40px;
+        }
+
+        .madness-list h4 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .madness-list h4::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background: var(--text-glow);
+            border-radius: 50%;
+        }
+
+        /* Episodes */
+        .ep-box {
+            border: 1px dashed var(--bg-steel);
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: border-color 0.3s;
+        }
+
+        .ep-box:hover {
+            border-color: var(--text-glow);
+        }
+
+        .ep-num {
+            font-family: var(--font-en);
+            color: var(--text-dim);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .ep-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .ep-desc {
+            color: #cbd6e2;
+            font-size: 1rem;
+        }
+
+        @media(max-width:600px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+
+            .hero-catch {
+                font-size: 1.1rem;
+            }
+
+            .lantern-light {
+                background: radial-gradient(circle 250px at var(--x) var(--y), transparent 0%, rgba(3, 5, 10, 0.98) 70%);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../mouse-trail.css">
+</head>
+
+<body>
+    <div class="infinite-bg"></div>
+    <div class="lantern-glow"></div>
+    <div class="lantern-light"></div>
+
+    <nav>
+        <span class="typewriter" style="font-size: 1.1rem;">DEEP SEA MEDAL</span>
+        <a href="../index.html">RETURN TO SURFACE</a>
+    </nav>
+
+    <div class="content-layer">
+        <header class="hero">
+            <h1 class="hero-title">深海勲章</h1>
+            <p class="hero-subtitle">The Order of the Abyss</p>
+            <div class="hero-catch">
+                <p>「人類は長らく、救いを『上』に求めてきた。――真実の空は、地の底にある。」</p><br>
+                <p>「この旅の終わりに待つのは、名誉か、それとも永遠の沈黙か。」</p>
+            </div>
+            <div class="hero-genre">深海探索ホラー &times; ループ・スリラー</div>
+        </header>
+
+        <div class="container">
+
+            <section id="story">
+                <h2 class="sec-title">01. WORLD LOG</h2>
+                <div class="story-text">
+                    <p>舞台は潜水艦<span
+                            class="typewriter glitch-text">Nautilus</span>号と、その外に広がる「呼吸可能な深海の底」。窓の外ではマッコウクジラとダイオウイカが死闘を繰り広げ、船内には得体の知れない「黒い影（インク）」が侵食してくる。
+                    </p>
+                    <br>
+                    <p>ノーチラス号は深海で座礁し、沈黙した。ネモ船長は指揮席で息絶え、腐敗しないまま固定されている。<br>生き残った「航海士」と「観測員」の二人は、水圧に潰されることのない冷たい空気の満ちた船外へ出る。深海生物の死骸が山をなす斜面、無限に繰り返される過去の記録、そして「下」へ行くことしか許されない狂気の空間を、二人はひたすらに降りていく。
+                    </p>
+                </div>
+            </section>
+
+            <section id="characters">
+                <h2 class="sec-title">02. SURVIVORS AND ENTITIES</h2>
+                <div class="char-grid">
+                    <div class="char-item">
+                        <h3>航海士</h3>
+                        <span class="char-role">Navigator / Sole Light</span>
+                        <p>生き残りの一人。ランタンの火を頼りに、狂気に満ちた空間の「硬い縁」を探りながら下へ下へと靴底を置き続ける。極限状態でも決して手順を止めない強靭な精神を持つ。</p>
+                    </div>
+                    <div class="char-item">
+                        <h3>観測員</h3>
+                        <span class="char-role">Observer / Silent Follower</span>
+                        <p>もう一人の生き残り。腰に結んだロープの張りを一定に保ち、航海士の背中を追う。結び目の「返し」の数や僅かな変化から異常性を察知するが、言葉にすれば沈んでしまうルールのため、ただ黙々と沈黙のまま降り続ける。
+                        </p>
+                    </div>
+                    <div class="char-item" style="background: rgba(0,0,0,0.5);">
+                        <h3 class="typewriter glitch-text">Capitaine Nemo</h3>
+                        <span class="char-role">The Precursor / Dead Captain</span>
+                        <p>ノーチラス号の指揮席に固定されたまま動かない死体。深海の高水圧と異常な環境下において腐敗せず、まるで時間が止まったかのような状態にある。深淵へと至った先駆者。</p>
+                    </div>
+                    <div class="char-item" style="border-color: #330000; background: rgba(10,0,0,0.6);">
+                        <h3 class="typewriter glitch-text" style="color:#ff3333; text-shadow: none;">Xaster</h3>
+                        <span class="char-role">The Entity of the Abyss</span>
+                        <p>地の底の中心で待ち受けるもの。「<span class="typewriter glitch-text">Ia Ia Xaster
+                                Xaster</span>」という喚き声と共に、底知れぬ狂気と冷たい息を放つ存在。すべてのループの特異点。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="madness_system">
+                <h2 class="sec-title">03. MADNESS MECHANICS</h2>
+                <ul class="madness-list">
+                    <li>
+                        <h4>終わらない降下とループ</h4>
+                        <p>降りても降りても、同じ「<span class="typewriter" style="font-size:0.9rem;">1866年</span>」「<span
+                                class="typewriter" style="font-size:0.9rem;">Nautilus</span>」「<span
+                                class="typewriter glitch-text" style="font-size:0.9rem;">capitaine
+                                mort</span>（船長死亡）」の記録や、潰れたノーチラス号の残骸がフラクタル構造のように何度も現れる。狂気の空間構造。</p>
+                    </li>
+                    <li>
+                        <h4>止まれば沈む（行動原理）</h4>
+                        <p>「立ち止まって考えたり、疑問を言葉にすれば、足が遅れて沈む」という絶対のルール。迫り来る恐怖を無視し、ただただ「下へ置き直す動作で処理する」ことだけが前に進む唯一の手段となる。</p>
+                    </li>
+                    <li>
+                        <h4>狂気の視覚化</h4>
+                        <p>吐いた息が白く割れるが跡形もなく消える現象。増え続けるロープの結び目、整然と並べられた未知の小瓶、自分の手が勝手に動く感覚など、現実と幻覚の境界が融解していくサイケデリックな描写がプレイヤーを襲う。
+                        </p>
+                    </li>
+                </ul>
+            </section>
+
+            <section id="episodes">
+                <h2 class="sec-title">04. DESCENT LOG</h2>
+                <div class="ep-box">
+                    <span class="ep-num">PART. I</span>
+                    <h3 class="ep-title">沈黙の先駆者</h3>
+                    <p class="ep-desc">ノーチラス号内部でのパニック。謎の黒い影の侵食と、隔壁を閉ざしながらの逃走劇。外では巨大生物の死闘が続く。</p>
+                </div>
+                <div class="ep-box">
+                    <span class="ep-num">PART. II</span>
+                    <h3 class="ep-title">地の底の空へ</h3>
+                    <p class="ep-desc">座礁した船からの脱出。水のない深海、腐らない死骸の斜面、無限に続く階段と通路の降下。やがて言語を絶する「中心」の気配（ハスター）へと至る。</p>
+                </div>
+            </section>
+
+        </div>
+    </div> <!-- /content-layer -->
+
+    <script>
+        // Lantern Light Effect: Follows mouse movement to illuminate the dark overlay
+        const root = document.documentElement;
+
+        document.addEventListener('mousemove', e => {
+            root.style.setProperty('--x', `${e.clientX}px`);
+            root.style.setProperty('--y', `${e.clientY}px`);
+        });
+
+        // Initialize center on mobile/touch
+        document.addEventListener('touchmove', e => {
+            if (e.touches.length > 0) {
+                root.style.setProperty('--x', `${e.touches[0].clientX}px`);
+                root.style.setProperty('--y', `${e.touches[0].clientY}px`);
+            }
+        });
+    </script>
+    <script src="../mouse-trail.js"></script>
+</body>
+
+</html>

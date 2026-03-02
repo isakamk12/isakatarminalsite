@@ -4,19 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ガチャ＝デウス - Stadio Vault</title>
+    <title>Gacha=Deus (ガチャデウス) - Stadio Vault</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Share+Tech+Mono&display=swap"
         rel="stylesheet">
     <style>
         :root {
             --accent: #39ff14;
             --accent-dim: #1a7a08;
+            --bg-dark: #050a05;
             --overlay: rgba(0, 8, 2, 0.78);
+            --overlay-light: rgba(57, 255, 20, 0.05);
             --text: #d6f5d6;
             --text-dim: #6b9e6b;
             --border: rgba(57, 255, 20, 0.35);
+            --border-glow: rgba(57, 255, 20, 0.6);
+            --danger: #ff3939;
+            --danger-dim: #7a0808;
+            --warning: #ffb839;
         }
 
         *,
@@ -27,252 +35,710 @@
             padding: 0;
         }
 
-        body,
         html {
-            height: 100%;
-            font-family: 'Noto Serif JP', 'Georgia', serif;
-            background: #000;
-            overflow: hidden;
+            scroll-behavior: smooth;
         }
 
-        .work-background {
-            position: fixed;
-            inset: 0;
-            background-image:url('../image/gacha=deus.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: 1;
-            filter: brightness(0.7) saturate(0.6);
-            animation: bgBreath 8s ease-in-out infinite;
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.8;
         }
 
-        @keyframes bgBreath {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.03);
-            }
+        ::selection {
+            background: var(--accent);
+            color: var(--bg-dark);
         }
 
+        /* ===== Global Effects ===== */
         .scanlines {
             position: fixed;
             inset: 0;
-            z-index: 2;
-            background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0, 0, 0, 0.08) 3px, rgba(0, 0, 0, 0.08) 4px);
+            z-index: 9999;
+            background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0, 0, 0, 0.15) 3px, rgba(0, 0, 0, 0.15) 4px);
             pointer-events: none;
         }
 
-        .main-container {
-            position: relative;
-            z-index: 10;
-            width: 90%;
-            max-width: 640px;
-            height: 90vh;
-            margin: 5vh auto;
-            background: var(--overlay);
-            border: 1px solid var(--border);
-            box-shadow: 0 0 40px rgba(57, 255, 20, 0.12);
-            display: flex;
-            flex-direction: column;
-            padding: 36px 40px 30px;
-            animation: cFade .9s cubic-bezier(.22, 1, .36, 1) both;
-        }
-
-        @keyframes cFade {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+        /* Glitch Animation for text */
+        @keyframes glitch {
+            0% {
+                transform: translate(0)
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            20% {
+                transform: translate(-2px, 2px)
             }
-        }
 
-        .main-container::before {
-            content: '';
-            display: block;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            margin-bottom: 20px;
-            flex-shrink: 0;
-            animation: lineGlow 3s ease-in-out infinite;
-        }
+            40% {
+                transform: translate(-2px, -2px)
+            }
 
-        @keyframes lineGlow {
+            60% {
+                transform: translate(2px, 2px)
+            }
 
-            0%,
+            80% {
+                transform: translate(2px, -2px)
+            }
+
             100% {
-                opacity: .5;
-            }
-
-            50% {
-                opacity: 1;
+                transform: translate(0)
             }
         }
 
-        .catch-copy {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .85rem;
+        .glitch-hover:hover {
+            animation: glitch 0.2s cubic-bezier(.25, .46, .45, .94) both infinite;
             color: var(--accent);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            opacity: 0;
-            animation: tIn .6s .3s ease forwards;
+            text-shadow: 2px 0 var(--danger), -2px 0 var(--accent);
         }
 
-        .work-title {
+        /* ===== Header Navigation ===== */
+        .sys-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 48px;
+            background: rgba(0, 8, 2, 0.95);
+            border-bottom: 1px solid var(--accent-dim);
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .sys-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sys-id {
             font-family: 'Share Tech Mono', monospace;
-            font-size: 3.4rem;
+            color: var(--accent);
+            font-size: .8rem;
+            letter-spacing: 2px;
+        }
+
+        .sys-return {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text);
+            text-decoration: none;
+            border: 1px solid var(--border);
+            padding: 4px 16px;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+
+        .sys-return:hover {
+            background: var(--accent);
+            color: var(--bg-dark);
+            box-shadow: 0 0 10px var(--accent-dim);
+        }
+
+        /* ===== Hero Banner / Top Section ===== */
+        .hero-section {
+            position: relative;
+            z-index: 1;
+            padding: 120px 32px 80px;
+            text-align: center;
+            background: url('../image/gacha=deus.png') center/cover no-repeat;
+            border-bottom: 2px solid var(--accent);
+            box-shadow: 0 10px 40px rgba(57, 255, 20, 0.1);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 8, 2, 0.85);
+            z-index: -1;
+        }
+
+        .hero-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: clamp(3rem, 8vw, 6rem);
             font-weight: 900;
             color: #fff;
-            line-height: 1.0;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(57, 255, 20, .4);
-            opacity: 0;
-            animation: tIn .6s .45s ease forwards;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            text-shadow: 0 0 20px rgba(57, 255, 20, 0.6), 0 0 40px rgba(57, 255, 20, 0.3);
+            letter-spacing: -2px;
+            text-transform: uppercase;
         }
 
-        .meta-info {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .82rem;
-            color: var(--text-dim);
-            letter-spacing: 3px;
-            border-left: 2px solid var(--accent-dim);
-            padding-left: 10px;
-            margin-bottom: 22px;
-            opacity: 0;
-            animation: tIn .6s .6s ease forwards;
-        }
-
-        .synopsis-box {
-            flex-grow: 1;
-            font-size: 1rem;
-            line-height: 1.85;
-            color: var(--text);
-            overflow-y: auto;
-            margin-bottom: 22px;
-            padding-right: 8px;
-            white-space: pre-wrap;
-            border-left: 1px solid var(--border);
-            padding-left: 16px;
-            opacity: 0;
-            animation: tIn .7s .75s ease forwards;
-        }
-
-        .synopsis-box::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .synopsis-box::-webkit-scrollbar-thumb {
-            background: var(--accent-dim);
-        }
-
-        @keyframes tIn {
-            from {
-                opacity: 0;
-                transform: translateX(-8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .button-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            opacity: 0;
-            animation: tIn .6s 1s ease forwards;
-        }
-
-        .action-btn {
-            background: transparent;
+        .hero-catch {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 900;
             color: var(--accent);
-            text-decoration: none;
-            text-align: center;
-            padding: 11px 10px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .82rem;
-            letter-spacing: 1px;
-            border: 1px solid var(--accent);
-            transition: background .2s, color .2s;
-        }
-
-        .action-btn:hover {
-            background: rgba(57, 255, 20, .15);
-            color: #9fffb0;
-        }
-
-        .back-nav {
-            position: fixed;
-            bottom: 22px;
-            right: 22px;
-            z-index: 100;
-            background: #000;
-            color: var(--accent);
-            padding: 8px 16px;
-            text-decoration: none;
-            border: 1px solid var(--accent);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .78rem;
+            margin-bottom: 16px;
             letter-spacing: 2px;
-            transition: background .2s, color .2s;
         }
 
-        .back-nav:hover {
+        .hero-subcatch {
+            font-size: 1rem;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto 32px;
+            line-height: 2;
+        }
+
+        .hero-genre {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .9rem;
+            color: var(--bg-dark);
             background: var(--accent);
-            color: #000;
+            letter-spacing: 3px;
+            padding: 8px 24px;
+            display: inline-block;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
         }
 
-        @media(max-width:600px) {
-            .main-container {
-                padding: 24px 20px 20px;
-                height: 95vh;
-                margin: 2.5vh auto;
-            }
+        /* ===== Main Content Container ===== */
+        .terminal-body {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 64px 32px 100px;
+        }
 
-            .work-title {
-                font-size: 2.2rem;
+        @media (max-width:640px) {
+            .terminal-body {
+                padding: 40px 20px 80px;
             }
+        }
 
-            .button-grid {
+        /* Section Headers */
+        .sec-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 2px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            text-transform: uppercase;
+        }
+
+        .sec-title::before {
+            content: '>>';
+            color: var(--accent);
+            margin-right: 12px;
+            font-weight: 400;
+            font-size: 1.8rem;
+            animation: blink 1.5s steps(2, start) infinite;
+        }
+
+        @keyframes blink {
+            to {
+                visibility: hidden;
+            }
+        }
+
+        .sec-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent-dim), transparent);
+            margin-left: 16px;
+        }
+
+        /* Block Quotes / Story Box */
+        .log-box {
+            border-left: 4px solid var(--accent);
+            padding: 24px 32px;
+            margin-bottom: 64px;
+            background: var(--overlay-light);
+            box-shadow: inset 0 0 20px rgba(57, 255, 20, 0.05);
+        }
+
+        .log-box p {
+            font-size: 1.05rem;
+            margin-bottom: 1.5em;
+        }
+
+        .log-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+        }
+
+        /* ===== System & Gods Roster (Gacha UI) ===== */
+        .roster-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 20px;
+            margin-bottom: 64px;
+        }
+
+        @media (max-width: 768px) {
+            .roster-grid {
                 grid-template-columns: 1fr;
             }
         }
+
+        .god-card {
+            border: 1px solid var(--border);
+            background: rgba(0, 16, 4, 0.6);
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .god-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .god-card:hover {
+            background: var(--overlay-light);
+            border-color: var(--border-glow);
+            box-shadow: 0 4px 20px rgba(57, 255, 20, 0.15);
+        }
+
+        .god-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .god-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 12px;
+            border-bottom: 1px dashed var(--accent-dim);
+            padding-bottom: 8px;
+        }
+
+        .god-name {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .god-type {
+            font-size: 0.85rem;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 2px 8px;
+            border-radius: 2px;
+        }
+
+        .god-desc {
+            font-size: 0.95rem;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .god-truth {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-style: italic;
+            border-left: 2px solid var(--text-dim);
+            padding-left: 10px;
+            margin-top: 12px;
+        }
+
+        /* Special Error Card */
+        .god-card.error-card {
+            border-color: var(--danger-dim);
+        }
+
+        .god-card.error-card::before {
+            background: var(--danger);
+        }
+
+        .god-card.error-card .god-name {
+            color: var(--danger);
+            text-shadow: 0 0 10px rgba(255, 57, 57, 0.5);
+        }
+
+        .god-card.error-card .god-type {
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .god-card.error-card:hover {
+            box-shadow: 0 4px 20px rgba(255, 57, 57, 0.15);
+        }
+
+        /* ===== Characters ===== */
+        .chara-group {
+            margin-bottom: 40px;
+        }
+
+        .chara-class {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chara-class::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--overlay-light);
+        }
+
+        .chara-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .chara-item {
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 2px solid var(--accent-dim);
+        }
+
+        .chara-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+        }
+
+        .chara-name small {
+            font-weight: normal;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .chara-desc {
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+
+        /* ===== Episodes (Logs) ===== */
+        .episode-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 64px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .ep-row {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            background: rgba(0, 10, 2, 0.4);
+            transition: background 0.2s;
+        }
+
+        .ep-row:hover {
+            background: var(--overlay-light);
+        }
+
+        .ep-col-num {
+            color: var(--text-dim);
+            width: 80px;
+            font-size: 0.9rem;
+        }
+
+        .ep-col-title {
+            color: #fff;
+            font-size: 1.05rem;
+            flex: 1;
+        }
+
+        @media (max-width: 600px) {
+            .ep-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .ep-col-num {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--border);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: .8rem;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            background: rgba(0, 8, 2, 0.9);
+        }
     </style>
-<link rel="stylesheet" href="../mouse-trail.css">
+    <link rel="stylesheet" href="../mouse-trail.css">
 </head>
 
 <body>
-    <div class="work-background"></div>
+
     <div class="scanlines"></div>
-    <div class="main-container">
-        <p class="catch-copy">祈りか努力か、神が微笑むのはどちらだ。</p>
-        <h1 class="work-title">ガチャ＝デウス</h1>
-        <p class="meta-info">NOVEL / Coming Soon</p>
-        <div class="synopsis-box">…この世界では、神はガチャで決まる。確率は低く、生涯縁がない事もある。
 
-しかし、幸福と怠惰を夢見て人は祈るのだ。
+    <!-- Header Navigation -->
+    <header class="sys-nav">
+        <div class="sys-inner">
+            <div class="sys-id">SYSTEM.ARCHIVE.GACHA_DEUS</div>
+            <a href="../index.html" class="sys-return">Shutdown / Return</a>
+        </div>
+    </header>
 
-そして、努力と祈りの狭間で人は狂い始めた。</div>
-        <div class="button-grid"><a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a></div>
+    <!-- Hero Banner -->
+    <div class="hero-section">
+        <h1 class="hero-title glitch-hover">Gacha=Deus</h1>
+        <p class="hero-catch">「祈りか努力か、神が微笑むのはどちらだ。」</p>
+        <p class="hero-subcatch">「自らを磨き不確実な努力をするか、時間を掛けて祈り、神頼みで解決するか――<br>選ぶのは、あなた自身。」</p>
+        <div class="hero-genre">祈願 × 召喚 × 批評的SF</div>
     </div>
-    <a href="../index.html" class="back-nav">&#8592; RETURN</a>
-<script src="../mouse-trail.js"></script>
+
+    <!-- Main Content -->
+    <main class="terminal-body">
+
+        <!-- Story & World -->
+        <section id="story">
+            <h2 class="sec-title">World_Log</h2>
+            <div class="log-box">
+                <p>人々の信仰が<span class="highlight">「ガチャ」</span>となった未来。</p>
+                <p>1時間以上の集中祈願を捧げることで神々（デウス）を召喚できるが、出現する保証は一切ない。それでも人々は「出るかもしれない」という幻想にすがり、無意味な祈願に日々を費やしてしまう。</p>
+                <p>「普通に告白した方が早い」「努力して働けばいい」といった正論すら霞み、<br>
+                    <span class="highlight">【ガチャ成功者 ＞ 努力者 ＞ 中間層 ＞ 非信者】</span><br>
+                    という序列が形成された狂信的階級社会。
+                </p>
+                <p>その中で、主人公アムは<span class="highlight">「祈らない」</span>という選択へと向かっていく。</p>
+            </div>
+        </section>
+
+        <!-- System & Gods -->
+        <section id="system_gods">
+            <h2 class="sec-title">Deus_Roster</h2>
+            <p style="margin-bottom: 24px; color: var(--text-dim); font-family: 'Share Tech Mono', monospace;">>
+                INITIALIZING DEUS DATABASE...</p>
+
+            <div class="roster-grid">
+                <div class="god-card">
+                    <div class="god-header">
+                        <span class="god-name">Deus=Lia</span>
+                        <span class="god-type">恋愛</span>
+                    </div>
+                    <p class="god-desc">肉体的魅力を一時的に高める。</p>
+                    <p class="god-truth">※実際は、直接告白した方が圧倒的に早い。</p>
+                </div>
+
+                <div class="god-card">
+                    <div class="god-header">
+                        <span class="god-name">Deus=Juno</span>
+                        <span class="god-type">結婚</span>
+                    </div>
+                    <p class="god-desc">生活スタイルの同期や家計の一致を促す。</p>
+                    <p class="god-truth">※現実的な共同生活によるすり合わせの方が効率的。</p>
+                </div>
+
+                <div class="god-card">
+                    <div class="god-header">
+                        <span class="god-name">Deus=Nova</span>
+                        <span class="god-type">金銭</span>
+                    </div>
+                    <p class="god-desc">短期的な収入増加や投資成功を呼び込む。</p>
+                    <p class="god-truth">※一時的な運に過ぎず、再現性がないため身を滅ぼす。</p>
+                </div>
+
+                <div class="god-card">
+                    <div class="god-header">
+                        <span class="god-name">Deus=Miti</span>
+                        <span class="god-type">友情</span>
+                    </div>
+                    <p class="god-desc">共感を強化しチーム行動を容易にする。</p>
+                    <p class="god-truth">※自然な関係形成から構築された絆の方が強固で安定する。</p>
+                </div>
+
+                <div class="god-card">
+                    <div class="god-header">
+                        <span class="god-name">Deus=Aane</span>
+                        <span class="god-type">敬意</span>
+                    </div>
+                    <p class="god-desc">他者からの承認と自身のカリスマ性を強調する。</p>
+                    <p class="god-truth">※自らの手で実績・成果を出した方が早い。</p>
+                </div>
+
+                <div class="god-card">
+                    <div class="god-header">
+                        <span class="god-name">Deus=Zero</span>
+                        <span class="god-type">忘却</span>
+                    </div>
+                    <p class="god-desc">トラウマや苦痛、嫌な記憶を消去する。</p>
+                    <p class="god-truth">※消えた記憶は人格に回復不能な「空洞」を生み出す。</p>
+                </div>
+
+                <div class="god-card error-card">
+                    <div class="god-header">
+                        <span class="god-name">Deus=Error</span>
+                        <span class="god-type">破壊</span>
+                    </div>
+                    <p class="god-desc">意図せず発動し、障害となる敵や対象を抹消する。</p>
+                    <p class="god-truth">※社会機能の停止など、制御不能な副次被害が甚大。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Characters -->
+        <section id="characters">
+            <h2 class="sec-title">Subjects</h2>
+
+            <div class="chara-group">
+                <h3 class="chara-class">🌱【迷い人】/ 💫【無垢信者】</h3>
+                <div class="chara-list">
+                    <div class="chara-item">
+                        <h4 class="chara-name">アム <small>主人公 (Adam→Aum)</small></h4>
+                        <p class="chara-desc">親に名前のスペルを間違えられた青年。妹を救えなかった元祈願者で、かつて「デウス＝ノーヴァ」を引いた経験があるが、今は祈らない道を探っている。</p>
+                    </div>
+                    <div class="chara-item">
+                        <h4 class="chara-name">ロミー <small>アムの同級生</small></h4>
+                        <p class="chara-desc">「デウス＝ミティ」を引いて配信を始めた、承認や他者に振り回される依存型の少女。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chara-group">
+                <h3 class="chara-class">🏆【祝福者】</h3>
+                <div class="chara-list">
+                    <div class="chara-item">
+                        <h4 class="chara-name">オスカー</h4>
+                        <p class="chara-desc">努力をせず、祈りだけでガチャに大成功して億万長者になった奇跡の体現者。</p>
+                    </div>
+                    <div class="chara-item">
+                        <h4 class="chara-name">ラミア</h4>
+                        <p class="chara-desc">過去の奇跡的召喚を基に宗教団体を設立したカリスマ。選民思想を持ち信者を支配する。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chara-group">
+                <h3 class="chara-class">🧩【理想者】/ 🛠️【実直者】</h3>
+                <div class="chara-list">
+                    <div class="chara-item">
+                        <h4 class="chara-name">クラリス</h4>
+                        <p class="chara-desc">祈りと現実の努力を両立させようとするが、その無理なバランスと限界に苦悩している。</p>
+                    </div>
+                    <div class="chara-item">
+                        <h4 class="chara-name">ユウト</h4>
+                        <p class="chara-desc">ガチャに頼らず努力のみで進んできた青年。現実的だが、成功者が優遇される社会構造に閉塞感を抱える。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chara-group">
+                <h3 class="chara-class">🔥【拒絶者】/ 🧊【静観者】/ 📺【演出者】</h3>
+                <div class="chara-list">
+                    <div class="chara-item">
+                        <h4 class="chara-name">カガミ / ハル</h4>
+                        <p class="chara-desc">【拒絶者】カガミは信仰のせいで家族を失い、ガチャと信仰を憎悪している。<br>【静観者】ハルは人生で一度も祈ったことのない特異な青年。</p>
+                    </div>
+                    <div class="chara-item">
+                        <h4 class="chara-name">ミラ / ゼン / ヴァルタ</h4>
+                        <p class="chara-desc">【演出者】ミラ（VT祈願配信者）、ゼン（祈願代行業者）、ヴァルタ（詐欺師）。人々の信仰と依存を商品化し、エンタメとして消費する者たち。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Episodes -->
+        <section id="episodes">
+            <h2 class="sec-title">Data_Records (All 12 Episodes)</h2>
+
+            <div class="episode-list">
+                <div class="ep-row">
+                    <span class="ep-col-num">FILE_01</span>
+                    <span class="ep-col-title">「出たら救えると思って祈った」</span>
+                </div>
+                <div class="ep-row">
+                    <span class="ep-col-num">FILE_02</span>
+                    <span class="ep-col-title">「引けた人だけが勝者」</span>
+                </div>
+                <div class="ep-row">
+                    <span class="ep-col-num">FILE_03</span>
+                    <span class="ep-col-title">「祈らない人がいる」</span>
+                </div>
+                <div class="ep-row">
+                    <span class="ep-col-num">FILE_04</span>
+                    <span class="ep-col-title">「出なかった人のための社会じゃない」</span>
+                </div>
+                <div class="ep-row">
+                    <span class="ep-col-num">FILE_05</span>
+                    <span class="ep-col-title">「祈るな、祈れ」</span>
+                </div>
+                <div class="ep-row">
+                    <span class="ep-col-num">FILE_06</span>
+                    <span class="ep-col-title">「祈らせることで社会は保たれている」</span>
+                </div>
+                <div class="ep-row">
+                    <span class="ep-col-num">FILE_07</span>
+                    <span class="ep-col-title">「やめたくても祈ってしまう」</span>
+                </div>
+                <div class="ep-row">
+                    <span class="ep-col-num">FILE_08</span>
+                    <span class="ep-col-title">「出ないことも“物語”になる」</span>
+                </div>
+                <div class="ep-row">
+                    <span class="ep-col-num">FILE_09</span>
+                    <span class="ep-col-title">「誰が出した？」 <span style="color:var(--danger)">[Deus=Error 出現]</span></span>
+                </div>
+                <div class="ep-row">
+                    <span class="ep-col-num">FILE_10</span>
+                    <span class="ep-col-title">「出してしまったのは、俺かもしれない」</span>
+                </div>
+                <div class="ep-row">
+                    <span class="ep-col-num">FILE_11</span>
+                    <span class="ep-col-title">「それでも、誰かは祈る」</span>
+                </div>
+                <div class="ep-row">
+                    <span class="ep-col-num">FILE_12</span>
+                    <span class="ep-col-title" style="color:var(--accent)">「祈らないという選択」</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>SYSTEM TERMINATED.</p>
+        <p>&copy; 2026 Gacha=Deus / Stadio Vault Archive</p>
+    </footer>
+
+    <script src="../mouse-trail.js"></script>
 </body>
 
 </html>

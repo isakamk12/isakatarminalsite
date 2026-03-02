@@ -4,273 +4,456 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ケルビン・マーケット - Stadio Vault</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>Kelvin Market - Stadio Vault</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Share+Tech+Mono&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --accent: #39ff14;
-            --accent-dim: #1a7a08;
-            --overlay: rgba(0, 8, 2, 0.78);
-            --text: #d6f5d6;
-            --text-dim: #6b9e6b;
-            --border: rgba(57, 255, 20, 0.35);
+            --bg-base: #0a0a0c;
+            --bg-panel: rgba(20, 20, 25, 0.9);
+            --text-main: #d0d0d5;
+            --neon-red: #ff2a2a;
+            /* Heat */
+            --neon-blue: #00f0ff;
+            /* Cold */
+            --border-dim: #2a2a35;
         }
 
-        *,
-        *::before,
-        *::after {
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        body,
-        html {
-            height: 100%;
-            font-family: 'Noto Serif JP', 'Georgia', serif;
-            background: #000;
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: var(--bg-base);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Ticker Background */
+        .ticker-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.05;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 14px;
+            color: var(--neon-blue);
+            overflow: hidden;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            white-space: nowrap;
+        }
+
+        .ticker-row {
+            animation: scrollLeft 60s linear infinite;
+        }
+
+        .ticker-row:nth-child(even) {
+            animation-direction: reverse;
+            color: var(--neon-red);
+        }
+
+        @keyframes scrollLeft {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 50px;
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--neon-blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            z-index: 100;
+        }
+
+        nav a {
+            color: var(--neon-blue);
+            text-decoration: none;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        /* Hero */
+        .hero {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(0deg, var(--bg-base), transparent), url('../image/kelvin-market.png') center/cover;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 4px 0px var(--neon-red), -4px 0px var(--neon-blue);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .hero-catch {
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--neon-red), var(--neon-blue));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-genre {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            color: #fff;
+            padding: 5px 15px;
+            border: 1px solid var(--border-dim);
+            background: rgba(0, 0, 0, 0.5);
+            letter-spacing: 2px;
+        }
+
+        /* Grid Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .sec-header {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--neon-blue);
+            font-size: 2rem;
+            border-bottom: 2px solid var(--border-dim);
+            padding-bottom: 10px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        /* Story */
+        .story-panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-dim);
+            padding: 40px;
+            border-left: 4px solid var(--neon-red);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 80px;
+        }
+
+        /* System */
+        .sys-box {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 80px;
+        }
+
+        @media (max-width: 768px) {
+            .sys-box {
+                flex-direction: column;
+            }
+        }
+
+        .sys-item {
+            flex: 1;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-dim);
+            padding: 30px;
+            position: relative;
             overflow: hidden;
         }
 
-        .work-background {
-            position: fixed;
-            inset: 0;
-            background-image:url('../image/kelvin-market.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: 1;
-            filter: brightness(0.7) saturate(0.6);
-            animation: bgBreath 8s ease-in-out infinite;
-        }
-
-        @keyframes bgBreath {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.03);
-            }
-        }
-
-        .scanlines {
-            position: fixed;
-            inset: 0;
-            z-index: 2;
-            background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0, 0, 0, 0.08) 3px, rgba(0, 0, 0, 0.08) 4px);
-            pointer-events: none;
-        }
-
-        .main-container {
-            position: relative;
-            z-index: 10;
-            width: 90%;
-            max-width: 640px;
-            height: 90vh;
-            margin: 5vh auto;
-            background: var(--overlay);
-            border: 1px solid var(--border);
-            box-shadow: 0 0 40px rgba(57, 255, 20, 0.12);
-            display: flex;
-            flex-direction: column;
-            padding: 36px 40px 30px;
-            animation: cFade .9s cubic-bezier(.22, 1, .36, 1) both;
-        }
-
-        @keyframes cFade {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .main-container::before {
+        .sys-item::before {
             content: '';
-            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            margin-bottom: 20px;
-            flex-shrink: 0;
-            animation: lineGlow 3s ease-in-out infinite;
+            height: 3px;
         }
 
-        @keyframes lineGlow {
-
-            0%,
-            100% {
-                opacity: .5;
-            }
-
-            50% {
-                opacity: 1;
-            }
+        .sys-item.heat::before {
+            background: var(--neon-red);
         }
 
-        .catch-copy {
+        .sys-item.cold::before {
+            background: var(--neon-blue);
+        }
+
+        .sys-item h3 {
+            margin-bottom: 15px;
             font-family: 'Share Tech Mono', monospace;
-            font-size: .85rem;
-            color: var(--accent);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            opacity: 0;
-            animation: tIn .6s .3s ease forwards;
+            font-size: 1.5rem;
         }
 
-        .work-title {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 3.4rem;
-            font-weight: 900;
-            color: #fff;
-            line-height: 1.0;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(57, 255, 20, .4);
-            opacity: 0;
-            animation: tIn .6s .45s ease forwards;
+        .heat h3 {
+            color: var(--neon-red);
         }
 
-        .meta-info {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .82rem;
-            color: var(--text-dim);
-            letter-spacing: 3px;
-            border-left: 2px solid var(--accent-dim);
-            padding-left: 10px;
-            margin-bottom: 22px;
-            opacity: 0;
-            animation: tIn .6s .6s ease forwards;
+        .cold h3 {
+            color: var(--neon-blue);
         }
 
-        .synopsis-box {
-            flex-grow: 1;
-            font-size: 1rem;
-            line-height: 1.85;
-            color: var(--text);
-            overflow-y: auto;
-            margin-bottom: 22px;
-            padding-right: 8px;
-            white-space: pre-wrap;
-            border-left: 1px solid var(--border);
-            padding-left: 16px;
-            opacity: 0;
-            animation: tIn .7s .75s ease forwards;
-        }
-
-        .synopsis-box::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .synopsis-box::-webkit-scrollbar-thumb {
-            background: var(--accent-dim);
-        }
-
-        @keyframes tIn {
-            from {
-                opacity: 0;
-                transform: translateX(-8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .button-grid {
+        /* Characters */
+        .chars {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            opacity: 0;
-            animation: tIn .6s 1s ease forwards;
+            gap: 30px;
+            margin-bottom: 80px;
         }
 
-        .action-btn {
-            background: transparent;
-            color: var(--accent);
-            text-decoration: none;
-            text-align: center;
-            padding: 11px 10px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .82rem;
-            letter-spacing: 1px;
-            border: 1px solid var(--accent);
-            transition: background .2s, color .2s;
-        }
-
-        .action-btn:hover {
-            background: rgba(57, 255, 20, .15);
-            color: #9fffb0;
-        }
-
-        .back-nav {
-            position: fixed;
-            bottom: 22px;
-            right: 22px;
-            z-index: 100;
-            background: #000;
-            color: var(--accent);
-            padding: 8px 16px;
-            text-decoration: none;
-            border: 1px solid var(--accent);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .78rem;
-            letter-spacing: 2px;
-            transition: background .2s, color .2s;
-        }
-
-        .back-nav:hover {
-            background: var(--accent);
-            color: #000;
-        }
-
-        @media(max-width:600px) {
-            .main-container {
-                padding: 24px 20px 20px;
-                height: 95vh;
-                margin: 2.5vh auto;
-            }
-
-            .work-title {
-                font-size: 2.2rem;
-            }
-
-            .button-grid {
+        @media (max-width: 600px) {
+            .chars {
                 grid-template-columns: 1fr;
             }
         }
+
+        .char-card {
+            background: #000;
+            border: 1px solid var(--border-dim);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .char-head {
+            height: 150px;
+            background: #111;
+            border-bottom: 1px solid var(--border-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 4rem;
+            color: #333;
+        }
+
+        .char-body {
+            padding: 30px;
+        }
+
+        .char-body h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .char-body .role {
+            color: var(--neon-blue);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Episodes Timeline */
+        .timeline {
+            margin-bottom: 80px;
+        }
+
+        .timeline-item {
+            display: flex;
+            border-bottom: 1px solid var(--border-dim);
+            padding: 15px 0;
+            transition: padding-left 0.2s;
+        }
+
+        .timeline-item:hover {
+            padding-left: 10px;
+            border-bottom-color: var(--neon-red);
+        }
+
+        .ep-vol {
+            width: 100px;
+            color: var(--neon-blue);
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: bold;
+        }
+
+        .ep-name {
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* Creator UI */
+        .creator-ui {
+            background: #111;
+            border-top: 1px solid var(--neon-blue);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .creator-ui h3 {
+            color: var(--neon-blue);
+            font-family: 'Share Tech Mono', monospace;
+            margin-bottom: 15px;
+        }
+
+        .creator-ui p {
+            color: var(--text-main);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .btn-create {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            color: var(--neon-red);
+            border: 2px solid var(--neon-red);
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-create:hover {
+            background: var(--neon-red);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-red);
+        }
     </style>
-<link rel="stylesheet" href="../mouse-trail.css">
+    <link rel="stylesheet" href="../mouse-trail.css">
 </head>
 
 <body>
-    <div class="work-background"></div>
-    <div class="scanlines"></div>
-    <div class="main-container">
-        <p class="catch-copy">熱量で、世界は動く、市場は回る。</p>
-        <h1 class="work-title">ケルビン・マーケット</h1>
-        <p class="meta-info">GAME PROJECT / Coming Soon</p>
-        <div class="synopsis-box">あるインフルエンサーと名探偵の弟子がタッグを組み、温度を通貨とする異常経済に挑み、悪の教授が残した遺産を破壊するドラマティック・アクション。
-
-TruthCascades三部作悪徳企業編、悪の教授を打ち倒すだけでは、物語は終わらない。</div>
-        <div class="button-grid"><a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a></div>
+    <div class="ticker-bg">
+        <div class="ticker-row">SYS.ERR // MARKET CRUSH // HEAT LEVEL CRITICAL // TRUTH_CASCADES // SYS.ERR // MARKET
+            CRUSH // HEAT LEVEL CRITICAL // TRUTH_CASCADES // SYS.ERR // MARKET CRUSH // HEAT LEVEL CRITICAL //
+            TRUTH_CASCADES // </div>
+        <div class="ticker-row">COLD.LOG // NO EVIDENCE // ALIBI VERIFIED // USER.DATA.LOST // COLD.LOG // NO EVIDENCE
+            // ALIBI VERIFIED // USER.DATA.LOST // COLD.LOG // NO EVIDENCE // ALIBI VERIFIED // USER.DATA.LOST // </div>
+        <div class="ticker-row">SYS.ERR // MARKET CRUSH // HEAT LEVEL CRITICAL // TRUTH_CASCADES // SYS.ERR // MARKET
+            CRUSH // HEAT LEVEL CRITICAL // TRUTH_CASCADES // SYS.ERR // MARKET CRUSH // HEAT LEVEL CRITICAL //
+            TRUTH_CASCADES // </div>
+        <div class="ticker-row">COLD.LOG // NO EVIDENCE // ALIBI VERIFIED // USER.DATA.LOST // COLD.LOG // NO EVIDENCE
+            // ALIBI VERIFIED // USER.DATA.LOST // COLD.LOG // NO EVIDENCE // ALIBI VERIFIED // USER.DATA.LOST // </div>
     </div>
-    <a href="../index.html" class="back-nav">&#8592; RETURN</a>
-<script src="../mouse-trail.js"></script>
+
+    <nav>
+        <span style="color:#fff;">K. MARKET / TRILOGY PART 2</span>
+        <a href="../index.html">Disconnect_</a>
+    </nav>
+
+    <header class="hero">
+        <h1 class="hero-title">Kelvin<br>Market</h1>
+        <p class="hero-catch">「熱量で、世界は動く、市場は回る。」</p>
+        <div class="hero-genre">Dramatic Action &times; Abnormal Economy Suspense</div>
+    </header>
+
+    <div class="container">
+        <section id="story">
+            <h2 class="sec-header">01. Market Overview</h2>
+            <div class="story-panel">
+                <p>ホリーに代わり、ディオンと元インフルエンサーのオリビアがタッグを組み、<strong
+                        style="color:var(--neon-red);">「温度（熱量）」を通貨とする異常経済</strong>に挑む。</p><br>
+                <p>失踪事件や経済操作による強盗・破綻事件が発生する中、悪の教授が残した遺産を破壊するための戦いが始まる。SNSと世論操作を駆使し、事件を調べるために事件を起こす、カウンターミステリー。</p>
+            </div>
+        </section>
+
+        <section id="system">
+            <h2 class="sec-header">02. Trade Systems</h2>
+            <div class="sys-box">
+                <div class="sys-item cold">
+                    <h3>COLD GAUGE</h3>
+                    <p><strong>低温状態 (Absolute / Freeze / Cold / Flow)</strong><br>被害者の証言が得やすいが、証拠は弱い。静かな潜入や情報収集に適している。
+                    </p>
+                </div>
+                <div class="sys-item heat">
+                    <h3>HEAT GAUGE</h3>
+                    <p><strong>高温状態 (Boil / Heat / Hot /
+                            Warm)</strong><br>SNS操作（Ignite等）でエリアを加熱。加害者の痕跡が見つかるが、デマやリスクも急増する。</p>
+                </div>
+            </div>
+            <div class="sys-item" style="border-left: 4px solid #fff;">
+                <h3 style="color:#fff;">Character Swap</h3>
+                <p>ディオン（現地潜入・変装・アクション）とオリビア（SNS操作・世論誘導）を随時交代しながら状況をコントロールする。</p>
+            </div>
+        </section>
+
+        <section id="characters" style="margin-top:80px;">
+            <h2 class="sec-header">03. Traders</h2>
+            <div class="chars">
+                <div class="char-card">
+                    <div class="char-head">DION</div>
+                    <div class="char-body">
+                        <h3>Dion O'Hara</h3>
+                        <span class="role">INFILTRATOR / ACTION</span>
+                        <p>本作では主役として潜入・物理調査を担当。ホリーの遠隔サポートを受けつつ、富裕層のパーティーに混ざるなど現場の最前線に立つ。</p>
+                    </div>
+                </div>
+                <div class="char-card">
+                    <div class="char-head">OLIVIA</div>
+                    <div class="char-body">
+                        <h3>Olivia Gal</h3>
+                        <span class="role">INFLUENCER / HACKER</span>
+                        <p>元インフルエンサーで経済学博士。「熱量通貨」の開発クルーの一人であり、SNS操作・世論誘導のスペシャリスト。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="episodes">
+            <h2 class="sec-header">04. Transaction Logs</h2>
+            <div class="timeline">
+                <div class="timeline-item"><span class="ep-vol">ACT.11</span><span class="ep-name">熱帯夜の記憶喪失クラブ</span>
+                </div>
+                <div class="timeline-item"><span class="ep-vol">ACT.12</span><span class="ep-name">銭湯の女神は経済を語る</span>
+                </div>
+                <div class="timeline-item"><span class="ep-vol">ACT.13</span><span
+                        class="ep-name">マネー・イズ・ノット・エビデンス</span></div>
+                <div class="timeline-item"><span class="ep-vol">ACT.14</span><span class="ep-name">恋は資産、裏切りは流動負債</span>
+                </div>
+                <div class="timeline-item"><span class="ep-vol">ACT.15</span><span class="ep-name">いいね！と叫んだその後で</span>
+                </div>
+                <div class="timeline-item"><span class="ep-vol">ACT.16</span><span class="ep-name">バズった死体と五秒の沈黙</span>
+                </div>
+                <div class="timeline-item"><span class="ep-vol">ACT.17</span><span class="ep-name">AIは市場を救えない</span>
+                </div>
+                <div class="timeline-item"><span class="ep-vol">ACT.18</span><span class="ep-name">炎上上等、証拠も燃えた</span>
+                </div>
+                <div class="timeline-item"><span class="ep-vol">ACT.19</span><span
+                        class="ep-name">ハッシュタグは告発の夢を見るか？</span></div>
+                <div class="timeline-item"><span class="ep-vol">ACT.20</span><span class="ep-name">指数は嘘をつかない、たぶん</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Creator Mode -->
+    <aside class="creator-ui">
+        <h3>[ MARKET SIMULATOR & QUEST GENERATOR ]</h3>
+        <p>Use AI to manipulate market sentiment and generate custom corporate sabotage quests.</p>
+        <a href="#" class="btn-create">Initialize Creator Mode</a>
+    </aside>
+
+    <script src="../mouse-trail.js"></script>
 </body>
 
 </html>

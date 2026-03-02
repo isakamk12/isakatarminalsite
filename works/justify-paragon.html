@@ -4,19 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ジャスティファイ・パラゴン - Stadio Vault</title>
+    <title>Justify Paragon (ジャスティファイ・パラゴン) - Stadio Vault</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;900&family=Noto+Serif+JP:wght@400;700;900&family=Share+Tech+Mono&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --accent: #39ff14;
-            --accent-dim: #1a7a08;
-            --overlay: rgba(0, 8, 2, 0.78);
-            --text: #d6f5d6;
-            --text-dim: #6b9e6b;
-            --border: rgba(57, 255, 20, 0.35);
+            --bg-color: #050505;
+            /* Black */
+            --text-main: #dcdcdc;
+            /* Gray text */
+            --text-dark: #888888;
+            --accent-red: #8b0000;
+            /* Dark Red */
+            --accent-glow: rgba(139, 0, 0, 0.7);
+            --border-color: #333333;
+            --overlay: rgba(0, 0, 0, 0.85);
+            /* Glitch effect settings */
+            --gap: 2px;
+            --blend-1: screen;
+            --blend-2: multiply;
         }
 
         *,
@@ -27,250 +37,837 @@
             padding: 0;
         }
 
-        body,
         html {
-            height: 100%;
-            font-family: 'Noto Serif JP', 'Georgia', serif;
-            background: #000;
-            overflow: hidden;
+            scroll-behavior: smooth;
+            background: var(--bg-color);
         }
 
-        .work-background {
+        body {
+            font-family: 'Noto Serif JP', 'Georgia', serif;
+            background: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.8;
+            letter-spacing: 0.05em;
+        }
+
+        ::selection {
+            background: var(--accent-red);
+            color: #fff;
+        }
+
+        /* ===== Global Effects ===== */
+        .scanlines {
             position: fixed;
             inset: 0;
-            background-image:url('../image/justify-paragon.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: 1;
-            filter: brightness(0.7) saturate(0.6);
-            animation: bgBreath 8s ease-in-out infinite;
+            z-index: 9999;
+            background: repeating-linear-gradient(to bottom, transparent 0px, transparent 2px, rgba(0, 0, 0, 0.3) 2px, rgba(0, 0, 0, 0.3) 4px);
+            pointer-events: none;
+            mix-blend-mode: overlay;
+            opacity: 0.6;
         }
 
-        @keyframes bgBreath {
+        .noise-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -10;
+            opacity: 0.15;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
 
-            0%,
+        /* Continuous Glitch Animation for Specific Elements */
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        .glitch-text::before {
+            left: var(--gap);
+            text-shadow: -2px 0 var(--accent-red);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+            z-index: -1;
+        }
+
+        .glitch-text::after {
+            left: calc(-1 * var(--gap));
+            text-shadow: -2px 0 #333;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+            z-index: -2;
+        }
+
+        @keyframes glitch-anim {
+            0% {
+                clip: rect(6px, 9999px, 86px, 0);
+                transform: skew(0.5deg);
+            }
+
+            5% {
+                clip: rect(21px, 9999px, 5px, 0);
+                transform: skew(0.9deg);
+            }
+
+            10% {
+                clip: rect(75px, 9999px, 60px, 0);
+                transform: skew(0.1deg);
+            }
+
+            15% {
+                clip: rect(100px, 9999px, 83px, 0);
+                transform: skew(0.4deg);
+            }
+
+            20% {
+                clip: rect(4px, 9999px, 78px, 0);
+                transform: skew(0.8deg);
+            }
+
             100% {
+                clip: rect(4px, 9999px, 78px, 0);
+                transform: skew(0deg);
+            }
+        }
+
+        @keyframes glitch-anim2 {
+            0% {
+                clip: rect(65px, 9999px, 100px, 0);
+                transform: skew(0.2deg);
+            }
+
+            5% {
+                clip: rect(52px, 9999px, 74px, 0);
+                transform: skew(0.1deg);
+            }
+
+            10% {
+                clip: rect(79px, 9999px, 85px, 0);
+                transform: skew(0.5deg);
+            }
+
+            15% {
+                clip: rect(75px, 9999px, 5px, 0);
+                transform: skew(0.3deg);
+            }
+
+            20% {
+                clip: rect(44px, 9999px, 7px, 0);
+                transform: skew(0.7deg);
+            }
+
+            100% {
+                clip: rect(44px, 9999px, 7px, 0);
+                transform: skew(0deg);
+            }
+        }
+
+        /* Hover Glitch / Equivalent Exchange Swap Effect */
+        .swap-hover {
+            position: relative;
+            cursor: pointer;
+            transition: color 0.1s;
+        }
+
+        .swap-hover:hover {
+            color: var(--accent-red);
+        }
+
+        .swap-hover .swap-secret {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            color: var(--accent-red);
+            font-weight: 900;
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .swap-hover:hover .swap-secret {
+            animation: instantSwap 0.3s steps(2, start) forwards;
+        }
+
+        @keyframes instantSwap {
+            0% {
+                opacity: 0;
                 transform: scale(1);
             }
 
             50% {
-                transform: scale(1.03);
+                opacity: 1;
+                transform: scale(1.02) skew(-5deg);
+                filter: blur(1px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) skew(0deg);
+                filter: blur(0);
+                text-shadow: 2px 0px 5px var(--accent-glow);
             }
         }
 
-        .scanlines {
+        /* ===== Header Navigation ===== */
+        .sys-nav {
             position: fixed;
-            inset: 0;
-            z-index: 2;
-            background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0, 0, 0, 0.08) 3px, rgba(0, 0, 0, 0.08) 4px);
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 50px;
+            background: rgba(5, 5, 5, 0.9);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(5px);
         }
 
-        .main-container {
+        .sys-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sys-title {
+            font-family: 'Cinzel', serif;
+            color: var(--text-dark);
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .sys-return {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sys-return:hover {
+            color: var(--accent-red);
+            text-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        /* ===== Hero Banner / Top Section ===== */
+        .hero-section {
             position: relative;
-            z-index: 10;
-            width: 90%;
-            max-width: 640px;
-            height: 90vh;
-            margin: 5vh auto;
-            background: var(--overlay);
-            border: 1px solid var(--border);
-            box-shadow: 0 0 40px rgba(57, 255, 20, 0.12);
+            z-index: 1;
+            min-height: 85vh;
             display: flex;
             flex-direction: column;
-            padding: 36px 40px 30px;
-            animation: cFade .9s cubic-bezier(.22, 1, .36, 1) both;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 80px 20px;
+            background: url('../image/justify-paragon.png') center/cover no-repeat;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        @keyframes cFade {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .main-container::before {
+        .hero-section::before {
             content: '';
-            display: block;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            margin-bottom: 20px;
-            flex-shrink: 0;
-            animation: lineGlow 3s ease-in-out infinite;
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(5, 5, 5, 0.5) 0%, rgba(5, 5, 5, 0.95) 100%);
+            z-index: -1;
         }
 
-        @keyframes lineGlow {
-
-            0%,
-            100% {
-                opacity: .5;
-            }
-
-            50% {
-                opacity: 1;
-            }
-        }
-
-        .catch-copy {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .85rem;
-            color: var(--accent);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            opacity: 0;
-            animation: tIn .6s .3s ease forwards;
-        }
-
-        .work-title {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 3.4rem;
+        .hero-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3rem, 8vw, 6.5rem);
             font-weight: 900;
             color: #fff;
-            line-height: 1.0;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(57, 255, 20, .4);
-            opacity: 0;
-            animation: tIn .6s .45s ease forwards;
+            line-height: 1;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+            text-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
         }
 
-        .meta-info {
+        .hero-title span {
+            color: var(--text-dark);
+        }
+
+        .hero-catch {
+            font-family: 'Noto Serif JP', serif;
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            color: var(--text-main);
+            margin-bottom: 16px;
+            max-width: 800px;
+            line-height: 1.8;
+            text-shadow: 0 2px 10px #000;
+            font-weight: 700;
+        }
+
+        .hero-genre {
             font-family: 'Share Tech Mono', monospace;
-            font-size: .82rem;
-            color: var(--text-dim);
+            font-size: .85rem;
+            color: var(--text-dark);
+            letter-spacing: 4px;
+            margin-top: 30px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+        }
+
+        /* ===== Main Content Container ===== */
+        .page-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 80px 32px;
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            .page-container {
+                padding: 60px 20px;
+            }
+        }
+
+        /* Section Titles */
+        .sec-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: #fff;
             letter-spacing: 3px;
-            border-left: 2px solid var(--accent-dim);
-            padding-left: 10px;
-            margin-bottom: 22px;
-            opacity: 0;
-            animation: tIn .6s .6s ease forwards;
-        }
-
-        .synopsis-box {
-            flex-grow: 1;
-            font-size: 1rem;
-            line-height: 1.85;
-            color: var(--text);
-            overflow-y: auto;
-            margin-bottom: 22px;
-            padding-right: 8px;
-            white-space: pre-wrap;
-            border-left: 1px solid var(--border);
-            padding-left: 16px;
-            opacity: 0;
-            animation: tIn .7s .75s ease forwards;
-        }
-
-        .synopsis-box::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .synopsis-box::-webkit-scrollbar-thumb {
-            background: var(--accent-dim);
-        }
-
-        @keyframes tIn {
-            from {
-                opacity: 0;
-                transform: translateX(-8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .button-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            opacity: 0;
-            animation: tIn .6s 1s ease forwards;
-        }
-
-        .action-btn {
-            background: transparent;
-            color: var(--accent);
-            text-decoration: none;
+            margin-bottom: 40px;
             text-align: center;
-            padding: 11px 10px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: .82rem;
-            letter-spacing: 1px;
-            border: 1px solid var(--accent);
-            transition: background .2s, color .2s;
+            position: relative;
         }
 
-        .action-btn:hover {
-            background: rgba(57, 255, 20, .15);
-            color: #9fffb0;
+        .sec-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 2px;
+            background: var(--accent-red);
+            margin: 16px auto 0;
+            box-shadow: 0 0 10px var(--accent-glow);
         }
 
-        .back-nav {
-            position: fixed;
-            bottom: 22px;
-            right: 22px;
-            z-index: 100;
-            background: #000;
-            color: var(--accent);
+        /* ===== Story ===== */
+        .story-content {
+            font-size: 1.05rem;
+            line-height: 2.2;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+
+        .story-content p {
+            margin-bottom: 1.5em;
+        }
+
+        .keyword-box {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 700;
+        }
+
+        .k-word {
+            font-size: 0.95rem;
+            color: var(--accent-red);
+            border: 1px solid var(--border-color);
             padding: 8px 16px;
-            text-decoration: none;
-            border: 1px solid var(--accent);
+            background: rgba(139, 0, 0, 0.05);
+        }
+
+        /* ===== Characters ===== */
+        .chara-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+
+        .chara-card {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .chara-card.reverse {
+            flex-direction: row-reverse;
+        }
+
+        @media (max-width: 768px) {
+
+            .chara-card,
+            .chara-card.reverse {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        .chara-art {
+            flex: 0 0 160px;
+            height: 220px;
+            background: #111;
+            border: 1px solid var(--border-color);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', serif;
+            color: var(--text-dark);
+            font-size: 4rem;
+            overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .chara-art::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 50%, rgba(139, 0, 0, 0.1) 100%);
+        }
+
+        .chara-info {
+            flex: 1;
+        }
+
+        .c-name {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 4px;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .c-role {
             font-family: 'Share Tech Mono', monospace;
-            font-size: .78rem;
+            color: var(--text-dark);
+            font-size: 0.9rem;
             letter-spacing: 2px;
-            transition: background .2s, color .2s;
+            margin-bottom: 20px;
+            display: block;
         }
 
-        .back-nav:hover {
-            background: var(--accent);
-            color: #000;
+        .c-desc {
+            font-size: 1rem;
+            color: var(--text-main);
+            margin-bottom: 16px;
+            text-align: justify;
         }
 
-        @media(max-width:600px) {
-            .main-container {
-                padding: 24px 20px 20px;
-                height: 95vh;
-                margin: 2.5vh auto;
+        .c-feature {
+            font-size: 0.9rem;
+            border-left: 2px solid var(--accent-red);
+            padding-left: 12px;
+            margin-top: 16px;
+        }
+
+        .c-feature strong {
+            color: #fff;
+            font-family: 'Noto Serif JP', serif;
+        }
+
+        /* ===== Targets (Kill List) ===== */
+        .target-list {
+            margin-bottom: 80px;
+        }
+
+        .target-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 24px 0;
+            display: flex;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .target-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom-color: var(--accent-red);
+        }
+
+        .t-num {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--accent-red);
+            width: 80px;
+            font-weight: 900;
+        }
+
+        .t-info {
+            flex: 1;
+        }
+
+        /* CSS Swap Animation for Targets */
+        .t-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .t-desc {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        @media (max-width: 600px) {
+            .target-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
             }
 
-            .work-title {
-                font-size: 2.2rem;
+            .t-num {
+                font-size: 1.2rem;
             }
+        }
 
-            .button-grid {
-                grid-template-columns: 1fr;
-            }
+        /* ===== Episodes ===== */
+        .episodes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .ep-card {
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            background: rgba(10, 10, 10, 0.6);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .ep-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--text-dark);
+            transition: background 0.3s;
+        }
+
+        .ep-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            border-color: #555;
+        }
+
+        .ep-card:hover::before {
+            background: var(--accent-red);
+            box-shadow: 0 0 10px var(--accent-red);
+        }
+
+        .ep-num {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .ep-title-en {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .ep-title-ja {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            text-align: center;
+            padding: 60px 20px 40px;
+            border-top: 1px solid var(--border-color);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-dark);
+            letter-spacing: 1px;
         }
     </style>
-<link rel="stylesheet" href="../mouse-trail.css">
+    <link rel="stylesheet" href="../mouse-trail.css">
 </head>
 
 <body>
-    <div class="work-background"></div>
-    <div class="scanlines"></div>
-    <div class="main-container">
-        <p class="catch-copy">家族が増える度に、心は離れていく。</p>
-        <h1 class="work-title">ジャスティファイ・パラゴン</h1>
-        <p class="meta-info">NOVEL / Coming Soon</p>
-        <div class="synopsis-box">映画業界では、ある話題があった…それは、紛争地域出身の人物を代理母として利用している…という話であった。
 
-しかも、この隠蔽には大統領とその一家も関わり、虐待から逃げる中、様々な人間の野望に巻き込まれる才能ある少女の話。</div>
-        <div class="button-grid"><a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a>
-            <a href="#" class="action-btn">準備中</a></div>
-    </div>
-    <a href="../index.html" class="back-nav">&#8592; RETURN</a>
-<script src="../mouse-trail.js"></script>
+    <div class="noise-bg"></div>
+    <div class="scanlines"></div>
+
+    <!-- Header Navigation -->
+    <header class="sys-nav">
+        <div class="sys-inner">
+            <div class="sys-title">J. PARAGON</div>
+            <a href="../index.html" class="sys-return">Abandon &crarr;</a>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-section">
+        <h1 class="hero-title" data-text="Justify Paragon">Justify <span>Paragon</span></h1>
+
+        <p class="hero-catch">
+            「その素肌と、灰の髪は。<br>世界でもっとも<span class="glitch-text" data-text="“灰色”">“灰色”</span>に近かった。」
+        </p>
+        <p class="hero-catch" style="font-size: 1rem; color: var(--text-dark); font-weight: normal;">
+            ふたりの少女は、巨悪の因縁を断ち切る。<br>
+            束縛をほどき、望みを叶えるために──世界と契約した。
+        </p>
+
+        <div class="hero-genre">
+            Dark Fantasy / Swap & Execution / Revenge
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="page-container">
+
+        <!-- Story -->
+        <section id="story">
+            <h2 class="sec-title">The Foundation of Ashes</h2>
+            <div class="story-content">
+                <p>世界で最も女性が美しいとされる国。<br>
+                    映画、政治、貴族……欲望と支配の網が渦巻く世界で、<br>
+                    灰色の肌を持つ少女は<strong style="color:#fff;">“悪意の原液”</strong>に触れてしまう。</p>
+
+                <p style="font-style: italic; color: #fff;">「私の入れ替わりで、丸ごとぶっ壊すか」</p>
+
+                <p>魔女から差し出された契約。<br>
+                    二人の少女は、「正義」を騙る欺瞞と「美しさ」を搾取する構造に対し、<br>
+                    極端に邪悪な存在への<strong style="color:var(--accent-red);">“同情の余地なき断罪（報復）”</strong>を遂げていく。</p>
+            </div>
+
+            <div class="keyword-box">
+                <span class="k-word">女性による暗殺</span>
+                <span class="k-word">等価交換の魔術</span>
+                <span class="k-word">偽善と模範の破壊</span>
+            </div>
+        </section>
+
+        <!-- Characters -->
+        <section id="characters" style="margin-top: 100px;">
+            <h2 class="sec-title">Contractors</h2>
+            <div class="chara-wrap">
+
+                <!-- Io -->
+                <div class="chara-card">
+                    <div class="chara-art">I</div>
+                    <div class="chara-info">
+                        <h3 class="c-name">Io</h3>
+                        <span class="c-role">/ The Witch</span>
+                        <p class="c-desc">レイナと契約したもう一人の主人公。中性的な外見。冷静沈着で皮肉屋な合理主義者だが、優しさと覚悟は誰よりも深い。</p>
+                        <div class="c-feature">
+                            <p><strong>能力:</strong> 質量を合わせることで対象を入れ替える「等価交換の魔術」。</p>
+                            <p><strong>目的:</strong> 偽善と模範を打ち壊し、“本質”を暴くこと。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reina -->
+                <div class="chara-card reverse">
+                    <div class="chara-art">R</div>
+                    <div class="chara-info">
+                        <h3 class="c-name">Reina</h3>
+                        <span class="c-role">/ The Ash Girl</span>
+                        <p class="c-desc">物語の中心人物。灰色の肌と髪を持つ元女優。初めは感情豊かで依存傾向があったが、暗殺と“入れ替わり”の経験を経て主体的な存在へ成長していく。</p>
+                        <div class="c-feature">
+                            <p><strong>目的:</strong> 自分の身体と人生を取り戻し、美の搾取構造を打ち壊すこと。</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Targets -->
+        <section id="targets" style="margin-top: 100px;">
+            <h2 class="sec-title">Execution List</h2>
+            <p
+                style="text-align: center; color: var(--text-dark); margin-bottom: 40px; font-family: 'Share Tech Mono', monospace;">
+                Select target to reveal core</p>
+
+            <div class="target-list">
+
+                <div class="target-item swap-hover">
+                    <div class="t-num">01</div>
+                    <div class="t-info">
+                        <span class="t-title">セレブ慈善家</span>
+                        <span class="t-desc">一見心優しい博愛主義者。</span>
+                    </div>
+                    <div class="swap-secret">【 障害を盾にする売春組織の元締 】</div>
+                </div>
+
+                <div class="target-item swap-hover">
+                    <div class="t-num">02</div>
+                    <div class="t-info">
+                        <span class="t-title">ポリコレコンサル女優</span>
+                        <span class="t-desc">正しい価値観を啓蒙するSNSの象徴。</span>
+                    </div>
+                    <div class="swap-secret">【 過去の友人を蹴落とす醜悪な欺瞞者 】</div>
+                </div>
+
+                <div class="target-item swap-hover">
+                    <div class="t-num">03</div>
+                    <div class="t-info">
+                        <span class="t-title">実力派俳優</span>
+                        <span class="t-desc">情熱的で周囲から尊敬を集めるスター。</span>
+                    </div>
+                    <div class="swap-secret">【 舞台裏で猟奇殺人を繰り返す男 】</div>
+                </div>
+
+                <div class="target-item swap-hover">
+                    <div class="t-num">04</div>
+                    <div class="t-info">
+                        <span class="t-title">大女優（育ての親）</span>
+                        <span class="t-desc">レイナを見出した慈愛あふれる母親代わり。</span>
+                    </div>
+                    <div class="swap-secret">【 虐待と人生の搾取を目論む支配者 】</div>
+                </div>
+
+                <div class="target-item swap-hover">
+                    <div class="t-num">05</div>
+                    <div class="t-info">
+                        <span class="t-title">石油コンサルタント</span>
+                        <span class="t-desc">大国間のピースメーカーとなる国際人。</span>
+                    </div>
+                    <div class="swap-secret">【 戦争ビジネスで血の利益を得る男 】</div>
+                </div>
+
+                <div class="target-item swap-hover">
+                    <div class="t-num">06</div>
+                    <div class="t-info">
+                        <span class="t-title">有力政治家（父）</span>
+                        <span class="t-desc">国を導き、家族を愛する清廉なリーダー。</span>
+                    </div>
+                    <div class="swap-secret">【 代理母制度を推進し家族を道具にする元凶 】</div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Episodes -->
+        <section id="episodes" style="margin-top: 100px;">
+            <h2 class="sec-title">Chronicles</h2>
+
+            <div class="episodes-grid">
+
+                <div class="ep-card">
+                    <span class="ep-num">Act. 1</span>
+                    <h3 class="ep-title-en">Ash Like Her Skin</h3>
+                    <p class="ep-title-ja">レイナとの出会い・契約</p>
+                </div>
+
+                <div class="ep-card">
+                    <span class="ep-num">Act. 2</span>
+                    <h3 class="ep-title-en">Beneath the Grace</h3>
+                    <p class="ep-title-ja">慈善家の暗殺</p>
+                </div>
+
+                <div class="ep-card">
+                    <span class="ep-num">Act. 3</span>
+                    <h3 class="ep-title-en">Echoes of Envy</h3>
+                    <p class="ep-title-ja">女優の暗殺</p>
+                </div>
+
+                <div class="ep-card">
+                    <span class="ep-num">Act. 4</span>
+                    <h3 class="ep-title-en">Curtain Call</h3>
+                    <p class="ep-title-ja">殺人鬼の暗殺</p>
+                </div>
+
+                <div class="ep-card">
+                    <span class="ep-num">Act. 5</span>
+                    <h3 class="ep-title-en">Broken Strings</h3>
+                    <p class="ep-title-ja">育ての親の暗殺</p>
+                </div>
+
+                <div class="ep-card">
+                    <span class="ep-num">Act. 6</span>
+                    <h3 class="ep-title-en">No More Lies</h3>
+                    <p class="ep-title-ja">マフィア末端の暗殺と関係悪化</p>
+                </div>
+
+                <div class="ep-card">
+                    <span class="ep-num">Act. 7</span>
+                    <h3 class="ep-title-en">Oil and Blood</h3>
+                    <p class="ep-title-ja">石油コンサルの暗殺</p>
+                </div>
+
+                <div class="ep-card">
+                    <span class="ep-num">Act. 8</span>
+                    <h3 class="ep-title-en">Chains Unseen</h3>
+                    <p class="ep-title-ja">マフィア中核の暗殺と躊躇い</p>
+                </div>
+
+                <div class="ep-card">
+                    <span class="ep-num">Act. 9</span>
+                    <h3 class="ep-title-en">Wings of Regret</h3>
+                    <p class="ep-title-ja">空からの降下・再接続</p>
+                </div>
+
+                <div class="ep-card">
+                    <span class="ep-num">Act. 10</span>
+                    <h3 class="ep-title-en">Guarded Skies</h3>
+                    <p class="ep-title-ja">機内での対決</p>
+                </div>
+
+                <div class="ep-card">
+                    <span class="ep-num">Act. 11</span>
+                    <h3 class="ep-title-en">Inheritance of Death</h3>
+                    <p class="ep-title-ja">因果応報、父の暗殺</p>
+                </div>
+
+                <div class="ep-card">
+                    <span class="ep-num">Act. 12 (Final)</span>
+                    <h3 class="ep-title-en">Stand Again</h3>
+                    <p class="ep-title-ja">真実は語られぬまま、自らの足で立つ</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Justify Paragon / Stadio Vault</p>
+        <p style="margin-top: 8px; color: var(--border-color);">The truth is hidden in the ashes.</p>
+    </footer>
+
+    <script src="../mouse-trail.js"></script>
 </body>
 
 </html>

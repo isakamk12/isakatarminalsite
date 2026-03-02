@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天与歴程 - TRPG Scenario - Stadio Vault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;800&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* Theme: Toxic & Deep Sleep */
+            --bg-color: #050a12;
+            /* Deep Navy / Black */
+            --text-main: #c4d0da;
+            --text-dim: #7a8b99;
+            --toxic-green: #39ff14;
+            /* Fluorescent Green */
+            --toxic-green-dim: rgba(57, 255, 20, 0.2);
+            --danger-yellow: #ffcc00;
+            --danger-black: #111;
+            --font-mincho: 'Shippori Mincho', serif;
+            --font-gothic: 'Zen Kaku Gothic New', sans-serif;
+            --border-style: 1px solid rgba(196, 208, 218, 0.15);
+        }
+
+        body {
+            font-family: var(--font-gothic);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            background-image: radial-gradient(circle at 50% 100%, #0a1526 0%, var(--bg-color) 80%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* Abstract Toxic Dust Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+            opacity: 0.03;
+            mix-blend-mode: overlay;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(5, 10, 18, 0.9);
+            border-bottom: 1px solid var(--toxic-green-dim);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            box-sizing: border-box;
+            backdrop-filter: blur(5px);
+        }
+
+        nav span {
+            color: var(--toxic-green);
+            font-family: var(--font-mincho);
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        nav a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--toxic-green);
+        }
+
+        .cover-wrapper {
+            max-width: 800px;
+            width: 90%;
+            margin: 100px auto 30px;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 0 30px var(--toxic-green-dim);
+            border: 1px solid var(--toxic-green);
+            position: relative;
+            z-index: 2;
+        }
+
+        .cover-wrapper img {
+            width: 100%;
+            display: block;
+            filter: grayscale(0.2) contrast(1.1);
+        }
+
+        .hero {
+            min-height: 100vh;
+            padding: 120px 20px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(ellipse at center, transparent 0%, var(--bg-color) 100%);
+        }
+
+        .sys-tag {
+            font-size: 0.9rem;
+            color: var(--toxic-green);
+            border: 1px solid var(--toxic-green);
+            padding: 5px 15px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            background: var(--toxic-green-dim);
+        }
+
+        .hero-title {
+            font-family: var(--font-mincho);
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: #fff;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2), 0 0 40px var(--toxic-green-dim);
+            letter-spacing: 5px;
+        }
+
+        .hero-catch {
+            font-family: var(--font-mincho);
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--text-main);
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: rgba(196, 208, 218, 0.1);
+            border: var(--border-style);
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .info-cell {
+            background: var(--bg-color);
+            padding: 15px;
+        }
+
+        .info-lbl {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--toxic-green);
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+
+        .info-val {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .sec-title {
+            font-family: var(--font-mincho);
+            font-size: 2.2rem;
+            color: var(--toxic-green);
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed var(--toxic-green-dim);
+            text-align: center;
+            letter-spacing: 3px;
+        }
+
+        /* Content Blocks */
+        .text-block {
+            background: rgba(255, 255, 255, 0.02);
+            border: var(--border-style);
+            padding: 40px;
+            margin-bottom: 60px;
+            font-size: 1.05rem;
+        }
+
+        .text-block p {
+            margin-bottom: 1.5em;
+        }
+
+        .text-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Episodes list (Vertical Timeline style) */
+        .epi-list {
+            position: relative;
+            margin-bottom: 60px;
+            padding-left: 20px;
+        }
+
+        .epi-list::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 1px;
+            background: var(--toxic-green-dim);
+        }
+
+        .epi-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+
+        .epi-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 8px;
+            width: 9px;
+            height: 9px;
+            background: var(--bg-color);
+            border: 1px solid var(--toxic-green);
+            border-radius: 50%;
+        }
+
+        .epi-no {
+            color: var(--toxic-green);
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            letter-spacing: 1px;
+        }
+
+        .epi-title {
+            font-family: var(--font-mincho);
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .epi-desc {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+        }
+
+        /* Char list */
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 80px;
+        }
+
+        .char-card {
+            border: var(--border-style);
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+
+        .char-card:hover {
+            border-color: var(--toxic-green-dim);
+            background: rgba(57, 255, 20, 0.05);
+        }
+
+        .char-name {
+            font-family: var(--font-mincho);
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .char-role {
+            font-size: 0.8rem;
+            color: var(--toxic-green);
+            margin-bottom: 15px;
+        }
+
+        .char-desc {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        /* SPOILER UI (KP ONLY) */
+        .spoiler-container {
+            margin-top: 80px;
+            border: 2px solid var(--danger-yellow);
+            background: var(--danger-black);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Warning Tape Banner */
+        .warning-tape {
+            background: repeating-linear-gradient(-45deg,
+                    var(--danger-yellow),
+                    var(--danger-yellow) 20px,
+                    var(--danger-black) 20px,
+                    var(--danger-black) 40px);
+            height: 12px;
+            width: 100%;
+        }
+
+        .spoiler-summary {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to right, rgba(255, 204, 0, 0.1), transparent);
+        }
+
+        .spoiler-summary:hover {
+            background: rgba(255, 204, 0, 0.15);
+        }
+
+        .spoiler-title {
+            color: var(--danger-yellow);
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        .spoiler-icon {
+            color: var(--danger-yellow);
+            transition: transform 0.3s;
+        }
+
+        .spoiler-content {
+            padding: 0 30px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0, 1, 0, 1), padding 0.6s;
+            color: #ccc;
+        }
+
+        /* Checkbox hack for accordion */
+        #spoiler-toggle {
+            display: none;
+        }
+
+        #spoiler-toggle:checked~.spoiler-content {
+            max-height: 2000px;
+            padding: 30px;
+            transition: max-height 1s ease-in-out, padding 0.3s;
+        }
+
+        #spoiler-toggle:checked~.spoiler-summary .spoiler-icon {
+            transform: rotate(180deg);
+        }
+
+        .truth-item {
+            margin-bottom: 25px;
+            border-left: 3px solid var(--danger-yellow);
+            padding-left: 15px;
+        }
+
+        .truth-item h4 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .truth-item p {
+            margin-bottom: 10px;
+        }
+
+        .truth-alert {
+            color: var(--danger-yellow);
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../mouse-trail.css">
+</head>
+
+<body>
+    <nav>
+        <span>天与歴程</span>
+        <a href="../index.html">RETURN</a>
+    </nav>
+
+    <header class="hero">
+        <div class="cover-wrapper">
+            <img src="../image/nation-of-god.png" alt="天与歴程 Cover">
+        </div>
+        <div class="sys-tag">クトゥルフ神話TRPG キャンペーンシナリオ</div>
+        <h1 class="hero-title">天与歴程</h1>
+        <div class="hero-catch">「それは祝福か、それとも呪いか──。<br>眠りに沈む村と、偽りの歴史を暴け。」</div>
+
+        <div class="info-grid">
+            <div class="info-cell">
+                <span class="info-lbl">GENRE</span>
+                <span class="info-val">閉鎖空間ホラー × 偽史SF</span>
+            </div>
+            <div class="info-cell">
+                <span class="info-lbl">PLAYERS</span>
+                <span class="info-val">4人（秘匿HO・友人枠指定あり）</span>
+            </div>
+            <div class="info-cell">
+                <span class="info-lbl">PLAYTIME</span>
+                <span class="info-val">各部 3〜5時間</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <section id="introduction">
+            <h2 class="sec-title">INTRODUCTION</h2>
+            <div class="text-block" style="text-align: justify; font-family: var(--font-mincho);">
+                <p>数百年の歴史を持つとされる、「眠り村」。</p>
+                <p>その地下には古代の遺跡が眠ると伝えられ、閉ざされた環境の中で人々は独自の信仰と労働至上主義の元に生きていた。</p>
+                <p>探索者たちは、警察関係の友人から「村で発生している原因不明の『眠り病』を極秘裏に調査してほしい」との依頼を受け、この村へと足を踏み入れることになる。</p>
+                <p>しかし、そこで彼らを待ち受けていたのは、遺跡を巡る巨大企業と宗教団体の暗躍、そして村そのものの存在を揺るがす恐るべき陰謀だった──。</p>
+            </div>
+        </section>
+
+        <section id="episodes">
+            <h2 class="sec-title">CAMPAIGN EPISODES</h2>
+            <div class="epi-list">
+                <div class="epi-item">
+                    <span class="epi-no">EPISODE I</span>
+                    <div class="epi-title">天与歴程</div>
+                    <div class="epi-desc">舞台は「眠り村」。人間の欲と命が対立する労働至上主義の村での潜入調査。</div>
+                </div>
+                <div class="epi-item">
+                    <span class="epi-no">EPISODE II</span>
+                    <div class="epi-title">大きな森の小さな人間</div>
+                    <div class="epi-desc">舞台は「森と小屋」。祭壇に祀られた「動く人型」の無力化と護送ミッション。</div>
+                </div>
+                <div class="epi-item">
+                    <span class="epi-no">EPISODE III</span>
+                    <div class="epi-title">諸国民の神</div>
+                    <div class="epi-desc">舞台は「地下遺跡」。人型を狙う企業や研究者たちとの、富と信仰のせめぎ合い。</div>
+                </div>
+                <div class="epi-item">
+                    <span class="epi-no">EPISODE IV</span>
+                    <div class="epi-title">護教正義</div>
+                    <div class="epi-desc">舞台は「宗教都市」。アトミック神教が国家宗教となった社会での、正義と異端の衝突。</div>
+                </div>
+                <div class="epi-item">
+                    <span class="epi-no">EPISODE V</span>
+                    <div class="epi-title">功労夢</div>
+                    <div class="epi-desc">舞台は「管理された城塞都市」。科学と宗派が共存する都市での、信頼と裏切りの最終試練。</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="characters">
+            <h2 class="sec-title">THE FIVE FAMILIES</h2>
+            <p style="text-align:center; color:var(--text-dim); margin-bottom:30px;">村を支配し、役割を分担する「五つの名家」</p>
+            <div class="char-grid">
+                <div class="char-card">
+                    <div class="char-name">御巫（みかんなぎ）一族</div>
+                    <div class="char-role">宗教・儀式・信仰</div>
+                    <div class="char-desc">主な人物：マサト、ミナト、ミサトなど。村の精神的支柱を担う。</div>
+                </div>
+                <div class="char-card">
+                    <div class="char-name">森崎（もりさき）一族</div>
+                    <div class="char-role">生活基盤・純粋な信仰</div>
+                    <div class="char-desc">主な人物：リク、リナ、リュウジなど。村の土台を支える。</div>
+                </div>
+                <div class="char-card">
+                    <div class="char-name">朝霧（あさぎり）一族</div>
+                    <div class="char-role">学問・研究・探索</div>
+                    <div class="char-desc">主な人物：ハルカ、ハルト、ハルキなど。遺跡の謎を追う知識層。</div>
+                </div>
+                <div class="char-card">
+                    <div class="char-name">御堂（みどう）一族</div>
+                    <div class="char-role">経済・企業・資源管理</div>
+                    <div class="char-desc">主な人物：アキオ、アキナなど。村を外部（経済）と繋ぐ交渉役。</div>
+                </div>
+                <div class="char-card">
+                    <div class="char-name">葛西（かさい）一族</div>
+                    <div class="char-role">坑道・採掘・労働</div>
+                    <div class="char-desc">主な人物：カナエ、ソウタなど。過酷な肉体労働を一手に引き受ける。</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPOILER SECTION FOR KP -->
+        <section id="kp_only">
+            <div class="spoiler-container">
+                <div class="warning-tape"></div>
+
+                <input type="checkbox" id="spoiler-toggle">
+                <label for="spoiler-toggle" class="spoiler-summary">
+                    <span class="spoiler-title">⚠️ SYSTEM ALERT : FOR KEEPER ONLY</span>
+                    <span class="spoiler-icon">▼</span>
+                </label>
+
+                <div class="spoiler-content">
+                    <div class="truth-item" style="margin-top: 20px;">
+                        <h4>核心となる叙述トリック</h4>
+                        <p><span class="truth-alert">時間と空間の罠：</span> 古代遺跡や古い村など最初から存在しない。<br>
+                            全ては「原発事故を起こした発電所の敷地内」に作られた仮設居住区であり、経過した時間はたったの「5年」に過ぎない。</p>
+
+                        <p><span class="truth-alert">一族の罠：</span> 五大名家という血筋も虚構である。<br>
+                            NPCたちは全員が同世代（16〜22歳）の「兄弟姉妹（全25名）」であり、親は不在。作られた村社会を維持するために「役割（ロール）」を演じさせられているモルモットたちである。</p>
+                    </div>
+
+                    <div class="truth-item">
+                        <h4>真相・裏設定</h4>
+                        <ul style="list-style-type: square; padding-left: 20px;">
+                            <li style="margin-bottom:8px;"><strong>眠り病の正体：</strong> 呪いなどではなく、ラドンガスおよび一酸化炭素による「酸欠」が原因。
+                            </li>
+                            <li style="margin-bottom:8px;"><strong>神聖な壁の文字：</strong> 事故当時の作業員の避難指示メモや遺書が誤読（神格化）されたもの。
+                            </li>
+                            <li style="margin-bottom:8px;"><strong>地下遺跡の正体：</strong> 炉心溶融を起こして崩壊した「原子炉建屋」そのもの。</li>
+                        </ul>
+                    </div>
+
+                    <div class="truth-item">
+                        <h4>代表的なバッドエンド</h4>
+                        <p><strong>「急約聖書」</strong>: 真相にたどり着けず、ツァトゥグァが顕現して世界が終焉を迎える。<br>
+                            <strong>「欠落園」</strong>: 不完全な不老不死技術により人口爆発が起こり、閉鎖空間内の資源が枯渇する地獄へ至る。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="warning-tape"></div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="../mouse-trail.js"></script>
+</body>
+
+</html>
